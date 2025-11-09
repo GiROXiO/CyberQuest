@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://isyjey0olw6i"]
+
+[ext_resource type="Script" uid="uid://djgjf7q315u0c" path="res://scripts/view/grafo_vista.gd" id="1_uwtv5"]
+
+[node name="GrafoVista" type="Node2D"]
+script = ExtResource("1_uwtv5")

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://df26ecttt5ydf"]
+
+[ext_resource type="Script" uid="uid://dbomrxfrrhp1b" path="res://scripts/view/arista_vista.gd" id="1_td0vq"]
+
+[node name="AristaVista" type="Node2D"]
+script = ExtResource("1_td0vq")
+
+[node name="info" type="Label" parent="."]
+offset_right = 47.0
+offset_bottom = 23.0
