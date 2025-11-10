@@ -11,6 +11,13 @@ const VERTEX_RADIUS := 18.0
 
 @onready var info_label: Label = $Info
 
+enum MinigameMode {
+	BFS_DFS,
+	CAMINOS_MINIMOS,
+	ARBOL_EXPANSION_MINIMA,
+	FLUJO_MAXIMO
+}
+
 var flow_active: bool = false
 var flow_phase: float = 0.0
 
@@ -23,7 +30,6 @@ func setup(p_edge: Arista, p_from_pos: Vector2, p_to_pos: Vector2) -> void:
 	
 	if self.info_label:
 		self.info_label.visible = false
-		self.info_label.text = "w=%.1f  c=%.1f" % [edge.weight, edge.capacity]
 		self.info_label.position = (from_pos + to_pos) * 0.5
 		
 		self.info_label.add_theme_color_override("font_color", Color(1, 1, 0))
@@ -33,11 +39,30 @@ func setup(p_edge: Arista, p_from_pos: Vector2, p_to_pos: Vector2) -> void:
 	
 	queue_redraw()
 
+func set_minigame_mode(mode: int) -> void:
+	if not self.info_label or self.edge == null:
+		return
+	
+	match mode:
+		self.MinigameMode.BFS_DFS:
+			self.info_label.visible = false
+		
+		self.MinigameMode.CAMINOS_MINIMOS, self.MinigameMode.ARBOL_EXPANSION_MINIMA:
+			self.info_label.visible = true
+			self.info_label.text = "w=%d" % self.edge.weight
+		
+		self.MinigameMode.FLUJO_MAXIMO:
+			self.info_label.visible = true
+			self.info_label.text = "c=%d" % edge.capacity
+		
+		_:
+			self.info_label.visible = false
+
 func set_info_visible(visible: bool) -> void:
 	if self.info_label:
 		self.info_label.visible = visible
 
-func ser_flow_active(active: bool) -> void:
+func set_flow_active(active: bool) -> void:
 	self.flow_active = active
 	if not active:
 		flow_phase = 0.0

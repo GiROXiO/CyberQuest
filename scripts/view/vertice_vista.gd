@@ -12,6 +12,13 @@ signal vertex_clicked(vertex_id: int)
 
 @onready var info_bg: ColorRect = $InfoCard/ColorRect
 
+enum MinigameMode {
+	BFS_DFS,
+	CAMINOS_MINIMOS,
+	ARBOL_EXPANSION_MINIMA,
+	FLUJO_MAXIMO
+}
+
 var vertex: Vertice = null
 
 var radius: float = 18.0
@@ -36,15 +43,11 @@ func setup(p_vertex: Vertice, p_position: Vector2) -> void:
 	if self.info_icon != null and self.vertex != null:
 		self.info_icon.texture = self._get_role_icon(self.vertex.role)
 	
-	if self.hint_label != null and vertex != null:
-		if self.show_hint:
-			if self.vertex.hint != "":
-				self.hint_label.text = self.vertex.hint
-			else:
-				self.hint_label.text = "No hay nada por aca"
-			self.hint_label.visible = true
+	if self.hint_label != null and self.vertex != null:
+		if self.vertex.hint != "":
+			self.hint_label.text = self.vertex.hint
 		else:
-			self.hint_label.visible = false
+			self.hint_label.text = "No hay nada por aca"
 	
 	if self.info_card != null:
 		self.info_card.visible = false
@@ -254,3 +257,17 @@ func _get_role_icon(role: int) -> Texture2D:
 			return preload("res://art/icons/cliente.png")
 		_:
 			return null
+
+func set_minigame_mode(mode: int, bfs_dfs_completed: bool) -> void:
+	if not self.hint_label:
+		return
+	
+	match mode:
+		self.MinigameMode.BFS_DFS:
+			if self.show_hint and not bfs_dfs_completed:
+				self.hint_label.visible = true
+			else:
+				self.hint_label.visible = false
+		
+		_:
+			self.hint_label.visible = false

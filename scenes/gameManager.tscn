@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dy443u8akofwo"]
+
+[ext_resource type="Script" uid="uid://cd7bwu75ycwd5" path="res://scripts/game_manager.gd" id="1_bb4tu"]
+[ext_resource type="PackedScene" uid="uid://isyjey0olw6i" path="res://scenes/grafo/grafoVista.tscn" id="2_x7fn8"]
+
+[node name="GameManager" type="Node2D"]
+script = ExtResource("1_bb4tu")
+
+[node name="GrafoVista" parent="." instance=ExtResource("2_x7fn8")]

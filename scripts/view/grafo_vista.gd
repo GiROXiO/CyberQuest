@@ -4,15 +4,47 @@ class_name GrafoVista
 @export var vertex_scene: PackedScene
 @export var edge_scene: PackedScene
 
+enum MinigameMode {
+	BFS_DFS,
+	CAMINOS_MINIMOS,
+	ARBOL_EXPANSION_MINIMA,
+	FLUJO_MAXIMO
+}
+
 var grafo: Grafo
 var vertex_nodes: Dictionary = {}
 var edge_nodes: Dictionary = {}
 var selected_vertices: Array[int] = []
 
+var current_mode: MinigameMode = MinigameMode.BFS_DFS
+var bfs_dfs_completed: bool = false
+
 func _ready() -> void:
-	grafo = Grafo.new()
-	grafo.generate_random(10)
+	pass
+
+func set_graph(p_grafo: Grafo) -> void:
+	self.grafo = p_grafo
 	self._draw_vertices()
+
+func set_minigame_mode(mode: MinigameMode, p_bfs_dfs_completed: bool = false) -> void:
+	self.current_mode = mode
+	self.bfs_dfs_completed = p_bfs_dfs_completed
+	self._apply_minigame_mode()
+
+func _apply_minigame_mode() -> void:
+	if self.vertex_nodes.is_empty() and self.edge_nodes.is_empty():
+		return
+	
+	for id in self.vertex_nodes.keys():
+		var vnode := self.vertex_nodes[id] as VerticeVista
+		if vnode:
+			vnode.set_minigame_mode(self.current_mode, bfs_dfs_completed)
+	
+		for from_id in edge_nodes.keys():
+			for to_id in edge_nodes[from_id].keys():
+				var enode := edge_nodes[from_id][to_id] as AristaVista
+				if enode:
+					enode.set_minigame_mode(self.current_mode)
 
 #Metodo para dibujar los vertices del grafo en pantalla
 func _draw_vertices() -> void:
@@ -123,5 +155,4 @@ func _refresh_edge_info_visibility() -> void:
 		for to_id in self.edge_nodes[from_id].keys():
 			var enode: AristaVista = self.edge_nodes[from_id][to_id]
 			var show : bool = (from_id in self.selected_vertices) and (to_id in self.selected_vertices)
-			enode.set_info_visible(show)
-			enode.ser_flow_active(show)
+			enode.set_flow_active(show)
