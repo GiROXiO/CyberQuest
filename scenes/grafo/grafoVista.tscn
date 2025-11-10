@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://isyjey0olw6i"]
+[gd_scene load_steps=4 format=3 uid="uid://isyjey0olw6i"]
 
 [ext_resource type="Script" uid="uid://djgjf7q315u0c" path="res://scripts/view/grafo_vista.gd" id="1_uwtv5"]
+[ext_resource type="PackedScene" uid="uid://pcauabvr71e" path="res://scenes/grafo/verticeVista.tscn" id="2_thyoi"]
+[ext_resource type="PackedScene" uid="uid://df26ecttt5ydf" path="res://scenes/grafo/aristaVista.tscn" id="3_uwtv5"]
 
 [node name="GrafoVista" type="Node2D"]
 script = ExtResource("1_uwtv5")
+vertex_scene = ExtResource("2_thyoi")
+edge_scene = ExtResource("3_uwtv5")

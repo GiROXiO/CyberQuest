@@ -9,8 +9,8 @@ enum StyleState {
 
 var from_id: int
 var to_id: int
-var weight: float = 1.0
-var capacity: float = 0.0
+var weight: int = 1
+var capacity: int = 0
 
 var style_state: int = StyleState.NORMAL
 

@@ -10,3 +10,53 @@ script = ExtResource("1_vxmfd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_kgx0h")
+
+[node name="InfoCard" type="Node2D" parent="."]
+position = Vector2(1, 0)
+
+[node name="ColorRect" type="ColorRect" parent="InfoCard"]
+offset_left = -1.0
+offset_right = 219.0
+offset_bottom = 200.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+color = Color(0.6313726, 0.6431373, 0.654902, 0.5294118)
+
+[node name="Icon" type="TextureRect" parent="InfoCard/ColorRect"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 120.0
+grow_horizontal = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="InfoCard/ColorRect"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = -80.0
+offset_right = 1.0
+offset_bottom = -52.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HintLabel" type="Label" parent="InfoCard/ColorRect"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -44.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1

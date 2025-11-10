@@ -7,16 +7,16 @@ enum StyleState {
 }
 
 enum VertexRole {
-	CENTRO_CONTROL,
-	ROUTER_CORE,
-	ROUTER_BORDE,
-	FIREWALL,
-	SERVIDOR_APP,
-	SERVIDOR_DB,
-	SERVIDOR_MAIL,
-	GATEWAY_VPN,
-	IDS,
-	CLIENTE
+	CENTRO_CONTROL, #0
+	ROUTER_CORE, #1
+	ROUTER_BORDE, #2
+	FIREWALL, #3
+	SERVIDOR_APP, #4
+	SERVIDOR_DB, #5
+	SERVIDOR_MAIL, #6
+	GATEWAY_VPN, #7
+	IDS, #8
+	CLIENTE #9
 }
 
 #Variables que se utilizaran para el manejo de vertices
@@ -27,6 +27,9 @@ var style_state: int = StyleState.NORMAL
 
 var hint: String = ""
 var is_key_vertex: bool = false
+
+var role: int = VertexRole.CENTRO_CONTROL
+var is_infected: bool = false
 
 func _init(p_id: int, p_hint: String = "", p_is_key_vertex: bool = false) -> void:
 	self.id = p_id
@@ -56,3 +59,6 @@ func clear_neighbors() -> void:
 
 func get_neighbors() -> Array:
 	return self.neighbors.duplicate()
+
+func set_role(p_role: int) -> void:
+	self.role = p_role

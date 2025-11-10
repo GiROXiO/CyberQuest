@@ -5,6 +5,6 @@
 [node name="AristaVista" type="Node2D"]
 script = ExtResource("1_td0vq")
 
-[node name="info" type="Label" parent="."]
+[node name="Info" type="Label" parent="."]
 offset_right = 47.0
 offset_bottom = 23.0
