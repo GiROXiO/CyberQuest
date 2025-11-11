@@ -327,7 +327,14 @@ func generate_random(num_vertices: int) -> void:
 			
 			if not reachable_from_source.has(id):
 				#Se conecta desde algun nodo alcanzable
-				var candidates_from: Array = reachable_from_source.keys()
+				var candidates_from: Array = []
+				for k in reachable_from_source.keys():
+					if not self.has_edge(id, k):
+						candidates_from.append(k)
+				
+				if candidates_from.is_empty():
+					candidates_from = reachable_from_source.keys()
+				
 				var from_id: int = candidates_from[rng.randi_range(0, candidates_from.size()-1)]
 				
 				var from_v: Vertice = self.vertices[from_id]
@@ -347,7 +354,14 @@ func generate_random(num_vertices: int) -> void:
 					continue
 				
 				if not can_reach_sink.has(id):
-					var candidates_to: Array = can_reach_sink.keys()
+					var candidates_to: Array = []
+					for k in can_reach_sink.keys():
+						if not self.has_edge(k, id):
+							candidates_to.append(k)
+					
+					if candidates_to.is_empty():
+						candidates_to = can_reach_sink.keys()
+					
 					var to_id: int = candidates_to[rng.randi_range(0, candidates_to.size()-1)]
 					
 					var from_v2: Vertice = self.vertices[id]
