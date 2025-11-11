@@ -4,6 +4,8 @@ class_name GrafoVista
 @export var vertex_scene: PackedScene
 @export var edge_scene: PackedScene
 
+signal graph_vertex_clicked(vertex_id: int)
+
 enum MinigameMode {
 	BFS_DFS,
 	CAMINOS_MINIMOS,
@@ -181,6 +183,8 @@ func _on_vertex_clicked(vertex_id: int) -> void:
 	
 	print("Seleccionados ahora: ", self.selected_vertices)
 	self._refresh_edge_info_visibility()
+	
+	self.graph_vertex_clicked.emit(vertex_id)
 
 func _refresh_edge_info_visibility() -> void:
 	for from_id in self.edge_nodes.keys():

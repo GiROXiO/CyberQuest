@@ -33,6 +33,9 @@ func _ready() -> void:
 	if self.shortest_path_ui:
 		self.shortest_path_ui.visible = false
 	
+	if self.grafo_vista and self.shortest_path_ui:
+		self.grafo_vista.graph_vertex_clicked.connect(self.shortest_path_ui.on_vertex_clicked_from_graph)
+	
 	print("GameManager listo. Grafo generado con ", num_vertices, " vértices.")
 
 func _on_bfs_dfs_completed() -> void:
@@ -48,5 +51,6 @@ func _on_bfs_dfs_completed() -> void:
 		self.bfs_dfs_ui.visible = false
 	if self.shortest_path_ui:
 		self.shortest_path_ui.visible = true
+		self.shortest_path_ui.start_minigame()
 	
 	print("[GameManager] Cambio de modo: ahora CAMINOS_MINIMOS.")

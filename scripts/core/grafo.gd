@@ -514,6 +514,20 @@ func _get_can_reach_to(target_id: int) -> Dictionary:
 	
 	return visited
 
+func get_control_id() -> int:
+	for id in self.vertices.keys():
+		var v: Vertice = self.vertices[id]
+		if v.role == Vertice.VertexRole.CENTRO_CONTROL:
+			return id
+	return -1
+
+func get_infected_id() -> int:
+	for id in self.vertices.keys():
+		var v: Vertice = self.vertices[id]
+		if v.is_infected:
+			return id
+	return -1
+
 func clear() -> void:
 	vertices.clear()
 	edges.clear()
