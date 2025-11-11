@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://tnx1c4bedsm5"]
+
+[ext_resource type="Script" uid="uid://bgm0vb4ju5m5e" path="res://scripts/minigames/shortest_path_game/shortest_path_ui.gd" id="1_1jqex"]
+
+[node name="ShortestPathUi" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1jqex")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 59.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 34
+text = "Caminos Minimos con Dijkstra"
+horizontal_alignment = 1
+vertical_alignment = 1

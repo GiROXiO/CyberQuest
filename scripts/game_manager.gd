@@ -8,11 +8,44 @@ var current_mode: GrafoVista.MinigameMode = GrafoVista.MinigameMode.BFS_DFS
 var bfs_dfs_completed: bool = false
 
 @onready var grafo_vista: GrafoVista = $GrafoVista
+@onready var bfs_dfs_ui: BfsDfsUi = $MinigamesUI/BfsDfsUi
+@onready var shortest_path_ui: CaminoMinimoUi = $MinigamesUI/ShortestPathUi
 
 func _ready() -> void:
 	self.grafo = Grafo.new()
 	self.grafo.generate_random(self.num_vertices)
 	
 	self.grafo_vista.set_graph(grafo)
+	
+	if self.bfs_dfs_ui:
+		self.bfs_dfs_ui.set_graph(grafo)
+	if self.shortest_path_ui:
+		self.shortest_path_ui.set_graph(grafo)
+	
 	self.grafo_vista.set_minigame_mode(self.current_mode, self.bfs_dfs_completed)
+	
+	if self.bfs_dfs_ui:
+		self.bfs_dfs_ui.visible = true
+		self.bfs_dfs_ui.bfs_dfs_completed.connect(self._on_bfs_dfs_completed)
+	
+	if self.shortest_path_ui:
+		self.shortest_path_ui.visible = false
+	
 	print("GameManager listo. Grafo generado con ", num_vertices, " vértices.")
+
+func _on_bfs_dfs_completed() -> void:
+	print("[GameManager] Señal bfs_dfs_completed recibida.")
+	
+	self.bfs_dfs_completed = true
+	
+	self.current_mode = GrafoVista.MinigameMode.CAMINOS_MINIMOS
+	
+	self.grafo_vista.refresh_from_graph()
+	self.grafo_vista.set_minigame_mode(current_mode, bfs_dfs_completed)
+	
+	if self.bfs_dfs_ui:
+		self.bfs_dfs_ui.visible = false
+	if self.shortest_path_ui:
+		self.shortest_path_ui.visible = true
+	
+	print("[GameManager] Cambio de modo: ahora CAMINOS_MINIMOS.")
