@@ -9,6 +9,7 @@ signal vertex_clicked(vertex_id: int)
 @onready var info_label: Label = $InfoCard/ColorRect/Label
 @onready var info_icon: TextureRect = $InfoCard/ColorRect/Icon
 @onready var hint_label: Label = $InfoCard/ColorRect/HintLabel
+@onready var id_label: Label = $IdLabel
 
 @onready var info_bg: ColorRect = $InfoCard/ColorRect
 
@@ -48,6 +49,9 @@ func setup(p_vertex: Vertice, p_position: Vector2) -> void:
 			self.hint_label.text = self.vertex.hint
 		else:
 			self.hint_label.text = "No hay nada por aca"
+	
+	if self.id_label and self.vertex != null:
+		self.id_label.text = str(self.vertex.id)
 	
 	if self.info_card != null:
 		self.info_card.visible = false
