@@ -92,7 +92,7 @@ func get_neighbors_ids(id: int) -> Array:
 	return v.get_neighbors()
 
 func get_edge(from_id: int, to_id: int) -> Arista:
-	if self.edges.has(from_id) and self.edges[from_id].has[to_id]:
+	if self.edges.has(from_id) and self.edges[from_id].has(to_id):
 		return self.edges[from_id][to_id]
 	return null
 
@@ -317,6 +317,46 @@ func generate_random(num_vertices: int) -> void:
 		self._connect_roles(Vertice.VertexRole.ROUTER_BORDE, Vertice.VertexRole.CLIENTE, rng, role_to_id)
 		self._connect_roles(Vertice.VertexRole.SERVIDOR_APP, Vertice.VertexRole.CLIENTE, rng, role_to_id)
 		
+		#Nos aseguramos que todos los vertices sean alcanzables desde CENTRO_CONTROL
+		var source_id: int = role_to_id.get(Vertice.VertexRole.CENTRO_CONTROL)
+		var reachable_from_source := self._get_reachable_from(source_id)
+		
+		for id in self.vertices.keys():
+			if id == source_id:
+				continue
+			
+			if not reachable_from_source.has(id):
+				#Se conecta desde algun nodo alcanzable
+				var candidates_from: Array = reachable_from_source.keys()
+				var from_id: int = candidates_from[rng.randi_range(0, candidates_from.size()-1)]
+				
+				var from_v: Vertice = self.vertices[from_id]
+				var to_v: Vertice = self.vertices[id]
+				var params := self._random_edge_params(from_v.role, to_v.role, rng)
+				self.add_edge(from_id, id, params["weight"], params["capacity"])
+				
+				reachable_from_source[id] = true
+		
+		#Nos aseguramos que todos los vertices tengan un camino hacia el cliente
+		if role_to_id.has(Vertice.VertexRole.CLIENTE):
+			var sink_id: int = role_to_id[Vertice.VertexRole.CLIENTE]
+			var can_reach_sink := self._get_can_reach_to(sink_id)
+			
+			for id in self.vertices.keys():
+				if id == sink_id:
+					continue
+				
+				if not can_reach_sink.has(id):
+					var candidates_to: Array = can_reach_sink.keys()
+					var to_id: int = candidates_to[rng.randi_range(0, candidates_to.size()-1)]
+					
+					var from_v2: Vertice = self.vertices[id]
+					var to_v2: Vertice = self.vertices[to_id]
+					var params2 := self._random_edge_params(from_v2.role, to_v2.role, rng)
+					self.add_edge(id, to_id, params2["weight"], params2["capacity"])
+					
+					can_reach_sink[id] = true
+		
 		#Generamos aristas extra de manera aleatoria
 		var extra_prob := 0.0
 		
@@ -336,6 +376,129 @@ func generate_random(num_vertices: int) -> void:
 					var to_v: Vertice = self.vertices[j]
 					var params := self._random_edge_params(from_v.role, to_v.role, rng)
 					self.add_edge(i, j, params["weight"], params["capacity"])
+
+func dijkstra(source_id: int, target_id: int) -> Array:
+	if not has_vertex(source_id):
+		return []
+	if not has_vertex(target_id):
+		return []
+	
+	var dist: Dictionary = {}
+	var prev: Dictionary = {}
+	var unvisited: Array = []
+	
+	# Inicializar distancias y predecesores
+	for id in vertices.keys():
+		dist[id] = INF
+		prev[id] = -1
+		unvisited.append(id)
+	
+	dist[source_id] = 0.0
+	
+	while not unvisited.is_empty():
+		var u: int = -1
+		var min_dist: float = INF
+		
+		# Tomar el nodo no visitado con menor distancia
+		for id in unvisited:
+			var d: float = dist[id]
+			if d < min_dist:
+				min_dist = d
+				u = id
+		
+		# No hay más alcanzables
+		if u == -1 or min_dist == INF:
+			break
+		
+		unvisited.erase(u)
+		
+		# Si ya llegamos al destino, paramos
+		if u == target_id:
+			break
+		
+		# Relajar vecinos
+		var neighbors: Array = get_neighbors_ids(u)
+		for v in neighbors:
+			if not unvisited.has(v):
+				continue
+			
+			var w: float = get_weight(u, v, INF)
+			if w == INF:
+				continue
+			
+			var alt: float = dist[u] + w
+			if alt < dist[v]:
+				dist[v] = alt
+				prev[v] = u
+	
+	# Si la distancia al destino sigue siendo infinita, no hay camino
+	if dist[target_id] == INF:
+		return []
+	
+	# Reconstruir camino
+	var path: Array = []
+	var curr: int = target_id
+	
+	while curr != -1:
+		path.push_front(curr)
+		curr = prev.get(curr, -1)
+	
+	if path.is_empty() or path[0] != source_id:
+		return []
+	
+	return path
+
+func print_path_info(g: Grafo, from_id: int, to_id: int) -> void:
+	var path: Array = g.dijkstra(from_id, to_id)
+	print("Dijkstra ", from_id, " -> ", to_id, " path: ", path)
+	
+	if path.is_empty():
+		print("  (no hay camino)")
+		return
+	
+	var total: float = 0.0
+	for i in range(path.size() - 1):
+		var u: int = path[i]
+		var v: int = path[i + 1]
+		total += g.get_weight(u, v, INF)
+	print("  Distancia total: ", total)
+
+#Metodo para hallar vertices alcanzables desde CENTRO_CONTROL
+func _get_reachable_from(start_id: int) -> Dictionary:
+	var visited: Dictionary = {}
+	if not self.vertices.has(start_id):
+		return visited
+	
+	var queue: Array = [start_id]
+	visited[start_id] = true
+	
+	while not queue.is_empty():
+		var u = queue.pop_front()
+		if self.edges.has(u):
+			for v in self.edges[u].keys():
+				if not visited.has(v):
+					visited[v] = true
+					queue.append(v)
+	
+	return visited
+
+#Metodo para hallar vertices que pueden llegar al CLIENTE
+func _get_can_reach_to(target_id: int) -> Dictionary:
+	var visited: Dictionary = {}
+	if not self.vertices.has(target_id):
+		return visited
+	
+	var queue: Array = [target_id]
+	visited[target_id] = true
+	
+	while not queue.is_empty():
+		var u = queue.pop_front()
+		for from_id in self.edges.keys():
+			if self.edges[from_id].has(u) and not visited.has(from_id):
+				visited[from_id] = true
+				queue.append(from_id)
+	
+	return visited
 
 func clear() -> void:
 	vertices.clear()

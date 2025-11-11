@@ -19,6 +19,8 @@ func _ready() -> void:
 	
 	if self.bfs_dfs_ui:
 		self.bfs_dfs_ui.set_graph(grafo)
+		self.bfs_dfs_ui.set_graph_view(self.grafo_vista)
+	
 	if self.shortest_path_ui:
 		self.shortest_path_ui.set_graph(grafo)
 	
@@ -40,7 +42,6 @@ func _on_bfs_dfs_completed() -> void:
 	
 	self.current_mode = GrafoVista.MinigameMode.CAMINOS_MINIMOS
 	
-	self.grafo_vista.refresh_from_graph()
 	self.grafo_vista.set_minigame_mode(current_mode, bfs_dfs_completed)
 	
 	if self.bfs_dfs_ui:

@@ -188,3 +188,15 @@ func _refresh_edge_info_visibility() -> void:
 			var enode: AristaVista = self.edge_nodes[from_id][to_id]
 			var show : bool = (from_id in self.selected_vertices) and (to_id in self.selected_vertices)
 			enode.set_flow_active(show)
+
+func highlight_infected_red() -> void:
+	if self.grafo == null:
+		return
+	
+	for id in self.grafo.vertices.keys():
+		var v: Vertice = self.grafo.vertices[id]
+		if v.is_infected and self.vertex_nodes.has(id):
+			var vnode: VerticeVista = self.vertex_nodes[id]
+			vnode.set_color(Color(1.0, 0.25, 0.25))
+			print("Pintando infectado: ", id)
+			return
