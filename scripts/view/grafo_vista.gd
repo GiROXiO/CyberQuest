@@ -4,6 +4,8 @@ class_name GrafoVista
 @export var vertex_scene: PackedScene
 @export var edge_scene: PackedScene
 
+signal graph_vertex_clicked(vertex_id: int)
+
 enum MinigameMode {
 	BFS_DFS,
 	CAMINOS_MINIMOS,
@@ -16,6 +18,8 @@ var vertex_nodes: Dictionary = {}
 var edge_nodes: Dictionary = {}
 var selected_vertices: Array[int] = []
 
+var vertex_positions: Dictionary = {}
+
 var current_mode: MinigameMode = MinigameMode.BFS_DFS
 var bfs_dfs_completed: bool = false
 
@@ -24,7 +28,19 @@ func _ready() -> void:
 
 func set_graph(p_grafo: Grafo) -> void:
 	self.grafo = p_grafo
-	self._draw_vertices()
+	self._build_initial_layout()
+	self._rebuild_from_layout()
+	self._apply_minigame_mode()
+
+func refresh_from_graph() -> void:
+	if self.grafo == null:
+		return
+	
+	if self.vertex_positions.is_empty():
+		pass
+	
+	self._rebuild_from_layout()
+	self._apply_minigame_mode()
 
 func set_minigame_mode(mode: MinigameMode, p_bfs_dfs_completed: bool = false) -> void:
 	self.current_mode = mode
@@ -46,8 +62,8 @@ func _apply_minigame_mode() -> void:
 				if enode:
 					enode.set_minigame_mode(self.current_mode)
 
-#Metodo para dibujar los vertices del grafo en pantalla
-func _draw_vertices() -> void:
+#Metodos para dibujar el grafo
+func _build_initial_layout() -> void:
 	for child in get_children():
 		child.queue_free()
 	
@@ -101,26 +117,42 @@ func _draw_vertices() -> void:
 			cell_origin.y + cell_h * (1.0 - local_margin)
 		)
 		
-		var pos := Vector2(x,y)
+		self.vertex_positions[id] = Vector2(x, y)
+
+func _rebuild_from_layout() -> void:
+	for child in get_children():
+		child.queue_free()
+	
+	self.vertex_nodes.clear()
+	self.edge_nodes.clear()
+	self.selected_vertices.clear()
+	
+	if self.grafo == null:
+		return
+	if self.vertex_scene == null or self.edge_scene == null:
+		return
+	
+	#Dibujamos los vertices
+	var ids: Array = self.grafo.get_vertices_ids()
+	for id in ids:
+		var pos: Vector2
+		if self.vertex_positions.has(id):
+			pos = self.vertex_positions[id]
+		else:
+			pos = get_viewport_rect().size * 0.5
 		
 		var vnode := self.vertex_scene.instantiate() as VerticeVista
+		var v_logic: Vertice = self.grafo.get_vertex(id)
+		
 		add_child(vnode)
-		
-		var v_logic: Vertice = grafo.get_vertex(id)
 		vnode.setup(v_logic, pos)
-		
 		vnode.vertex_clicked.connect(self._on_vertex_clicked)
 		
 		self.vertex_nodes[id] = vnode
-	self._draw_edges()
-
-func _draw_edges() -> void:
-	if self.grafo == null:
-		return
-	if self.edge_scene == null:
-		return
 	
+	#Dibujamos las aristas
 	for from_id in self.grafo.edges.keys():
+		self.edge_nodes[from_id] = {}
 		for to_id in self.grafo.edges[from_id].keys():
 			if not self.vertex_nodes.has(from_id):
 				continue
@@ -133,15 +165,17 @@ func _draw_edges() -> void:
 			
 			var enode := self.edge_scene.instantiate() as AristaVista
 			add_child(enode)
-			
 			enode.setup(edge, from_node.position, to_node.position)
 			
-			if not self.edge_nodes.has(from_id):
-				self.edge_nodes[from_id] = {}
 			self.edge_nodes[from_id][to_id] = enode
-	self._refresh_edge_info_visibility()
 
+#Utils
 func _on_vertex_clicked(vertex_id: int) -> void:
+	if grafo == null:
+		return
+	if not grafo.has_vertex(vertex_id):
+		return
+	
 	if vertex_id in self.selected_vertices:
 		self.selected_vertices.erase(vertex_id)
 	else:
@@ -149,6 +183,8 @@ func _on_vertex_clicked(vertex_id: int) -> void:
 	
 	print("Seleccionados ahora: ", self.selected_vertices)
 	self._refresh_edge_info_visibility()
+	
+	self.graph_vertex_clicked.emit(vertex_id)
 
 func _refresh_edge_info_visibility() -> void:
 	for from_id in self.edge_nodes.keys():
@@ -156,3 +192,15 @@ func _refresh_edge_info_visibility() -> void:
 			var enode: AristaVista = self.edge_nodes[from_id][to_id]
 			var show : bool = (from_id in self.selected_vertices) and (to_id in self.selected_vertices)
 			enode.set_flow_active(show)
+
+func highlight_infected_red() -> void:
+	if self.grafo == null:
+		return
+	
+	for id in self.grafo.vertices.keys():
+		var v: Vertice = self.grafo.vertices[id]
+		if v.is_infected and self.vertex_nodes.has(id):
+			var vnode: VerticeVista = self.vertex_nodes[id]
+			vnode.set_color(Color(1.0, 0.25, 0.25))
+			print("Pintando infectado: ", id)
+			return

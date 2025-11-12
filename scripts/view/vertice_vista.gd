@@ -9,6 +9,7 @@ signal vertex_clicked(vertex_id: int)
 @onready var info_label: Label = $InfoCard/ColorRect/Label
 @onready var info_icon: TextureRect = $InfoCard/ColorRect/Icon
 @onready var hint_label: Label = $InfoCard/ColorRect/HintLabel
+@onready var id_label: Label = $IdLabel
 
 @onready var info_bg: ColorRect = $InfoCard/ColorRect
 
@@ -48,6 +49,9 @@ func setup(p_vertex: Vertice, p_position: Vector2) -> void:
 			self.hint_label.text = self.vertex.hint
 		else:
 			self.hint_label.text = "No hay nada por aca"
+	
+	if self.id_label and self.vertex != null:
+		self.id_label.text = str(self.vertex.id)
 	
 	if self.info_card != null:
 		self.info_card.visible = false
@@ -149,11 +153,14 @@ func _is_point_in_card(screen_pos: Vector2) -> bool:
 func _draw() -> void:
 	var base_color = Color(0.2, 0.8, 0.4)
 	var outline_color = Color(0.1, 0.4, 0.2)
-
+	
+	if vertex != null:
+		# Centro de Control → azul
+		if vertex.role == Vertice.VertexRole.CENTRO_CONTROL:
+			base_color = Color(0.2, 0.4, 1.0)
+			outline_color = Color(0.1, 0.2, 0.6)
+	
 	if selected:
-		base_color = Color(1.0, 0.8, 0.2)
-		outline_color = Color(0.8, 0.5, 0.1)
-
 		# aura
 		var pulse = 0.5 + 0.5 * sin(aura_time * 4.0)
 		var current_radius = lerp(aura_radius, aura_radius + 6.0, pulse)
@@ -271,3 +278,6 @@ func set_minigame_mode(mode: int, bfs_dfs_completed: bool) -> void:
 		
 		_:
 			self.hint_label.visible = false
+
+func set_color(color: Color) -> void:
+	modulate = color
