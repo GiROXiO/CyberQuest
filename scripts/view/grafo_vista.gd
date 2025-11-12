@@ -17,6 +17,7 @@ var grafo: Grafo
 var vertex_nodes: Dictionary = {}
 var edge_nodes: Dictionary = {}
 var selected_vertices: Array[int] = []
+var highlighted_edges: Array[Array] = []
 
 var vertex_positions: Dictionary = {}
 
@@ -41,6 +42,15 @@ func refresh_from_graph() -> void:
 	
 	self._rebuild_from_layout()
 	self._apply_minigame_mode()
+
+
+func found_subarray(main_arr, sub_arr) -> bool:
+	
+	for arr in main_arr:
+		if arr == sub_arr:
+			return true;
+	
+	return false
 
 func set_minigame_mode(mode: MinigameMode, p_bfs_dfs_completed: bool = false) -> void:
 	self.current_mode = mode
@@ -195,6 +205,13 @@ func _refresh_edge_info_visibility() -> void:
 		for to_id in self.edge_nodes[from_id].keys():
 			var enode: AristaVista = self.edge_nodes[from_id][to_id]
 			var show : bool = (from_id in self.selected_vertices) and (to_id in self.selected_vertices)
+			if found_subarray(highlighted_edges, [from_id, to_id]) and !show:
+				highlighted_edges.erase([from_id, to_id])
+				print("Miralo ve: ",highlighted_edges)
+			elif show and !found_subarray(highlighted_edges, [from_id, to_id]):
+				highlighted_edges.append([from_id, to_id])
+				print("Miralo ve: ", highlighted_edges)
+	
 			enode.set_flow_active(show)
 
 func highlight_infected_red() -> void:

@@ -10,6 +10,7 @@ var bfs_dfs_completed: bool = false
 @onready var grafo_vista: GrafoVista = $GrafoVista
 @onready var bfs_dfs_ui: BfsDfsUi = $MinigamesUI/BfsDfsUi
 @onready var shortest_path_ui: CaminoMinimoUi = $MinigamesUI/ShortestPathUi
+@onready var kruskal_prim_ui: PrimKruskalUi = $MinigamesUI/PrimKruskalUi
 
 func _ready() -> void:
 	self.grafo = Grafo.new()
