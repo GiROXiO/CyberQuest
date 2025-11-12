@@ -4,6 +4,7 @@ class_name BfsDfsUi
 signal bfs_dfs_completed
 
 @onready var neutralize_button: Button = $NeutralizeButton
+@onready var info_label: Label = $InfoLabel
 
 var grafo: Grafo = null
 var grafo_vista: GrafoVista = null

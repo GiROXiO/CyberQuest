@@ -23,6 +23,8 @@ func _ready() -> void:
 	
 	if self.shortest_path_ui:
 		self.shortest_path_ui.set_graph(grafo)
+		self.shortest_path_ui.set_graph_view(self.grafo_vista)
+		self.grafo_vista.graph_vertex_clicked.connect(self.shortest_path_ui.on_vertex_clicked_from_graph)
 	
 	self.grafo_vista.set_minigame_mode(self.current_mode, self.bfs_dfs_completed)
 	

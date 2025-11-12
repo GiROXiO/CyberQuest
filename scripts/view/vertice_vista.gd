@@ -106,14 +106,14 @@ func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void
 		
 		if vertex != null:
 			# DEBUG: mostrar toda la info del vértice en consola
-			print("--- VÉRTICE CLICKEADO ---")
-			print("ID: ", vertex.id)
-			print("Rol: ", _get_role_name(vertex.role), " (", vertex.role, ")")
-			print("Infectado: ", vertex.is_infected)
-			print("Es nodo con pista (is_key_vertex): ", vertex.is_key_vertex)
-			print("Pista (hint): ", vertex.hint if vertex.hint != "" else "No hay nada que ver por aca")
-			print("Vecinos (neighbors): ", vertex.get_neighbors())
-			print("-------------------------")
+			#print("--- VÉRTICE CLICKEADO ---")
+			#print("ID: ", vertex.id)
+			#print("Rol: ", _get_role_name(vertex.role), " (", vertex.role, ")")
+			#print("Infectado: ", vertex.is_infected)
+			#print("Es nodo con pista (is_key_vertex): ", vertex.is_key_vertex)
+			#print("Pista (hint): ", vertex.hint if vertex.hint != "" else "No hay nada que ver por aca")
+			#print("Vecinos (neighbors): ", vertex.get_neighbors())
+			#print("-------------------------")
 			emit_signal("vertex_clicked", vertex.id)
 		else:
 			emit_signal("vertex_clicked", -1)
@@ -281,3 +281,14 @@ func set_minigame_mode(mode: int, bfs_dfs_completed: bool) -> void:
 
 func set_color(color: Color) -> void:
 	modulate = color
+
+func set_selected_state(p_selected: bool) -> void:
+	self.selected = p_selected
+	
+	if self.info_card:
+		self.info_card.visible = selected
+	
+	if not self.selected:
+		self.aura_time = 0.0
+	
+	queue_redraw()

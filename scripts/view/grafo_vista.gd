@@ -4,7 +4,7 @@ class_name GrafoVista
 @export var vertex_scene: PackedScene
 @export var edge_scene: PackedScene
 
-signal graph_vertex_clicked(vertex_id: int)
+signal graph_vertex_clicked(vertex_id: int, is_selected: bool)
 
 enum MinigameMode {
 	BFS_DFS,
@@ -37,7 +37,7 @@ func refresh_from_graph() -> void:
 		return
 	
 	if self.vertex_positions.is_empty():
-		pass
+		return
 	
 	self._rebuild_from_layout()
 	self._apply_minigame_mode()
@@ -176,15 +176,19 @@ func _on_vertex_clicked(vertex_id: int) -> void:
 	if not grafo.has_vertex(vertex_id):
 		return
 	
+	var is_selected_now := false
+	
 	if vertex_id in self.selected_vertices:
 		self.selected_vertices.erase(vertex_id)
+		is_selected_now = false
 	else:
 		self.selected_vertices.append(vertex_id)
+		is_selected_now = true
 	
 	print("Seleccionados ahora: ", self.selected_vertices)
 	self._refresh_edge_info_visibility()
 	
-	self.graph_vertex_clicked.emit(vertex_id)
+	self.graph_vertex_clicked.emit(vertex_id, is_selected_now)
 
 func _refresh_edge_info_visibility() -> void:
 	for from_id in self.edge_nodes.keys():
@@ -204,3 +208,21 @@ func highlight_infected_red() -> void:
 			vnode.set_color(Color(1.0, 0.25, 0.25))
 			print("Pintando infectado: ", id)
 			return
+
+func force_set_vertex_selected(vertex_id: int, selected: bool) -> void:
+	if not self.vertex_nodes.has(vertex_id):
+		return
+	
+	var vnode: VerticeVista = self.vertex_nodes[vertex_id]
+	if vnode == null:
+		return
+	
+	vnode.set_selected_state(selected)
+	
+	if selected:
+		if not self.selected_vertices.has(vertex_id):
+			self.selected_vertices.append(vertex_id)
+	else:
+		self.selected_vertices.erase(vertex_id)
+	
+	self._refresh_edge_info_visibility()

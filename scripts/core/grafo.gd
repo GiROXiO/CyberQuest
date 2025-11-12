@@ -53,7 +53,7 @@ func get_vertices_ids() -> Array:
 
 #Gestion de aristas
 func _ensure_edge_dict(from_id: int) -> void:
-	if not edges.has(from_id):
+	if not self.edges.has(from_id):
 		self.edges[from_id] = {}
 
 func add_edge(from_id: int, to_id: int, weight: float = 1.0, capacity: float = 0.0) -> void:
@@ -240,7 +240,7 @@ func generate_random(num_vertices: int) -> void:
 	var role_to_id: Dictionary = {}
 	
 	for i in range(n):
-		var v := add_vertex(i)
+		var v := self.add_vertex(i)
 		v.is_infected = false
 		if i == 0:
 			v.set_role(Vertice.VertexRole.CENTRO_CONTROL)

@@ -32,7 +32,7 @@ func setup(p_edge: Arista, p_from_pos: Vector2, p_to_pos: Vector2) -> void:
 		self.info_label.visible = false
 		self.info_label.position = (from_pos + to_pos) * 0.5
 		
-		self.info_label.add_theme_color_override("font_color", Color(1, 1, 0))
+		self.info_label.add_theme_color_override("font_color", Color(0, 0, 0))
 		
 		self.info_label.z_index = 100
 		self.info_label.z_as_relative = false
