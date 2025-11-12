@@ -1,0 +1,34 @@
+[background arg="res://Dialogic/Images/Old images/oscuro.PNG" fade="0.0"]
+prota_nuevo: Umm, que no se pierda la costumbre del sueño
+prota_nuevo: Aunque esta vez es distinto
+prota_nuevo: Quiero despertar....
+jefe_nuevo: Solo abre los ojos Daniel
+prota_nuevo: ¿?
+[background arg="res://Dialogic/Images/Images/fondo.png" fade="0.0"]
+join prota_nuevo center
+prota_nuevo (sorprendido): ¡Anda!
+prota_nuevo: ¿¿¿Que es esto???
+prota_nuevo (normal): Me veo bien supongo
+jefe_nuevo: Bienvenido Daniel
+update prota_nuevo (risa) left
+join jefe_nuevo right
+prota_nuevo: Jefeeeeeeeeeeee
+prota_nuevo: Crei que en la realidad no se pareceria a Gandalf
+jefe_nuevo: Rápido, NEMESIS esta tomando conciencia, te tengo que explicar todo rápidamente para que empieces a trabajar de una vez por todas
+prota_nuevo (pensando): Claro, ¿que hago?
+jefe_nuevo (determinado): Hay que ir paso por paso
+jefe_nuevo (normal): Primero hay que encontrar el origen del ataque
+jefe_nuevo (normal): Para ello hay que utilizar algoritmo BFS o DFS
+prota_nuevo: Ok
+prota_nuevo (apenado): Me perdi
+prota_nuevo: ¿Que es eso?
+jefe_nuevo: Son algoritmos de búsqueda en grafos o árboles
+jefe_nuevo: Son algoritmos de búsqueda en grafos o árboles
+jefe_nuevo: BFS recorre los nodos por niveles, explorando primero todos los vecinos de un nodo antes de pasar al siguiente nivel, usando una cola
+jefe_nuevo: En cambio, DFS explora lo más profundo posible en cada rama antes de retroceder, usando una pila
+prota_nuevo: Verdad, ya me acorde
+prota_nuevo (risa): Que pena
+jefe_nuevo: Bueno Daniel
+jefe_nuevo (determinado): ¿Cual escogeras?
+- Escogere BFS
+- Escogere DFS

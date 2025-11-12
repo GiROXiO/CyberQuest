@@ -1,0 +1,70 @@
+[background arg="res://Dialogic/Images/Old images/oscuro.PNG" fade="0.0"]
+prota: Otro día más estando placidamente dormido en el traba...
+malo: DANIEL
+[background arg="res://Dialogic/Images/Old images/Office.jpg" fade="0.0"]
+join prota (Sorprendido) left [animation="Bounce In" length="0.3"]
+join malo (pensando) right [animation="Bounce In" length="0.3"]
+prota: JEFE ESTOY TOTALMENTE DESPIERTO
+prota (Triste): que pena, era una bromita nada más
+malo: Daniel, eso no importa ya
+update prota (Satisfecho)
+malo: Anteriormente demostraste ser muy habil con la ciberseguridad
+malo (feliz): Fuiste el más habil de todos los candidatos
+prota: Claro que si
+prota (Pensando): ...
+prota: ¿Como que candidatos?
+prota: Si yo ya trabajaba en esta empresa hace tiempo
+malo (normal): Veras Daniel
+malo: Todo este tiempo, estuviste en una prueba
+prota: ¿Una
+prota (Desagrado): prueba?
+malo (pensando): Asi es, actualmente tú...
+update prota (Sorprendido)
+malo: Estas dentro de una simulación
+malo: Todo lo que estas viviendo no es real, fue una prueba realizada para algunos candidatos de los cuales tú fuiste el único que resulto exitoso
+prota: Pero
+prota: Ven acá
+prota: ¿Prueba de que exactamente?
+prota: ¿Y por que no me acuerdo de nada?
+update prota (Sorprendido)
+malo: Todo este tiempo estuviste en una prueba con el proposito de ver si estabas capacitado para exterminar al mayor virus informático creado en la historia de la humanidad
+malo: Su nombre es
+malo: NEMESIS
+prota: Hasta el nombre esta en mayusculas
+prota: Parece serio
+malo: NEMESIS esta vulnerando la red global
+malo: Es un virus el cual adquirio cierto grado de conciencia, cuyo único proposito es la destrucción de la humanidad
+malo: Por eso es que fuiste puesto a prueba, para ver si eras capaz de acabar con este virus
+malo: Y creemos que tienes las capacidades para ello
+prota: Pero
+prota: ¿Por que no recuerdo nada de la prueba ni de la realidad?
+malo: Ah
+update prota (Ups)
+malo: Porque te quedaste dormido mientras te transportabamos a la simulación y sufriste amnesia
+update prota (Desagrado)
+malo (pensando): De verdad Daniel, que te mire un médico, que te duermas tanto no es normal
+malo (normal): En fin, a lo que iba
+leave prota
+update malo center
+malo: Actualmente, tienes dos opciones
+malo: Come la caribañola roja  y verás la verdad. Saldrás de la simulación, y juntos empezaremos la lucha contra el virus.
+malo: O come la caribañola azul y pues...
+malo: no haces nada
+malo: Y pues... seria el fin de todo
+malo: ¿Que eliges?
+- Escojo la caribañola roja
+	malo (feliz): Sabia que nos ayudarias
+	malo: La humanidad confia en ti Daniel
+	malo: Ahora por favor, come la caribañola roja
+	malo: Y exterminemos ese virus
+- Escojo la caribañola azul
+	malo (normal): ...
+	malo: ¿Que?
+	malo (pensando): ...
+	malo (pensando): Nos equivocamos contigo
+	malo: Adios Daniel
+	leave malo
+	prota: ...
+	prota: Me dio miedo
+	prota: Cuando exterminen al virus, volveran por mi
+	prota: Pero, ¿y si no lo exterminan?

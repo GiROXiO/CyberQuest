@@ -1,0 +1,58 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+&"_translation_id": "",
+&"color": Color(0.933594, 0.0619965, 0.0619965, 1),
+&"custom_info": {
+"prefix": "",
+"sound_mood_default": "",
+"sound_moods": {},
+"style": "",
+"suffix": ""
+},
+&"default_portrait": "normal",
+&"description": "",
+&"display_name": "Jefe",
+&"mirror": false,
+&"nicknames": [""],
+&"offset": Vector2(0, 0),
+&"portraits": {
+"feliz": {
+"export_overrides": {
+"image": "\"res://Dialogic/Characters/Old Art/malo/Portraits/malo_feliz.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 15),
+"scale": 1.0,
+"scene": ""
+},
+"normal": {
+"export_overrides": {
+"image": "\"res://Dialogic/Characters/Old Art/malo/Portraits/malo_normal.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 15),
+"scale": 1.0,
+"scene": ""
+},
+"pensando": {
+"export_overrides": {
+"image": "\"res://Dialogic/Characters/Old Art/malo/Portraits/malo_pensando.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 15),
+"scale": 1.0,
+"scene": ""
+},
+"triste": {
+"export_overrides": {
+"image": "\"res://Dialogic/Characters/Old Art/malo/Portraits/malo_triste.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 15),
+"scale": 1,
+"scene": ""
+}
+},
+&"scale": 1.0
+}
