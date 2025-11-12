@@ -87,7 +87,6 @@ func _process(delta: float) -> void:
 		var mouse_pos := get_viewport().get_mouse_position()
 		var inside := _is_point_in_card(mouse_pos)
 		if inside != debug_last_inside:
-			print("[DEBUG CARD] mouse dentro =", inside)
 			debug_last_inside = inside
 	
 	if self.is_dragging_card and self.info_card:
@@ -127,19 +126,14 @@ func _input(event: InputEvent) -> void:
 	
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		var mouse_pos: Vector2 = get_viewport().get_mouse_position()
-		print("[_input] Mouse btn, pressed=", event.pressed, " pos=", mouse_pos)
 		
 		var inside := self._is_point_in_card(mouse_pos)
-		print("[_input] ¿mouse dentro de la tarjeta? ", inside)
 		
 		if event.pressed:
 			if inside:
 				is_dragging_card = true
 				self.drag_offset_card = self.info_card.global_position - mouse_pos
-				print("[DRAG START] info_card.global_position=", info_card.global_position, " offset=", drag_offset_card)
 		else:
-			if is_dragging_card:
-				print("[DRAG STOP]")
 			self.is_dragging_card = false
 
 func _is_point_in_card(screen_pos: Vector2) -> bool:

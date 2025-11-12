@@ -26,6 +26,7 @@ func _ready() -> void:
 		self.shortest_path_ui.set_graph(grafo)
 		self.shortest_path_ui.set_graph_view(self.grafo_vista)
 		self.grafo_vista.graph_vertex_clicked.connect(self.shortest_path_ui.on_vertex_clicked_from_graph)
+		self.shortest_path_ui.minigame_completed.connect(self._on_shortest_path_completed)
 	
 	self.grafo_vista.set_minigame_mode(self.current_mode, self.bfs_dfs_completed)
 	
@@ -57,3 +58,19 @@ func _on_bfs_dfs_completed() -> void:
 		self.shortest_path_ui.start_minigame()
 	
 	print("[GameManager] Cambio de modo: ahora CAMINOS_MINIMOS.")
+
+func _on_shortest_path_completed(success: bool) -> void:
+	if not success:
+		return
+	
+	print("[GameManager] Minijuego de caminos mínimos completado con éxito.")
+	
+	#Cambiamos al siguiente nivel
+	self.current_mode = GrafoVista.MinigameMode.ARBOL_EXPANSION_MINIMA
+	self.grafo_vista.set_minigame_mode(self.current_mode, self.bfs_dfs_completed)
+	
+	if self.shortest_path_ui:
+		self.shortest_path_ui.visible = false
+	
+	if self.kruskal_prim_ui:
+		self.kruskal_prim_ui.visible = true

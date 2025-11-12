@@ -144,6 +144,7 @@ func _on_check_button_pressed() -> void:
 	if ok:
 		print("[ShortestPathUi] ¡Camino correcto! Es el camino mínimo.")
 		self._set_message("¡Correcto! Has encontrado el camino mínimo")
+		self.minigame_completed.emit(true)
 	else:
 		print("[ShortestPathUi] Camino incorrecto. user_path=", user_path, " shortest_path=", shortest_path)
 		self._set_message("Camino incorrecto. Inténtalo de nuevo")
