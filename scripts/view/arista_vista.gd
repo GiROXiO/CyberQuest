@@ -5,6 +5,7 @@ var edge: Arista = null
 var from_pos: Vector2
 var to_pos: Vector2
 
+
 const LINE_WIDTH := 2.0
 const ARROW_SIZE := 10.0
 const VERTEX_RADIUS := 18.0
@@ -20,6 +21,19 @@ enum MinigameMode {
 
 var flow_active: bool = false
 var flow_phase: float = 0.0
+
+var game_manager : Node2D;
+var current_mode: MinigameMode = MinigameMode.BFS_DFS
+
+func _ready() -> void:
+	game_manager = get_node("/root/GameManager")
+	game_manager.mode_changed.connect(_on_mode_changed)
+
+func _on_mode_changed(new_mode):
+	if current_mode != new_mode:
+		print("Modo actual cambiado a: ", new_mode)
+		current_mode = new_mode
+		queue_redraw()
 
 func setup(p_edge: Arista, p_from_pos: Vector2, p_to_pos: Vector2) -> void:
 	self.edge = p_edge
@@ -114,8 +128,9 @@ func _draw() -> void:
 		draw_line(p0, p1, col, LINE_WIDTH, true)
 	
 	#Dibujamos flecha
-	var perp := Vector2(-n.y, n.x)
-	var p1 := arrow_tip
-	var p2 := end + perp * (ARROW_SIZE * 0.5)
-	var p3 := end - perp * (ARROW_SIZE * 0.5)
-	draw_polygon([p1, p2, p3], [glow_color])
+	if current_mode != 2:
+		var perp := Vector2(-n.y, n.x)
+		var p1 := arrow_tip
+		var p2 := end + perp * (ARROW_SIZE * 0.5)
+		var p3 := end - perp * (ARROW_SIZE * 0.5)
+		draw_polygon([p1, p2, p3], [glow_color])

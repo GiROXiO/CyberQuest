@@ -6,6 +6,8 @@ class_name GameManager
 var grafo: Grafo
 var current_mode: GrafoVista.MinigameMode = GrafoVista.MinigameMode.BFS_DFS
 var bfs_dfs_completed: bool = false
+signal mode_changed(new_mode)
+
 
 @onready var grafo_vista: GrafoVista = $GrafoVista
 @onready var bfs_dfs_ui: BfsDfsUi = $MinigamesUI/BfsDfsUi
@@ -41,6 +43,7 @@ func _ready() -> void:
 		self.grafo_vista.graph_vertex_clicked.connect(self.shortest_path_ui.on_vertex_clicked_from_graph)
 	
 	print("GameManager listo. Grafo generado con ", num_vertices, " vértices.")
+	emit_signal("mode_changed", current_mode)
 
 func _on_bfs_dfs_completed() -> void:
 	print("[GameManager] Señal bfs_dfs_completed recibida.")
@@ -58,6 +61,7 @@ func _on_bfs_dfs_completed() -> void:
 		self.shortest_path_ui.start_minigame()
 	
 	print("[GameManager] Cambio de modo: ahora CAMINOS_MINIMOS.")
+	emit_signal("mode_changed", current_mode)
 
 func _on_shortest_path_completed(success: bool) -> void:
 	if not success:
@@ -74,3 +78,5 @@ func _on_shortest_path_completed(success: bool) -> void:
 	
 	if self.kruskal_prim_ui:
 		self.kruskal_prim_ui.visible = true
+	
+	emit_signal("mode_changed", current_mode)
