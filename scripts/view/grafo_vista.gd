@@ -17,6 +17,7 @@ var grafo: Grafo
 var vertex_nodes: Dictionary = {}
 var edge_nodes: Dictionary = {}
 var selected_vertices: Array[int] = []
+var active_edges: Dictionary = {}
 var highlighted_edges: Array[Array] = []
 
 var vertex_positions: Dictionary = {}
@@ -71,6 +72,8 @@ func _apply_minigame_mode() -> void:
 				var enode := edge_nodes[from_id][to_id] as AristaVista
 				if enode:
 					enode.set_minigame_mode(self.current_mode)
+	
+	self.clear_all_edge_flows()
 
 #Metodos para dibujar el grafo
 func _build_initial_layout() -> void:
@@ -176,6 +179,7 @@ func _rebuild_from_layout() -> void:
 			var enode := self.edge_scene.instantiate() as AristaVista
 			add_child(enode)
 			enode.setup(edge, from_node.position, to_node.position)
+			enode.set_active(false)
 			
 			self.edge_nodes[from_id][to_id] = enode
 
@@ -196,23 +200,23 @@ func _on_vertex_clicked(vertex_id: int) -> void:
 		is_selected_now = true
 	
 	print("Seleccionados ahora: ", self.selected_vertices)
-	self._refresh_edge_info_visibility()
+	#self._refresh_edge_info_visibility()
 	
 	self.graph_vertex_clicked.emit(vertex_id, is_selected_now)
 
-func _refresh_edge_info_visibility() -> void:
-	for from_id in self.edge_nodes.keys():
-		for to_id in self.edge_nodes[from_id].keys():
-			var enode: AristaVista = self.edge_nodes[from_id][to_id]
-			var show : bool = (from_id in self.selected_vertices) and (to_id in self.selected_vertices)
-			if found_subarray(highlighted_edges, [from_id, to_id]) and !show:
-				highlighted_edges.erase([from_id, to_id])
-				print("Miralo ve: ",highlighted_edges)
-			elif show and !found_subarray(highlighted_edges, [from_id, to_id]):
-				highlighted_edges.append([from_id, to_id])
-				print("Miralo ve: ", highlighted_edges)
+#func _refresh_edge_info_visibility() -> void:
+	#for from_id in self.edge_nodes.keys():
+		#for to_id in self.edge_nodes[from_id].keys():
+			#var enode: AristaVista = self.edge_nodes[from_id][to_id]
+			#var show : bool = (from_id in self.selected_vertices) and (to_id in self.selected_vertices)
+			#if found_subarray(highlighted_edges, [from_id, to_id]) and !show:
+				#highlighted_edges.erase([from_id, to_id])
+				#print("Miralo ve: ",highlighted_edges)
+			#elif show and !found_subarray(highlighted_edges, [from_id, to_id]):
+				#highlighted_edges.append([from_id, to_id])
+				#print("Miralo ve: ", highlighted_edges)
 	
-			enode.set_flow_active(show)
+			#enode.set_flow_active(show)
 
 func highlight_infected_red() -> void:
 	if self.grafo == null:
@@ -242,4 +246,52 @@ func force_set_vertex_selected(vertex_id: int, selected: bool) -> void:
 	else:
 		self.selected_vertices.erase(vertex_id)
 	
-	self._refresh_edge_info_visibility()
+	#self._refresh_edge_info_visibility()
+
+func clear_active_edges() -> void:
+	for from_id in self.edge_nodes.keys():
+		for to_id in self.edge_nodes[from_id].keys():
+			var enode: AristaVista = self.edge_nodes[from_id][to_id]
+			if enode:
+				enode.set_active(false)
+	self.active_edges.clear()
+
+func set_edge_active(from_id: int, to_id: int, active: bool) -> void:
+	if not self.edge_nodes.has(from_id):
+		return
+	if not self.edge_nodes[from_id].has(to_id):
+		return
+	
+	var enode: AristaVista = self.edge_nodes[from_id][to_id]
+	if enode == null:
+		return
+	
+	enode.set_active(active)
+	
+	if active:
+		if not self.active_edges.has(from_id):
+			self.active_edges[from_id] = {}
+		self.active_edges[from_id][to_id] = true
+	else:
+		if self.active_edges.has(from_id) and self.active_edges[from_id].has(to_id):
+			self.active_edges[from_id].erase(to_id)
+			if self.active_edges[from_id].is_empty():
+				self.active_edges.erase(from_id)
+
+func set_path_edges(path: Array[int]) -> void:
+	self.clear_active_edges()
+	self.clear_all_edge_flows()
+	if path.size() < 2:
+		return
+	
+	for i in range(path.size() - 1):
+		var u := path[i]
+		var v := path[i+1]
+		if self.edge_nodes.has(u) and self.edge_nodes[u].has(v):
+			self.set_edge_active(u, v, true)
+
+func clear_all_edge_flows() -> void:
+	for from_id in self.edge_nodes.keys():
+		for to_id in self.edge_nodes[from_id].keys():
+			var enode: AristaVista = self.edge_nodes[from_id][to_id]
+			enode.set_active(false)

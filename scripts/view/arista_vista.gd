@@ -19,7 +19,7 @@ enum MinigameMode {
 	FLUJO_MAXIMO
 }
 
-var flow_active: bool = false
+var is_active: bool = false
 var flow_phase: float = 0.0
 
 var game_manager : Node2D;
@@ -76,14 +76,16 @@ func set_info_visible(visible: bool) -> void:
 	if self.info_label:
 		self.info_label.visible = visible
 
-func set_flow_active(active: bool) -> void:
-	self.flow_active = active
-	if not active:
-		flow_phase = 0.0
+func set_active(active: bool) -> void:
+	self.is_active = active
+	if self.is_active:
+		set_process(true)
+	else:
+		set_process(false)
 	queue_redraw()
 
 func _process(delta: float) -> void:
-	if self.flow_active:
+	if self.is_active:
 		self.flow_phase = fmod(self.flow_phase + delta * 2.0, 1.0)
 		queue_redraw()
 
@@ -109,23 +111,7 @@ func _draw() -> void:
 	
 	#Colores
 	var base_color := Color(0.0, 0.8, 1.0)
-	var glow_color := Color(0.5, 1.0, 1.0)
-	
-	var segments := 24
-	for i in range(segments):
-		var t0 := float(i) / float(segments)
-		var t1 := float(i + 1) / float(segments)
-		var p0 := start.lerp(end, t0)
-		var p1 := start.lerp(end, t1)
-
-		var col := base_color
-		if flow_active:
-			var mid_t := (t0 + t1) * 0.5
-			# onda que se desplaza a lo largo de la arista
-			var wave := 0.5 + 0.5 * sin((mid_t * 4.0 - flow_phase) * TAU)
-			col = base_color.lerp(glow_color, wave)
-
-		draw_line(p0, p1, col, LINE_WIDTH, true)
+	draw_line(start, end, base_color, LINE_WIDTH, true)
 	
 	#Dibujamos flecha
 	if current_mode != 2:
@@ -133,4 +119,19 @@ func _draw() -> void:
 		var p1 := arrow_tip
 		var p2 := end + perp * (ARROW_SIZE * 0.5)
 		var p3 := end - perp * (ARROW_SIZE * 0.5)
-		draw_polygon([p1, p2, p3], [glow_color])
+		draw_polygon([p1, p2, p3], [base_color])
+	
+	if self.is_active:
+		var seg_len := 14.0
+		var gap_len := 10.0
+		var total_len := (end - start).length()
+		var t := self.flow_phase * (seg_len + gap_len)
+		
+		while t < total_len:
+			var a := clampf(t, 0.0, total_len)
+			var b := clampf(t + seg_len, 0.0, total_len)
+			if b > a:
+				var pa := start + n * a
+				var pb := start + n * b
+				draw_line(pa, pb, Color(0.4, 0.95, 1.0), LINE_WIDTH + 1.0, true)
+			t += seg_len + gap_len

@@ -12,8 +12,8 @@ var grafo_vista: GrafoVista = null
 
 var source_id: int = -1
 var target_id: int = -1
-var shortest_path: Array = []
-var user_path: Array = []
+var shortest_path: Array[int] = []
+var user_path: Array[int] = []
 
 func _ready() -> void:
 	if self.title_label:
@@ -23,7 +23,7 @@ func _ready() -> void:
 		self.check_button.text = "Verificar Camino"
 		self.check_button.pressed.connect(self._on_check_button_pressed)
 	
-	#self._clear_message()
+	self._clear_message()
 
 func set_graph(p_grafo: Grafo) -> void:
 	self.grafo = p_grafo
@@ -74,6 +74,8 @@ func on_vertex_clicked_from_graph(vertex_id: int, is_selected: bool) -> void:
 				self._set_message("Debes iniciar en el Centro de Control")
 				return
 			self.user_path.append(vertex_id)
+			if self.grafo_vista != null:
+				self.grafo_vista.set_path_edges(self.user_path)
 		else:
 			var last_id: int = self.user_path[user_path.size() - 1]
 			
@@ -89,6 +91,8 @@ func on_vertex_clicked_from_graph(vertex_id: int, is_selected: bool) -> void:
 				return
 			
 			self.user_path.append(vertex_id)
+			if self.grafo_vista != null:
+				self.grafo_vista.set_path_edges(self.user_path)
 	else:
 		#Deseleccionamos el vertice
 		if self.user_path.is_empty():
@@ -98,7 +102,7 @@ func on_vertex_clicked_from_graph(vertex_id: int, is_selected: bool) -> void:
 		if idx == -1:
 			return
 		
-		var to_clear: Array = []
+		var to_clear: Array[int] = []
 		for i in range(idx + 1, self.user_path.size()):
 			to_clear.append(user_path[i])
 		
@@ -109,6 +113,7 @@ func on_vertex_clicked_from_graph(vertex_id: int, is_selected: bool) -> void:
 		if self.grafo_vista != null:
 			for id in to_clear:
 				self.grafo_vista.force_set_vertex_selected(id, false)
+				self.grafo_vista.set_path_edges(self.user_path)
 	
 	print("[ShortestPathUi] user_path actual: ", user_path)
 

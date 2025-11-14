@@ -391,7 +391,7 @@ func generate_random(num_vertices: int) -> void:
 					var params := self._random_edge_params(from_v.role, to_v.role, rng)
 					self.add_edge(i, j, params["weight"], params["capacity"])
 
-func dijkstra(source_id: int, target_id: int) -> Array:
+func dijkstra(source_id: int, target_id: int) -> Array[int]:
 	if not has_vertex(source_id):
 		return []
 	if not has_vertex(target_id):
@@ -450,7 +450,7 @@ func dijkstra(source_id: int, target_id: int) -> Array:
 		return []
 	
 	# Reconstruir camino
-	var path: Array = []
+	var path: Array[int] = []
 	var curr: int = target_id
 	
 	while curr != -1:

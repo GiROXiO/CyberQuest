@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://dy443u8akofwo"]
+
+[ext_resource type="Script" uid="uid://cd7bwu75ycwd5" path="res://scripts/game_manager.gd" id="1_bb4tu"]
+[ext_resource type="PackedScene" uid="uid://isyjey0olw6i" path="res://scenes/grafo/grafoVista.tscn" id="2_x7fn8"]
+[ext_resource type="PackedScene" uid="uid://rms505vei5uf" path="res://scenes/minigames/bfs_dfs_game/bfs_dfs_ui.tscn" id="3_bbeu6"]
+[ext_resource type="PackedScene" uid="uid://tnx1c4bedsm5" path="res://scenes/minigames/shortest_path_game/shortest_path_ui.tscn" id="4_7baw1"]
+[ext_resource type="PackedScene" uid="uid://dovrf3rhbp2hj" path="res://scenes/minigames/prim_kruskal_game/prim_kruskal_ui.tscn" id="5_7baw1"]
+
+[node name="GameManager" type="Node2D"]
+script = ExtResource("1_bb4tu")
+
+[node name="GrafoVista" parent="." instance=ExtResource("2_x7fn8")]
+
+[node name="MinigamesUI" type="CanvasLayer" parent="."]
+
+[node name="BfsDfsUi" parent="MinigamesUI" instance=ExtResource("3_bbeu6")]
+mouse_filter = 2
+
+[node name="ShortestPathUi" parent="MinigamesUI" instance=ExtResource("4_7baw1")]
+visible = false
+mouse_filter = 2
+
+[node name="PrimKruskalUi" parent="MinigamesUI" instance=ExtResource("5_7baw1")]
+visible = false
+offset_left = -1.0
+offset_right = -1.0
+mouse_filter = 2
