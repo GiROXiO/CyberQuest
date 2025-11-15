@@ -113,7 +113,8 @@ func on_vertex_clicked_from_graph(vertex_id: int, is_selected: bool) -> void:
 		if self.grafo_vista != null:
 			for id in to_clear:
 				self.grafo_vista.force_set_vertex_selected(id, false)
-				self.grafo_vista.set_path_edges(self.user_path)
+			
+			self.grafo_vista.set_path_edges(self.user_path)
 	
 	print("[ShortestPathUi] user_path actual: ", user_path)
 
@@ -163,3 +164,19 @@ func _clear_message() -> void:
 	if self.info_label:
 		self.info_label.text = ""
 		self.info_label.visible = false
+
+func reset() -> void:
+	# Vaciamos la lista de l camino seleccionado por el usuario
+	self.user_path.clear()
+	
+	# Vaciamos la lista del camino minimo generado
+	self.shortest_path.clear()
+	
+	# Reset del cuadro de texto
+	if self.info_label:
+		self.info_label.text = ""
+		self.info_label.visible = false
+	
+	# Reset de aristas seleccionadas del grafo_vista
+	if self.grafo_vista != null:
+		self.grafo_vista.clear_all_edge_flows()

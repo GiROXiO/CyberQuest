@@ -82,6 +82,9 @@ func set_active(active: bool) -> void:
 		set_process(true)
 	else:
 		set_process(false)
+		self.flow_phase = 0.0
+		queue_redraw()
+	
 	queue_redraw()
 
 func _process(delta: float) -> void:

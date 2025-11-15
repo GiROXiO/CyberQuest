@@ -69,6 +69,10 @@ func _on_shortest_path_completed(success: bool) -> void:
 	
 	print("[GameManager] Minijuego de caminos mínimos completado con éxito.")
 	
+	# Reseteamos la vista
+	if self.grafo_vista != null:
+		self.grafo_vista.reset_view_state()
+	
 	#Cambiamos al siguiente nivel
 	self.current_mode = GrafoVista.MinigameMode.ARBOL_EXPANSION_MINIMA
 	self.grafo_vista.set_minigame_mode(self.current_mode, self.bfs_dfs_completed)

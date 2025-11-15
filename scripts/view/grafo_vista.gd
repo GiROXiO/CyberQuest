@@ -200,23 +200,8 @@ func _on_vertex_clicked(vertex_id: int) -> void:
 		is_selected_now = true
 	
 	print("Seleccionados ahora: ", self.selected_vertices)
-	#self._refresh_edge_info_visibility()
 	
 	self.graph_vertex_clicked.emit(vertex_id, is_selected_now)
-
-#func _refresh_edge_info_visibility() -> void:
-	#for from_id in self.edge_nodes.keys():
-		#for to_id in self.edge_nodes[from_id].keys():
-			#var enode: AristaVista = self.edge_nodes[from_id][to_id]
-			#var show : bool = (from_id in self.selected_vertices) and (to_id in self.selected_vertices)
-			#if found_subarray(highlighted_edges, [from_id, to_id]) and !show:
-				#highlighted_edges.erase([from_id, to_id])
-				#print("Miralo ve: ",highlighted_edges)
-			#elif show and !found_subarray(highlighted_edges, [from_id, to_id]):
-				#highlighted_edges.append([from_id, to_id])
-				#print("Miralo ve: ", highlighted_edges)
-	
-			#enode.set_flow_active(show)
 
 func highlight_infected_red() -> void:
 	if self.grafo == null:
@@ -295,3 +280,20 @@ func clear_all_edge_flows() -> void:
 		for to_id in self.edge_nodes[from_id].keys():
 			var enode: AristaVista = self.edge_nodes[from_id][to_id]
 			enode.set_active(false)
+
+func reset_view_state() -> void:
+	# Deseleccionamos todos los vertices
+	for id in self.vertex_nodes.keys():
+		var vnode := self.vertex_nodes[id] as VerticeVista
+		if vnode:
+			vnode.set_selected_state(false)
+	
+	# Vaciamos el array de vertices seleccionados
+	self.selected_vertices.clear()
+	
+	# Pausamos todas las aristas que esten animadas en el momento
+	self.clear_all_edge_flows()
+	
+	# Vaciamos la lista de aristas activas
+	if self.active_edges != null:
+		self.active_edges.clear()
