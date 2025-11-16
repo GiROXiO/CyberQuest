@@ -26,11 +26,14 @@ var radius: float = 18.0
 var aura_radius: float = 26.0
 var aura_time: float = 0.0
 var selected: bool = false
+var current_mode = 0
 
 var is_dragging_card: bool= false
 var drag_offset_card: Vector2 = Vector2.ZERO
 
 var debug_last_inside: bool = false
+
+var grafo : Grafo;
 
 func setup(p_vertex: Vertice, p_position: Vector2) -> void:
 	self.vertex = p_vertex
@@ -75,6 +78,13 @@ func _ready() -> void:
 		self.info_card.z_as_relative = false
 	
 	set_process(true)
+	
+	var grafo_vista = get_tree().get_root().find_child("GrafoVista", true, false)
+	await get_tree().process_frame  
+	grafo_vista.emit_current_mode.connect(_on_emit_current_mode)
+	
+func _on_emit_current_mode(mode):
+	self.current_mode = mode
 
 func _process(delta: float) -> void:
 	if selected:
@@ -97,7 +107,7 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and current_mode != 2:
 		selected = not selected
 		
 		if self.info_card != null:

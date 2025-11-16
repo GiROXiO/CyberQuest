@@ -5,6 +5,7 @@ class_name GrafoVista
 @export var edge_scene: PackedScene
 
 signal graph_vertex_clicked(vertex_id: int, is_selected: bool)
+signal emit_current_mode(mode)
 
 enum MinigameMode {
 	BFS_DFS,
@@ -18,7 +19,7 @@ var vertex_nodes: Dictionary = {}
 var edge_nodes: Dictionary = {}
 var selected_vertices: Array[int] = []
 var active_edges: Dictionary = {}
-var highlighted_edges: Array[Array] = []
+var highlighted_edges: Array = []
 
 var vertex_positions: Dictionary = {}
 
@@ -56,6 +57,8 @@ func found_subarray(main_arr, sub_arr) -> bool:
 func set_minigame_mode(mode: MinigameMode, p_bfs_dfs_completed: bool = false) -> void:
 	self.current_mode = mode
 	self.bfs_dfs_completed = p_bfs_dfs_completed
+	
+	emit_signal("emit_current_mode", self.current_mode)
 	self._apply_minigame_mode()
 
 func _apply_minigame_mode() -> void:
@@ -272,8 +275,21 @@ func set_path_edges(path: Array[int]) -> void:
 	for i in range(path.size() - 1):
 		var u := path[i]
 		var v := path[i+1]
-		if self.edge_nodes.has(u) and self.edge_nodes[u].has(v):
+		if self.edge_nodes.has(u) and self.edge_nodes[u].has(v) and current_mode != 2:
 			self.set_edge_active(u, v, true)
+
+func set_path_edges_mod2(edges: Array):
+	self.clear_active_edges()
+	
+	for e in edges:
+		var u = e[0]
+		var v = e[1]
+		
+		# Si existe en el grafo, en cualquier orden
+		if edge_nodes.has(u) and edge_nodes[u].has(v):
+			set_edge_active(u, v, true)
+		elif edge_nodes.has(v) and edge_nodes[v].has(u):
+			set_edge_active(v, u, true)
 
 func clear_all_edge_flows() -> void:
 	for from_id in self.edge_nodes.keys():
@@ -297,3 +313,5 @@ func reset_view_state() -> void:
 	# Vaciamos la lista de aristas activas
 	if self.active_edges != null:
 		self.active_edges.clear()
+		
+		

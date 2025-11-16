@@ -2,96 +2,143 @@ extends Control
 class_name PrimKruskalUi
 
 @onready var grafo_vista: GrafoVista
+@onready var grafo: Grafo
+@onready var infoLabel : Label = $infoLabel
+
+
 var vertices: Dictionary[int, Vertice] = {}
 var aristas_resultado : Array[Array] = []
+var aristas_texto = "";
+
 
 func _ready():
 	grafo_vista = get_tree().get_root().find_child("GrafoVista", true, false)
 	await get_tree().process_frame  # Espera un frame
 	if grafo_vista and grafo_vista.grafo:
-		var grafo = grafo_vista.grafo
-		print("SI SIRVIO:", grafo)
+		grafo = grafo_vista.grafo
+		grafo.is_directed = false
 		for id in grafo.vertices.keys():
 			var vertice = grafo.vertices[id]
 			print("id:", id)
-	else:
-		print("no sirvio xd")
 	
-	for i in range(9):
-		print("Con ID: ", i)
-		var prueba = prim(i)
-		print(prueba)
-		print(prueba.size())
-		
-
-func prim(inicio_id: int) -> Array:
-	var grafo = grafo_vista.grafo
-	if not grafo.vertices.has(inicio_id):
-		push_error("El vértice inicial no existe en el grafo.")
-		return []
-
-	var visitados: Array = [inicio_id]
-	var aristas_resultado: Array = []
-	var aristas_resultado_arr: Array[Array] = []
-
-	while visitados.size() < grafo.vertices.size():
-		var menor_peso: float = INF
-		var mejor_arista: Arista = null
-		
-		for v_id in visitados:
-			for destino_id in grafo.vertices[v_id].neighbors:
-				if destino_id in visitados:
-					continue
-				var arista_obj = grafo.edges[v_id][destino_id]
-				if arista_obj.weight < menor_peso:
-					menor_peso = arista_obj.weight
-					mejor_arista = arista_obj
-
-			for origen_id in grafo.vertices.keys():
-				if v_id in grafo.vertices[origen_id].neighbors and origen_id not in visitados:
-					var arista_obj = grafo.edges[origen_id][v_id]
-					if arista_obj.weight < menor_peso:
-						menor_peso = arista_obj.weight
-						mejor_arista = arista_obj
-
-		if mejor_arista == null:
-			break
-
-		aristas_resultado.append(mejor_arista)
-		if mejor_arista.from_id in visitados:
-			visitados.append(mejor_arista.to_id)
-		else:
-			visitados.append(mejor_arista.from_id)
-
-	print("Árbol de expansión mínima:")
-	for a in aristas_resultado:
-		print("Origen:", a.from_id, " - Destino:", a.to_id, " - Peso:", a.weight)
-		aristas_resultado_arr.append([a.from_id, a.to_id])
-
-	return aristas_resultado_arr
+	
 
 
-func comparar_arrays(aristas_resultado : Array[Array], aristas_usuario : Array[Array]):
+func comparar_arrays(aristas_resultado: Array, aristas_usuario: Array) -> bool:
 	if aristas_resultado.size() != aristas_usuario.size():
 		return false
+
+	var res_sorted = []
+	var usr_sorted = []
+
+	for a in aristas_resultado:
+		var copia = a.duplicate()
+		copia.sort()
+		res_sorted.append(copia)
+
+	for a in aristas_usuario:
+		var copia = a.duplicate()
+		copia.sort()
+		usr_sorted.append(copia)
+
+	res_sorted.sort()
+	usr_sorted.sort()
+
+	return res_sorted == usr_sorted
+
+func comparar_arrays_exacto(aristas_resultado: Array, aristas_usuario: Array) -> bool:
+	return aristas_resultado == aristas_usuario
+
+func quitar_espacios_str(texto : String) -> String:
+	var new_text = ""
 	
-	var comprobar = false;
-		
-	for i in range(aristas_resultado.size()):
-		for j in range(aristas_resultado.size()):
-			if aristas_usuario[i] == aristas_resultado[j]:
-				comprobar = true
-		if !comprobar:
-			return false
+	for i in range(texto.length()):
+		if texto[i] != " ":
+			new_text += texto[i]
 	
-	return true;
+	return new_text
+
+
+func aplanar_array(arr: Array) -> Array:
+	var resultado = []
+	for sub in arr:
+		resultado += sub  
+	return resultado
+
+
+func verify_text(text: String):
+	var regex = RegEx.new()
+	regex.compile(r"^(\d+-\d+)(,\d+-\d+)*$") 
+	return regex.search(text) != null	
 
 
 func _on_verify_pressed() -> void:
-	var aristas_conectadas = grafo_vista.highlighted_edges
+	if aristas_texto.length() <= 0:
+		infoLabel.text = "Rellene el campo con el formato establecido (Ej: 1-2, 3-4, 1-3)"
+		return;
 	
-	if aristas_conectadas.size() == 0:
-		print("No se ha conectado nada")
+	if !verify_text(aristas_texto):
+		infoLabel.text = "Se debe seguir el formato establecido (Ej: 1-2, 3-4, 1-3)"
+		return;
+	
+	var arr = self.aristas_texto.split(",")
+	var result = []
+	var highlighted_edges : Array[Array] = []
+	
+	
+	for parte in arr:
+		result.append(parte.split("-"))
+		
+	for x in result:
+		highlighted_edges.append( [ int(x[0]), int(x[1]) ] )
+	
+
+	var idStart = highlighted_edges[0][0]
+	var result_prim = grafo.prim(idStart)
+	
+	if comparar_arrays_exacto(result_prim, highlighted_edges):
+		print("Listo")
 	else:
-		var comprobar = comparar_arrays(prim(aristas_conectadas[0][0]), aristas_conectadas);
-		print(comprobar) 
+		print(result_prim)
+
+
+
+
+
+func _on_line_edit_text_changed(new_text: String) -> void:
+	self.aristas_texto = quitar_espacios_str(new_text)
+
+
+
+
+func _on_show_path_pressed() -> void:
+	if aristas_texto.length() <= 0:
+		infoLabel.text = "Rellene el campo con el formato establecido (Ej: 1-2, 3-4, 1-3)"
+		return
+
+	if !verify_text(aristas_texto):
+		infoLabel.text = "Se debe seguir el formato establecido (Ej: 1-2, 3-4, 1-3)"
+		return
+
+	var arr = aristas_texto.split(",")
+	var edges = []  
+	
+	for parte in arr:
+		var p = parte.split("-")
+		edges.append([int(p[0]), int(p[1])])
+
+
+	self.grafo_vista.set_path_edges_mod2(edges)
+
+
+func edges_to_path(edges) -> Array[int]:
+	if edges.is_empty():
+		return []
+
+	var path: Array[int] = []
+	path.append(edges[0][0])
+
+	for e in edges:
+		path.append(e[1])
+
+	return path

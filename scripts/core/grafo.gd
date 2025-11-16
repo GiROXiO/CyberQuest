@@ -391,6 +391,52 @@ func generate_random(num_vertices: int) -> void:
 					var params := self._random_edge_params(from_v.role, to_v.role, rng)
 					self.add_edge(i, j, params["weight"], params["capacity"])
 
+func prim(inicio_id: int) -> Array:
+	if not self.vertices.has(inicio_id):
+		push_error("El vértice inicial no existe en el grafo.")
+		return []
+
+	var visitados: Array = [inicio_id]
+	var aristas_resultado: Array = []
+	var aristas_resultado_arr: Array[Array] = []
+
+	while visitados.size() < self.vertices.size():
+		var menor_peso: float = INF
+		var mejor_arista: Arista = null
+		
+		for v_id in visitados:
+			for destino_id in self.vertices[v_id].neighbors:
+				if destino_id in visitados:
+					continue
+				var arista_obj = self.edges[v_id][destino_id]
+				if arista_obj.weight < menor_peso:
+					menor_peso = arista_obj.weight
+					mejor_arista = arista_obj
+
+			for origen_id in self.vertices.keys():
+				if v_id in self.vertices[origen_id].neighbors and origen_id not in visitados:
+					var arista_obj = self.edges[origen_id][v_id]
+					if arista_obj.weight < menor_peso:
+						menor_peso = arista_obj.weight
+						mejor_arista = arista_obj
+
+		if mejor_arista == null:
+			break
+
+		aristas_resultado.append(mejor_arista)
+		if mejor_arista.from_id in visitados:
+			visitados.append(mejor_arista.to_id)
+		else:
+			visitados.append(mejor_arista.from_id)
+
+	print("Árbol de expansión mínima:")
+	for a in aristas_resultado:
+		print("Origen:", a.from_id, " - Destino:", a.to_id, " - Peso:", a.weight)
+		aristas_resultado_arr.append([a.from_id, a.to_id])
+
+	return aristas_resultado_arr
+
+
 func dijkstra(source_id: int, target_id: int) -> Array[int]:
 	if not has_vertex(source_id):
 		return []
