@@ -436,6 +436,84 @@ func prim(inicio_id: int) -> Array:
 
 	return aristas_resultado_arr
 
+func kruskal() -> Array:
+	var n_vertices := self.vertices.size()
+	if n_vertices == 0:
+		return []
+	if n_vertices == 1:
+		return []
+
+	var edges_map := {} 
+	for from_id in self.edges.keys():
+		for to_id in self.edges[from_id].keys():
+			var a_obj: Arista = self.edges[from_id][to_id]
+			var a_min: int = min(from_id, to_id)
+			var a_max: int = max(from_id, to_id)
+			var key := str(a_min) + "-" + str(a_max)
+
+			if not edges_map.has(key):
+				edges_map[key] = a_obj
+			else:
+				var exist: Arista = edges_map[key]
+				if a_obj.weight < exist.weight:
+					edges_map[key] = a_obj
+
+
+	var edge_pairs := []
+	for k in edges_map.keys():
+		var a = edges_map[k]
+		edge_pairs.append([a.weight, a])
+	edge_pairs.sort()
+
+	var parent := {}
+	var rank := {}
+	for id in self.vertices.keys():
+		parent[id] = id
+		rank[id] = 0
+
+	var need_edges := n_vertices - 1
+	var result_aristas := []
+	var result_pairs := [] 
+
+	for pair in edge_pairs:
+		if result_aristas.size() >= need_edges:
+			break
+
+		var a: Arista = pair[1]
+		var u := a.from_id
+		var v := a.to_id
+
+		var ru := u
+		while parent[ru] != ru:
+			parent[ru] = parent[parent[ru]]
+			ru = parent[ru]
+
+		var rv := v
+		while parent[rv] != rv:
+			parent[rv] = parent[parent[rv]]
+			rv = parent[rv]
+
+		if ru != rv:
+			if rank[ru] < rank[rv]:
+				parent[ru] = rv
+			elif rank[rv] < rank[ru]:
+				parent[rv] = ru
+			else:
+				parent[rv] = ru
+				rank[ru] += 1
+
+			result_aristas.append(a)
+			result_pairs.append([a.from_id, a.to_id])
+
+	if result_aristas.size() < need_edges:
+		print("kruskal: grafo no conectado, result size=", result_aristas.size(), " need=", need_edges)
+
+	print("Árbol de expansión mínima (Kruskal):")
+	for a in result_aristas:
+		print("Origen:", a.from_id, " - Destino:", a.to_id, " - Peso:", a.weight)
+
+	return result_pairs
+
 
 func dijkstra(source_id: int, target_id: int) -> Array[int]:
 	if not has_vertex(source_id):

@@ -94,16 +94,12 @@ func _on_verify_pressed() -> void:
 	
 
 	var idStart = highlighted_edges[0][0]
-	var result_prim = grafo.prim(idStart)
+	var result_prim = grafo.kruskal()
 	
-	if comparar_arrays_exacto(result_prim, highlighted_edges):
+	if comparar_arrays(result_prim, highlighted_edges):
 		print("Listo")
 	else:
 		print(result_prim)
-
-
-
-
 
 func _on_line_edit_text_changed(new_text: String) -> void:
 	self.aristas_texto = quitar_espacios_str(new_text)
