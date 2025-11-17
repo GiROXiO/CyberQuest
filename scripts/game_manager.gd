@@ -45,11 +45,14 @@ func _ready() -> void:
 	print("GameManager listo. Grafo generado con ", num_vertices, " vértices.")
 	emit_signal("mode_changed", current_mode)
 
-func _on_bfs_dfs_completed() -> void:
-	print("[GameManager] Señal bfs_dfs_completed recibida.")
+func _on_bfs_dfs_completed(success: bool) -> void:
+	print("[GameManager] Señal bfs_dfs_completed recibida. Éxito:", success)
+	
+	if not success:
+		print("[GameManager] El minijuego BFS/DFS no se completó correctamente.")
+		return
 	
 	self.bfs_dfs_completed = true
-	
 	self.current_mode = GrafoVista.MinigameMode.CAMINOS_MINIMOS
 	
 	self.grafo_vista.set_minigame_mode(current_mode, bfs_dfs_completed)

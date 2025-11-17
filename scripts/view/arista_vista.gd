@@ -5,7 +5,6 @@ var edge: Arista = null
 var from_pos: Vector2
 var to_pos: Vector2
 
-
 const LINE_WIDTH := 2.0
 const ARROW_SIZE := 10.0
 const VERTEX_RADIUS := 18.0

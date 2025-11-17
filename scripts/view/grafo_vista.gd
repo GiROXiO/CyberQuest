@@ -315,3 +315,40 @@ func reset_view_state() -> void:
 		self.active_edges.clear()
 		
 		
+
+func highlight_vertex(vertex_id: int, color: Color = Color(1.0, 0.31, 0.0, 1.0)) -> void:
+	if grafo == null:
+		return
+
+	if not grafo.has_vertex(vertex_id):
+		return
+
+	if not vertex_nodes.has(vertex_id):
+		return
+
+	var vnode: VerticeVista = vertex_nodes[vertex_id]
+	vnode.set_color(color)
+
+func reset_highlight() -> void:
+	for id in vertex_nodes.keys():
+		var vnode: VerticeVista = vertex_nodes[id]
+		vnode.set_color(Color(1.0, 1.0, 1.0))
+		
+func reset_colors() -> void:
+	for id in vertex_nodes.keys():
+		var vnode: VerticeVista = vertex_nodes[id]
+		vnode.set_color(Color(1.0, 1.0, 1.0))
+
+func flash_error() -> void:
+	for id in vertex_nodes.keys():
+		var vnode: VerticeVista = vertex_nodes[id]
+		vnode.set_color(Color(1.0, 0.2, 0.2))
+	await get_tree().create_timer(0.5).timeout
+	reset_colors()
+
+func flash_success() -> void:
+	for id in vertex_nodes.keys():
+		var vnode: VerticeVista = vertex_nodes[id]
+		vnode.set_color(Color(0.3, 1.0, 0.3))
+	await get_tree().create_timer(0.5).timeout
+	reset_colors()

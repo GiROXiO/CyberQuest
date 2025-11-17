@@ -275,19 +275,30 @@ func generate_random(num_vertices: int) -> void:
 		self.vertices[infected_id].is_infected = true
 		
 		#Elegimos el nodo con pista
-		var hint_candidates: Array[int] = []
-		for i in range(n):
-			if i == infected_id:
-				continue
-			hint_candidates.append(i)
+		# Asignar pista únicamente a los nodos que ya tienen hint definido
+		for id in self.vertices.keys():
+			var v: Vertice = self.vertices[id]
+			if v.hint != "":
+				v.is_key_vertex = true
+
+		# Si ninguno traía pista pero debe haber al menos uno, elegir el primero no infectado
+		var any_key := false
+		for v in self.vertices.values():
+			if v.is_key_vertex:
+				any_key = true
+				break
+
+		if not any_key:
+			for id in self.vertices.keys():
+				if id != infected_id:
+					var v := self.vertices[id]
+					v.is_key_vertex = true
+					if v.hint == "":
+						v.hint = "Hay pista"
+					break
+		# Después de asignar pistas en Grafo.gd
 		
-		if not hint_candidates.is_empty():
-			var hint_id: int = hint_candidates[rng.randi_range(0, hint_candidates.size() - 1)]
-			var v_hint: Vertice = self.vertices[hint_id]
-			v_hint.is_key_vertex = true
 			
-			if v_hint.hint == "":
-				v_hint.hint = "Hay pista"
 		
 		if n == 1:
 			var only_v: Vertice = self.vertices[0]
@@ -655,3 +666,74 @@ func get_infected_id() -> int:
 func clear() -> void:
 	vertices.clear()
 	edges.clear()
+
+func bfs(start_id: int) -> Array[int]:
+	if not vertices.has(start_id):
+		return []
+	
+	var target_id = get_infected_id()
+	if target_id == -1:
+		return []
+
+	var queue: Array[int] = [start_id]
+	var visited: Array[int] = []
+	
+	while not queue.is_empty():
+		var current = queue.pop_front()
+
+		# Evitar duplicados
+		if current not in visited:
+			visited.append(current)
+
+		# Si encontramos el infectado, paramos y devolvemos lo visitado
+		if current == target_id:
+			return visited
+
+		# Expandimos el BFS
+		for neighbor in get_neighbors_ids(current):
+			if neighbor not in visited and neighbor not in queue:
+				queue.append(neighbor)
+	
+	return visited
+
+
+
+func dfs(start_id: int) -> Array[int]:
+	if not vertices.has(start_id):
+		return []
+	
+	var target_id = get_infected_id()
+	if target_id == -1:
+		return []
+	
+	var stack: Array[int] = [start_id]
+	var visited: Array[int] = []
+	
+	while not stack.is_empty():
+		var current = stack.pop_back()
+		
+		if current not in visited:
+			visited.append(current)
+
+			# Si encontramos el infectado, regresamos el recorrido completo hasta ese punto
+			if current == target_id:
+				return visited
+			
+			# DFS: agregar en orden inverso para mantener el orden correcto
+			var neighbors = get_neighbors_ids(current)
+			for i in range(neighbors.size() - 1, -1, -1):
+				var neighbor = neighbors[i]
+				if neighbor not in visited and neighbor not in stack:
+					stack.append(neighbor)
+
+	return visited
+
+
+
+func _reconstruct_path(parent: Dictionary, end: int) -> Array[int]:
+	var path: Array[int] = []
+	var node = end
+	while node != null:
+		path.insert(0, node)
+		node = parent.get(node, null)
+	return path

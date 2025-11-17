@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xkbsh")
 
-[node name="NeutralizeButton" type="Button" parent="."]
+[node name="CheckButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -24,7 +24,7 @@ offset_right = 115.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Label" type="Label" parent="."]
+[node name="InfoLabel" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -35,18 +35,18 @@ text = "Halla el Vertice Infectado con BFS y DFS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="InfoLabel" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -109.0
-offset_bottom = -56.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_font_sizes/font_size = 25
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="ModeSelector" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 539.0
+offset_right = 192.0
+offset_bottom = 642.0
 
-[connection signal="pressed" from="NeutralizeButton" to="." method="_on_neutralize_button_pressed"]
+[node name="MessageLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 696.0
+offset_top = 543.0
+offset_right = 1154.0
+offset_bottom = 653.0
+
+[connection signal="pressed" from="CheckButton" to="." method="_on_neutralize_button_pressed"]

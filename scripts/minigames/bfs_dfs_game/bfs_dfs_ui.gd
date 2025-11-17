@@ -1,71 +1,331 @@
 extends Control
 class_name BfsDfsUi
 
-signal bfs_dfs_completed
+signal bfs_dfs_completed(success: bool)
 
-@onready var neutralize_button: Button = $NeutralizeButton
 @onready var info_label: Label = $InfoLabel
+@onready var check_button: Button = $CheckButton
+@onready var mode_selector: OptionButton = $ModeSelector
+@onready var message_label: RichTextLabel = $MessageLabel
 
 var grafo: Grafo = null
 var grafo_vista: GrafoVista = null
 
-var selected_vertex_id: int = -1
+var search_mode: String = "BFS"
+var correct_path: Array[int] = []
+var player_path: Array[int] = []
+var is_playing: bool = false
+
+var PISTAS: Dictionary = {
+	Vertice.VertexRole.FIREWALL: {
+		Vertice.VertexRole.SERVIDOR_DB: "Los registros muestran actividad extraña cercana a la capa externa.",
+		Vertice.VertexRole.SERVIDOR_MAIL: "El ataque parece venir desde una ubicación accesible desde el exterior.",
+		Vertice.VertexRole.SERVIDOR_APP: "Detecté intentos de bypass en mi perímetro.",
+		Vertice.VertexRole.GATEWAY_VPN: "La intrusión no pasó primero por mí, pero sí por una ruta expuesta.",
+		Vertice.VertexRole.IDS: "Detecto anomalías desde una zona distinta a mi perímetro."
+	},
+	Vertice.VertexRole.SERVIDOR_APP: {
+		Vertice.VertexRole.FIREWALL: "El código malicioso no provino del perímetro de red.",
+		Vertice.VertexRole.SERVIDOR_DB: "La corrupción se propagó desde servicios de aplicación.",
+		Vertice.VertexRole.SERVIDOR_MAIL: "Detecté ejecución anómala en capas de procesamiento.",
+		Vertice.VertexRole.GATEWAY_VPN: "El exploit no llegó por acceso remoto directo.",
+		Vertice.VertexRole.IDS: "Identifico patrones de ataque a nivel de lógica de negocio."
+	},
+	Vertice.VertexRole.SERVIDOR_DB: {
+		Vertice.VertexRole.FIREWALL: "El origen de la corrupción no proviene del borde de la red.",
+		Vertice.VertexRole.SERVIDOR_APP: "La inyección vino de la capa de aplicación.",
+		Vertice.VertexRole.SERVIDOR_MAIL: "La filtración parece estar entre nodos internos.",
+		Vertice.VertexRole.GATEWAY_VPN: "No viene de acceso remoto directo, pero sí de comunicación interna.",
+		Vertice.VertexRole.IDS: "Detecto patrones pero no se originan en bases de datos."
+	},
+	Vertice.VertexRole.SERVIDOR_MAIL: {
+		Vertice.VertexRole.FIREWALL: "No parece venir del tráfico exterior directo.",
+		Vertice.VertexRole.SERVIDOR_APP: "El malware no se ejecutó primero en aplicaciones.",
+		Vertice.VertexRole.SERVIDOR_DB: "El problema no está en almacenamiento centralizado.",
+		Vertice.VertexRole.GATEWAY_VPN: "Pudo circular en comunicación, pero no desde correo.",
+		Vertice.VertexRole.IDS: "Rastreo el patrón fuera de este canal de mensajes."
+	},
+	Vertice.VertexRole.GATEWAY_VPN: {
+		Vertice.VertexRole.FIREWALL: "La entrada no provino de acceso no autorizado externo.",
+		Vertice.VertexRole.SERVIDOR_APP: "No se originó en servicios de aplicación web.",
+		Vertice.VertexRole.SERVIDOR_DB: "Pudo haber sido distribuido internamente pero no desde el gateway.",
+		Vertice.VertexRole.SERVIDOR_MAIL: "No se originó en comunicación electrónica directa.",
+		Vertice.VertexRole.IDS: "Mi canal está limpio, sigue buscando en red interna."
+	},
+	Vertice.VertexRole.IDS: {
+		Vertice.VertexRole.FIREWALL: "No detecto origen inicial en la frontera de red.",
+		Vertice.VertexRole.SERVIDOR_APP: "Las aplicaciones no muestran el patrón de origen.",
+		Vertice.VertexRole.SERVIDOR_DB: "Los datos almacenados no parecen comprometidos inicialmente.",
+		Vertice.VertexRole.SERVIDOR_MAIL: "Los logs del correo no coinciden con el patrón inicial.",
+		Vertice.VertexRole.GATEWAY_VPN: "No provino directamente de un acceso remoto controlado."
+	},
+	Vertice.VertexRole.ROUTER_CORE: {
+		Vertice.VertexRole.FIREWALL: "El tráfico anómalo no se originó en el perímetro.",
+		Vertice.VertexRole.SERVIDOR_APP: "Rastreo paquetes sospechosos desde el núcleo de red.",
+		Vertice.VertexRole.SERVIDOR_DB: "La propagación vino del enrutamiento central.",
+		Vertice.VertexRole.SERVIDOR_MAIL: "Detecté redirecciones no autorizadas desde mi core.",
+		Vertice.VertexRole.GATEWAY_VPN: "No es un ataque desde conexiones remotas.",
+		Vertice.VertexRole.IDS: "Los logs apuntan al tráfico del núcleo de red."
+	},
+	Vertice.VertexRole.ROUTER_BORDE: {
+		Vertice.VertexRole.FIREWALL: "La brecha se abrió en la capa de borde.",
+		Vertice.VertexRole.SERVIDOR_APP: "El compromiso llegó desde la frontera de la red.",
+		Vertice.VertexRole.SERVIDOR_DB: "Detecté tráfico inusual entrando por el borde.",
+		Vertice.VertexRole.SERVIDOR_MAIL: "Los paquetes maliciosos transitaron por aquí primero.",
+		Vertice.VertexRole.GATEWAY_VPN: "No vino de VPN, sino de otra entrada externa.",
+		Vertice.VertexRole.IDS: "Rastreo el origen en el perímetro de entrada."
+	},
+	Vertice.VertexRole.CLIENTE: {
+		Vertice.VertexRole.FIREWALL: "El endpoint comprometido está dentro de la red.",
+		Vertice.VertexRole.SERVIDOR_APP: "El malware se ejecutó primero en un cliente final.",
+		Vertice.VertexRole.SERVIDOR_DB: "La infección provino de un usuario comprometido.",
+		Vertice.VertexRole.SERVIDOR_MAIL: "El phishing exitoso comprometió este cliente.",
+		Vertice.VertexRole.GATEWAY_VPN: "No fue un ataque remoto, sino interno.",
+		Vertice.VertexRole.IDS: "Detecté comportamiento anómalo en este endpoint."
+	}
+}
 
 func _ready() -> void:
-	if self.neutralize_button:
-		self.neutralize_button.text = "Neutralizar infección"
-		self.neutralize_button.pressed.connect(self._on_neutralize_button_pressed)
+	mode_selector.add_item("BFS (Anchura)")
+	mode_selector.add_item("DFS (Profundidad)")
+	check_button.text = "Iniciar búsqueda"
+	check_button.pressed.connect(_on_check_button_pressed)
+	info_label.text = "Selecciona un modo y rastrea la infección."
+	message_label.text = ""
 
 func set_graph(p_grafo: Grafo) -> void:
-	self.grafo = p_grafo
+	grafo = p_grafo
 
 func set_graph_view(p_view: GrafoVista) -> void:
 	grafo_vista = p_view
+	if grafo_vista:
+		grafo_vista.graph_vertex_clicked.connect(_on_vertex_clicked)
+	else:
+		push_warning("[BfsDfsUi] grafo_vista no asignado en set_graph_view.")
 
-# Llamado por GameManager cuando el usuario hace clic en un vértice del grafo
-func on_vertex_clicked_from_graph(vertex_id: int) -> void:
-	self.selected_vertex_id = vertex_id
-
-func _on_neutralize_button_pressed() -> void:
-	if self.grafo == null:
-		print("[BFS_DFS_UI] No hay referencia al grafo.")
+func _on_check_button_pressed() -> void:
+	if grafo == null:
+		info_label.text = "No hay grafo cargado."
 		return
-	if self.grafo_vista != null:
-		self.grafo_vista.highlight_infected_red()
-	
-	emit_signal("bfs_dfs_completed")
 
-func _get_infected_vertex_id() -> int:
-	if self.grafo == null:
-		return -1
+	var control_id: int = grafo.get_control_id()
+	if control_id == -1:
+		info_label.text = "No se encontró el Centro de Control."
+		return
+
+	var infected_id: int = grafo.get_infected_id()
+	if infected_id == -1:
+		info_label.text = "No hay nodo infectado definido."
+		return
+
+	if grafo.has_method("set_grafo_role_message"):
+		for role in PISTAS.keys():
+			for related_role in PISTAS[role].keys():
+				var msg = PISTAS[role][related_role]
+				grafo.set_grafo_role_message(related_role, msg)
+
+	var selected_index: int = mode_selector.get_selected_id()
+	search_mode = mode_selector.get_item_text(selected_index)
+	message_label.text = ""
+	player_path.clear()
+	correct_path.clear()
+	marcar_vertices_con_pista()
+
+	var full_order: Array = []
+	if search_mode.begins_with("BFS"):
+		full_order = grafo.bfs(control_id)
+	else:
+		full_order = grafo.dfs(control_id)
+
+	var idx: int = full_order.find(infected_id)
+	if idx != -1:
+		correct_path = full_order.slice(0, idx + 1)
+	else:
+		correct_path = full_order.duplicate()
+
+	if correct_path.is_empty():
+		info_label.text = "No se generó una ruta válida."
+		return
+
+	print("[BfsDfsUi] correct_path:", correct_path)
+	is_playing = true
+	info_label.text = "Rastreo iniciado. Llega al nodo infectado siguiendo %s" % search_mode
+	message_label.text = ""
+	if grafo_vista and grafo_vista.has_method("reset_highlight"):
+		grafo_vista.reset_highlight()
+	for v in grafo_vista.get_children():
+			if v is VerticeVista:
+				v.refresh_hint()
+
+func _on_vertex_clicked(node_id: int, is_selected: bool) -> void:
+	if not is_playing:
+		return
+	if not is_selected:
+		return
+	if node_id in player_path:
+		return
+
+	player_path.append(node_id)
+
+	var v: Vertice = grafo.get_vertex(node_id)
+	var role_name := _role_to_string(v.role)
+
+	if grafo_vista:
+		grafo_vista.highlight_vertex(node_id, Color(0.4, 0.9, 1.0))
+	message_label.text += "\nNodo seleccionado: %s" % role_name
+
+	var infected_id: int = grafo.get_infected_id()
+	if infected_id == -1:
+		message_label.text += "\nNo hay nodo infectado definido."
+		print("[DEBUG] No hay nodo infectado definido")
+		return
 	
-	for id in self.grafo.vertices.keys():
-		var v: Vertice = self.grafo.vertices[id]
-		if v.is_infected:
-			return id
-	return -1
+	var infected_vertex: Vertice = grafo.get_vertex(infected_id)
+	print("[DEBUG] Nodo clickeado ID:", node_id, " Role:", v.role)
+	print("[DEBUG] Nodo infectado ID:", infected_id, " Role:", infected_vertex.role)
+	print("[DEBUG] is_key_vertex:", v.is_key_vertex)
+	print("[DEBUG] hint:", v.hint)
+	
+	if v.is_key_vertex:
+		print("[DEBUG] Es key vertex, buscando pista...")
+		if PISTAS.has(infected_vertex.role):
+			print("[DEBUG] PISTAS tiene el rol infectado")
+			if PISTAS[infected_vertex.role].has(v.role):
+				print("[DEBUG] Existe pista para este nodo")
+				var pista_real = PISTAS[infected_vertex.role][v.role]
+				message_label.text += "\nPista: %s" % pista_real
+				print("[DEBUG] Pista mostrada:", pista_real)
+			else:
+				print("[DEBUG] No existe pista para role:", v.role)
+		else:
+			print("[DEBUG] PISTAS no tiene el rol infectado:", infected_vertex.role)
+	else:
+		print("[DEBUG] No es key vertex")
+
+	var idx := player_path.size() - 1
+	if correct_path.is_empty():
+		message_label.text += "\nUsa 'Iniciar búsqueda' antes de jugar."
+		_fail_sequence()
+		return
+
+	if idx >= correct_path.size():
+		_fail_sequence()
+		return
+
+	if node_id != correct_path[idx]:
+		_fail_sequence()
+		return
+
+	if player_path.size() == correct_path.size():
+		_success_sequence()
+
+	_update_path_view()
+
+func _update_path_view() -> void:
+	if grafo_vista and grafo_vista.has_method("set_path_edges"):
+		grafo_vista.set_path_edges(self.player_path)
+
+func _fail_sequence() -> void:
+	is_playing = false
+	info_label.text = "Secuencia incorrecta. Intenta nuevamente."
+	message_label.text += "\nLa ruta no corresponde."
+
+	player_path.clear()
+
+	if grafo_vista:
+		if grafo_vista.has_method("reset_highlight"):
+			grafo_vista.reset_highlight()
+		if grafo_vista.has_method("reset_view_state"):
+			grafo_vista.reset_view_state()
+		if grafo_vista.has_method("flash_error"):
+			grafo_vista.flash_error()
+
+func _success_sequence() -> void:
+	is_playing = false
+	info_label.text = "Rastreo completado. Código de restauración desbloqueado."
+	message_label.text += "\nHas identificado todo el recorrido del ataque."
+	if grafo_vista and grafo_vista.has_method("flash_success"):
+		grafo_vista.flash_success()
+	if grafo_vista:
+		grafo_vista.clear_all_edge_flows()
+		if grafo_vista.has_method("reset_highlight"):
+			grafo_vista.reset_highlight()
+		if grafo_vista.has_method("reset_view_state"):
+			grafo_vista.reset_view_state()
+		
+	emit_signal("bfs_dfs_completed", true)
+
+func _set_message(text: String) -> void:
+	if info_label:
+		info_label.visible = true
+		info_label.text = text
+
+func _clear_message() -> void:
+	if info_label:
+		info_label.text = ""
+		info_label.visible = false
 
 func _role_to_string(role: int) -> String:
 	match role:
-		Vertice.VertexRole.CENTRO_CONTROL:
-			return "Centro de Control"
-		Vertice.VertexRole.ROUTER_CORE:
-			return "Router Core"
-		Vertice.VertexRole.ROUTER_BORDE:
-			return "Router de Borde"
-		Vertice.VertexRole.FIREWALL:
-			return "Firewall"
-		Vertice.VertexRole.SERVIDOR_APP:
-			return "Servidor de Aplicaciones"
-		Vertice.VertexRole.SERVIDOR_DB:
-			return "Servidor de Base de Datos"
-		Vertice.VertexRole.SERVIDOR_MAIL:
-			return "Servidor de Correo"
-		Vertice.VertexRole.GATEWAY_VPN:
-			return "Gateway VPN"
-		Vertice.VertexRole.IDS:
-			return "Sistema IDS"
-		Vertice.VertexRole.CLIENTE:
-			return "Cliente Final"
-		_:
-			return "Nodo"
+		Vertice.VertexRole.CENTRO_CONTROL: return "Centro de Control"
+		Vertice.VertexRole.ROUTER_CORE: return "Router Core"
+		Vertice.VertexRole.ROUTER_BORDE: return "Router de Borde"
+		Vertice.VertexRole.FIREWALL: return "Firewall"
+		Vertice.VertexRole.SERVIDOR_APP: return "Servidor de Aplicaciones"
+		Vertice.VertexRole.SERVIDOR_DB: return "Servidor de Base de Datos"
+		Vertice.VertexRole.SERVIDOR_MAIL: return "Servidor de Correo"
+		Vertice.VertexRole.GATEWAY_VPN: return "Gateway VPN"
+		Vertice.VertexRole.IDS: return "Sistema IDS"
+		Vertice.VertexRole.CLIENTE: return "Cliente Infectado"
+		_: return "Nodo"
+
+func marcar_vertices_con_pista() -> void:
+	if grafo == null:
+		print("[DEBUG] grafo es null")
+		return
+
+	var infected_id: int = grafo.get_infected_id()
+	if infected_id == -1:
+		print("[DEBUG] No hay nodo infectado")
+		return
+
+	var infected_vertex: Vertice = grafo.get_vertex(infected_id)
+	var infected_role = infected_vertex.role
+	print("[DEBUG] Nodo infectado ID: ", infected_id, " Role: ", infected_role)
+
+	for id in grafo.vertices.keys():
+		var v: Vertice = grafo.get_vertex(id)
+		v.is_key_vertex = false
+		v.hint = ""
+
+	if not PISTAS.has(infected_role):
+		print("[DEBUG] No hay pistas para el rol: ", infected_role)
+		return
+
+	var pistas_rol = PISTAS[infected_role]
+	print("[DEBUG] Pistas disponibles para rol ", infected_role, ": ", pistas_rol.keys())
+
+	var pistas_asignadas = 0
+	for id in grafo.vertices.keys():
+		if id == infected_id:
+			continue
+
+		var v: Vertice = grafo.get_vertex(id)
+
+		if pistas_rol.has(v.role): 
+			v.is_key_vertex = true
+			v.hint = "Hay pista"
+			pistas_asignadas += 1
+			print("[DEBUG] Pista asignada al nodo ID: ", id, " Role: ", v.role)
+	
+	print("[DEBUG] Total pistas asignadas: ", pistas_asignadas)
+	
+	if grafo_vista:
+		var vertices_actualizados = 0
+		for child in grafo_vista.get_children():
+			if child is VerticeVista:
+				child.refresh_hint()
+				vertices_actualizados += 1
+		print("[DEBUG] Vertices visuales actualizados: ", vertices_actualizados)
+	else:
+		print("[DEBUG] grafo_vista es null")

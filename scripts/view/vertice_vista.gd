@@ -296,3 +296,7 @@ func set_selected_state(p_selected: bool) -> void:
 		self.aura_time = 0.0
 	
 	queue_redraw()
+
+func refresh_hint() -> void:
+	if hint_label and vertex:
+		hint_label.text = vertex.hint if vertex.hint != "" else "No hay nada por aca"
