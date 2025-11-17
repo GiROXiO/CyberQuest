@@ -47,7 +47,7 @@ malo (normal): En fin, a lo que iba
 leave prota
 update malo center
 malo: Actualmente, tienes dos opciones
-malo: Come la caribañola roja  y verás la verdad. Saldrás de la simulación, y juntos empezaremos la lucha contra el virus.
+malo (caribañolas): Come la caribañola roja y verás la verdad. Saldrás de la simulación, y juntos empezaremos la lucha contra el virus.
 malo: O come la caribañola azul y pues...
 malo: no haces nada
 malo: Y pues... seria el fin de todo
@@ -68,3 +68,4 @@ malo: ¿Que eliges?
 	prota: Me dio miedo
 	prota: Cuando exterminen al virus, volveran por mi
 	prota: Pero, ¿y si no lo exterminan?
+[signal arg="exit"]
