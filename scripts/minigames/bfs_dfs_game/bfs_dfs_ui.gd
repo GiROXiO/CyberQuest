@@ -16,6 +16,9 @@ var correct_path: Array[int] = []
 var player_path: Array[int] = []
 var is_playing: bool = false
 
+var player_edges: Array = []
+var search_parents: Dictionary = {}
+
 var PISTAS: Dictionary = {
 	Vertice.VertexRole.FIREWALL: {
 		Vertice.VertexRole.SERVIDOR_DB: "Los registros muestran actividad extraña cercana a la capa externa.",
@@ -129,6 +132,15 @@ func _on_check_button_pressed() -> void:
 	message_label.text = ""
 	player_path.clear()
 	correct_path.clear()
+	player_edges.clear()
+	search_parents.clear()
+	
+	if self.grafo_vista:
+		if self.grafo_vista.has_method("clear_all_edge_flows"):
+			self.grafo_vista.clear_all_edge_flows()
+		if self.grafo_vista.has_method("reset_view_state"):
+			self.grafo_vista.reset_view_state()
+	
 	marcar_vertices_con_pista()
 
 	var full_order: Array = []
@@ -146,6 +158,8 @@ func _on_check_button_pressed() -> void:
 	if correct_path.is_empty():
 		info_label.text = "No se generó una ruta válida."
 		return
+
+	_build_search_parents(control_id)
 
 	print("[BfsDfsUi] correct_path:", correct_path)
 	is_playing = true
@@ -216,14 +230,102 @@ func _on_vertex_clicked(node_id: int, is_selected: bool) -> void:
 		_fail_sequence()
 		return
 
+	self._add_edge_for_node(node_id)
+
 	if player_path.size() == correct_path.size():
 		_success_sequence()
 
 	_update_path_view()
 
+func _add_edge_for_node(node_id: int) -> void:
+	if self.player_path.size() <= 1:
+		return
+	if self.grafo == null:
+		return
+	if self.correct_path.is_empty():
+		return
+	
+	var idx_in_correct := self.correct_path.find(node_id)
+	if idx_in_correct <= 0:
+		return
+	
+	var parent_id := -1
+	
+	for j in range(idx_in_correct - 1, -1, -1):
+		var candidate: int = self.correct_path[j]
+		
+		# Debe haber sido seleccionado antes por el jugador
+		if not player_path.has(candidate):
+			continue
+
+		# Debe existir arista entre candidate y node_id
+		if grafo.has_edge(candidate, node_id) or grafo.has_edge(node_id, candidate):
+			parent_id = candidate
+			break
+	
+	if parent_id == -1:
+		# No se encontro un padre valido
+		return
+	
+	var edge: Array = [parent_id, node_id]
+	
+	# Evitar duplicados
+	for e in player_edges:
+		if e.size() == 2 and e[0] == edge[0] and e[1] == edge[1]:
+			return
+	player_edges.append(edge)
+
 func _update_path_view() -> void:
-	if grafo_vista and grafo_vista.has_method("set_path_edges"):
-		grafo_vista.set_path_edges(self.player_path)
+	if self.grafo_vista == null:
+		return
+	
+	if self.grafo_vista.has_method("set_path_edges_mod2"):
+		self.grafo_vista.set_path_edges_mod2(self.player_edges)
+
+func _build_search_parents(start_id: int) -> void:
+	self.search_parents.clear()
+	if self.grafo == null:
+		return
+	
+	if self.search_mode.begins_with("BFS"):
+		_build_parent_map_bfs(start_id)
+	else:
+		_build_parent_map_dfs(start_id)
+
+func _build_parent_map_bfs(start_id) -> void:
+	var visited: Dictionary = {}
+	var queue: Array[int] = []
+	
+	queue.append(start_id)
+	visited[start_id] = true
+	self.search_parents[start_id] = -1
+	
+	while not queue.is_empty():
+		var current: int = queue.pop_front()
+		for neighbor in self.grafo.get_neighbors_ids(current):
+			if not visited.has(neighbor):
+				visited[neighbor] = true
+				self.search_parents[neighbor] = current
+				queue.append(neighbor)
+
+func _build_parent_map_dfs(start_id) -> void:
+	var visited: Dictionary = {}
+	var stack: Array[int] = []
+	
+	stack.append(start_id)
+	self.search_parents[start_id] = -1
+	
+	while not stack.is_empty():
+		var current: int = stack.pop_back()
+		if visited.has(current):
+			continue
+		visited[current] = true
+		
+		for neighbor in self.grafo.get_neighbors_ids(current):
+			if not visited.has(neighbor) and not self.search_parents.has(neighbor):
+				self.search_parents[neighbor] = current
+				stack.append(neighbor)
+	
 
 func _fail_sequence() -> void:
 	is_playing = false
@@ -231,6 +333,7 @@ func _fail_sequence() -> void:
 	message_label.text += "\nLa ruta no corresponde."
 
 	player_path.clear()
+	player_edges.clear()
 
 	if grafo_vista:
 		if grafo_vista.has_method("reset_highlight"):
@@ -244,6 +347,9 @@ func _success_sequence() -> void:
 	is_playing = false
 	info_label.text = "Rastreo completado. Código de restauración desbloqueado."
 	message_label.text += "\nHas identificado todo el recorrido del ataque."
+	
+	player_edges.clear()
+	
 	if grafo_vista and grafo_vista.has_method("flash_success"):
 		grafo_vista.flash_success()
 	if grafo_vista:
