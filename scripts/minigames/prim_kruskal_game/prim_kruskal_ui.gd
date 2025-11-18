@@ -1,6 +1,8 @@
 extends Control
 class_name PrimKruskalUi
 
+signal minigame_completed(success: bool)
+
 @onready var grafo_vista: GrafoVista
 @onready var grafo: Grafo
 @onready var infoLabel : Label = $infoLabel
@@ -9,6 +11,8 @@ class_name PrimKruskalUi
 var vertices: Dictionary[int, Vertice] = {}
 var aristas_resultado : Array[Array] = []
 var aristas_texto = "";
+var mst_edges: Array = []
+
 
 
 func _ready():
@@ -17,6 +21,7 @@ func _ready():
 	if grafo_vista and grafo_vista.grafo:
 		grafo = grafo_vista.grafo
 		grafo.is_directed = false
+		mst_edges = grafo.kruskal().duplicate()
 		for id in grafo.vertices.keys():
 			var vertice = grafo.vertices[id]
 			print("id:", id)
@@ -85,7 +90,6 @@ func _on_verify_pressed() -> void:
 	var result = []
 	var highlighted_edges : Array[Array] = []
 	
-	
 	for parte in arr:
 		result.append(parte.split("-"))
 		
@@ -98,6 +102,7 @@ func _on_verify_pressed() -> void:
 	
 	if comparar_arrays(result_prim, highlighted_edges):
 		print("Listo")
+		self.minigame_completed.emit(true)
 	else:
 		print(result_prim)
 
@@ -138,3 +143,6 @@ func edges_to_path(edges) -> Array[int]:
 		path.append(e[1])
 
 	return path
+
+func get_mst_edges() -> Array:
+	return mst_edges.duplicate()

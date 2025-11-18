@@ -195,10 +195,6 @@ func _on_vertex_clicked(node_id: int, is_selected: bool) -> void:
 		return
 	
 	var infected_vertex: Vertice = grafo.get_vertex(infected_id)
-	print("[DEBUG] Nodo clickeado ID:", node_id, " Role:", v.role)
-	print("[DEBUG] Nodo infectado ID:", infected_id, " Role:", infected_vertex.role)
-	print("[DEBUG] is_key_vertex:", v.is_key_vertex)
-	print("[DEBUG] hint:", v.hint)
 	
 	if v.is_key_vertex:
 		print("[DEBUG] Es key vertex, buscando pista...")

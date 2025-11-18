@@ -13,6 +13,7 @@ signal mode_changed(new_mode)
 @onready var bfs_dfs_ui: BfsDfsUi = $MinigamesUI/BfsDfsUi
 @onready var shortest_path_ui: CaminoMinimoUi = $MinigamesUI/ShortestPathUi
 @onready var kruskal_prim_ui: PrimKruskalUi = $MinigamesUI/PrimKruskalUi
+@onready var max_flow_ui: MaxFlowUi = $MinigamesUI/MaxFlowUi
 
 func _ready() -> void:
 	self.grafo = Grafo.new()
@@ -25,7 +26,7 @@ func _ready() -> void:
 		self.bfs_dfs_ui.set_graph_view(self.grafo_vista)
 	
 	if self.shortest_path_ui:
-		self.shortest_path_ui.set_graph(grafo)
+		self.shortest_path_ui.set_graph(self.grafo)
 		self.shortest_path_ui.set_graph_view(self.grafo_vista)
 		self.grafo_vista.graph_vertex_clicked.connect(self.shortest_path_ui.on_vertex_clicked_from_graph)
 		self.shortest_path_ui.minigame_completed.connect(self._on_shortest_path_completed)
@@ -41,6 +42,14 @@ func _ready() -> void:
 	
 	if self.grafo_vista and self.shortest_path_ui:
 		self.grafo_vista.graph_vertex_clicked.connect(self.shortest_path_ui.on_vertex_clicked_from_graph)
+	
+	if self.kruskal_prim_ui:
+		self.kruskal_prim_ui.minigame_completed.connect(self._on_prim_kruskal_completed)
+	
+	if self.max_flow_ui:
+		self.max_flow_ui.set_graph(self.grafo)
+		self.max_flow_ui.set_graph_view(self.grafo_vista)
+		self.max_flow_ui.visible = false
 	
 	print("GameManager listo. Grafo generado con ", num_vertices, " vértices.")
 	mostrarCinematica("res://Dialogic/Timelines/1 Beginning.dtl")
@@ -65,6 +74,9 @@ func _on_bfs_dfs_completed(success: bool) -> void:
 		self.shortest_path_ui.visible = true
 		self.shortest_path_ui.start_minigame()
 	
+	await get_tree().create_timer(0.6).timeout
+	self.grafo_vista.highlight_infected_red()
+	
 	print("[GameManager] Cambio de modo: ahora CAMINOS_MINIMOS.")
 	mostrarCinematica("res://Dialogic/Timelines/3 dijkstra.dtl")
 	emit_signal("mode_changed", current_mode)
@@ -75,6 +87,13 @@ func _on_shortest_path_completed(success: bool) -> void:
 		return
 	
 	print("[GameManager] Minijuego de caminos mínimos completado con éxito.")
+	
+	var infected_id: int = self.grafo.get_infected_id()
+	if infected_id != -1:
+		print("Eliminando nodo infectado del grafo: ", infected_id)
+		self.grafo.remove_vertex(infected_id)
+		
+		self.grafo_vista.refresh_from_graph()
 	
 	# Reseteamos la vista
 	if self.grafo_vista != null:
@@ -99,6 +118,22 @@ func _on_prim_kruskal_completed(success : bool) -> void:
 	
 	print("[GameManager] Minijuego de arbol de expansión minima completado con éxito.")
 	
+	var mst_edges: Array = []
+	if self.kruskal_prim_ui and self.kruskal_prim_ui.has_method("get_mst_edges"):
+		mst_edges = self.kruskal_prim_ui.get_mst_edges()
+		print("[GameManager] Aristas MST recibidas: ", mst_edges)
+	else:
+		print("[GameManager] WARNING: PrimKruskalUi no tiene get_mst_edges().")
+	
+	if self.grafo and mst_edges.size() > 0:
+		self.grafo.keep_only_edges(mst_edges)
+	
+	if self.grafo_vista:
+		if self.grafo_vista.has_method("refresh_from_graph"):
+			self.grafo_vista.refresh_from_graph()
+		else:
+			self.grafo_vista.set_graph(self.grafo)
+	
 	# Reseteamos la vista
 	if self.grafo_vista != null:
 		self.grafo_vista.reset_view_state()
@@ -110,11 +145,24 @@ func _on_prim_kruskal_completed(success : bool) -> void:
 	if self.kruskal_prim_ui:
 		self.kruskal_prim_ui.visible = false
 	
+	if self.max_flow_ui:
+		self.max_flow_ui.visible = true
+		# Conectar interacción de vértices solo para este minijuego
+		self.grafo_vista.graph_vertex_clicked.connect(self.max_flow_ui.on_vertex_clicked_from_graph)
+		self.max_flow_ui.minigame_completed.connect(self._on_max_flow_completed)
+		self.max_flow_ui.start_minigame()
+	
 	mostrarCinematica("res://Dialogic/Timelines/5 ford-fulkerson .dtl")
 	emit_signal("mode_changed", current_mode)
+
+func _on_max_flow_completed(success: bool) -> void:
+	if not success:
+		return
 	
-
-
+	print("[GameManager] Minijuego de flujo máximo completado con éxito.")
+	
+	if grafo_vista:
+		grafo_vista.reset_view_state()
 
 
 func mostrarCinematica(rutaCin: String):

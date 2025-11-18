@@ -76,7 +76,7 @@ func add_edge(from_id: int, to_id: int, weight: float = 1.0, capacity: float = 0
 		self.edges[to_id][from_id] = e2
 
 func remove_edge(from_id: int, to_id: int) -> void:
-	if self.edges.has(from_id) and self.edges[from_id].has[to_id]:
+	if self.edges.has(from_id) and self.edges[from_id].has(to_id):
 		self.vertices[from_id].remove_neighbor(to_id)
 		self.edges[from_id].erase(to_id)
 		
@@ -262,8 +262,7 @@ func generate_random(num_vertices: int) -> void:
 				Vertice.VertexRole.SERVIDOR_APP,
 				Vertice.VertexRole.SERVIDOR_DB,
 				Vertice.VertexRole.SERVIDOR_MAIL,
-				Vertice.VertexRole.GATEWAY_VPN,
-				Vertice.VertexRole.CLIENTE
+				Vertice.VertexRole.GATEWAY_VPN
 			]:
 				candidates.append(i)
 		
@@ -663,6 +662,13 @@ func get_infected_id() -> int:
 			return id
 	return -1
 
+func get_client_id() -> int:
+	for id in vertices.keys():
+		var v: Vertice = vertices[id]
+		if v.role == Vertice.VertexRole.CLIENTE:
+			return id
+	return -1
+
 func clear() -> void:
 	vertices.clear()
 	edges.clear()
@@ -737,3 +743,245 @@ func _reconstruct_path(parent: Dictionary, end: int) -> Array[int]:
 		path.insert(0, node)
 		node = parent.get(node, null)
 	return path
+
+
+# Utils para Ford Fulkerson
+func reset_all_flows() -> void:
+	for from_id in self.edges.keys():
+		for to_id in self.edges[from_id].keys():
+			var e: Arista = self.edges[from_id][to_id]
+			if e != null:
+				e.flow = 0.0
+
+func get_residual_capacity(from_id: int, to_id: int) -> int:
+	var e: Arista = self.get_edge(from_id, to_id)
+	if e == null:
+		return 0
+	var residual := e.capacity - e.flow
+	return max(0, residual)
+
+func ford_fulkerson_max_flow(source_id: int, sink_id: int) -> int:
+	if not vertices.has(source_id) or not vertices.has(sink_id):
+		return 0
+	
+	# Grafo residual interno: residual[u][v] = capacidad residual (int)
+	var residual: Dictionary = {}
+	for from_id in edges.keys():
+		residual[from_id] = {}
+		for to_id in edges[from_id].keys():
+			var e: Arista = edges[from_id][to_id]
+			residual[from_id][to_id] = e.capacity
+	
+	var max_flow: int = 0
+	var INF := 1_000_000_000
+	
+	while true:
+		var parent: Dictionary = {}
+		if not _bfs_residual(source_id, sink_id, residual, parent):
+			break
+		
+		# Bottleneck del camino encontrado
+		var path_flow: int = INF
+		var v: int = sink_id
+		
+		while v != source_id:
+			var u: int = int(parent[v])
+			var cap: int = 0
+			if residual.has(u) and residual[u].has(v):
+				cap = int(residual[u][v])
+			if cap < path_flow:
+				path_flow = cap
+			v = u
+		
+		if path_flow <= 0 or path_flow == INF:
+			break
+		
+		max_flow += path_flow
+		
+		# Actualizar residual (forward y backward)
+		v = sink_id
+		while v != source_id:
+			var u: int = int(parent[v])
+			
+			# Forward
+			if residual.has(u) and residual[u].has(v):
+				residual[u][v] = int(residual[u][v]) - path_flow
+			
+			# Backward
+			if not residual.has(v):
+				residual[v] = {}
+			residual[v][u] = int(residual[v].get(u, 0)) + path_flow
+			
+			v = u
+	
+	return max_flow
+
+
+func _bfs_residual(source_id: int, sink_id: int, residual: Dictionary, parent: Dictionary) -> bool:
+	parent.clear()
+	var visited: Dictionary = {}
+	var queue: Array[int] = []
+	
+	queue.append(source_id)
+	visited[source_id] = true
+	
+	while not queue.is_empty():
+		var u: int = queue.pop_front()
+		
+		if not residual.has(u):
+			continue
+		
+		for v in residual[u].keys():
+			var cap: int = int(residual[u][v])
+			if cap > 0 and not visited.has(v):
+				parent[v] = u
+				visited[v] = true
+				if v == sink_id:
+					return true
+				queue.append(v)
+	
+	return false
+
+# ----------------- Ford-Fulkerson / Edmonds-Karp -----------------
+
+func max_flow(source_id: int, sink_id: int) -> int:
+	# Red residual: residual[u][v] = capacidad residual (entera)
+	var residual: Dictionary = {}
+
+	# Inicializamos diccionarios vacíos para todos los vértices
+	for id in vertices.keys():
+		residual[id] = {}
+
+	# Copiamos capacidades originales a la red residual
+	for from_id in edges.keys():
+		for to_id in edges[from_id].keys():
+			var e: Arista = edges[from_id][to_id]
+			var c: int = int(e.capacity)
+
+			# arco forward
+			if not residual[from_id].has(to_id):
+				residual[from_id][to_id] = 0
+			residual[from_id][to_id] = int(residual[from_id][to_id]) + c
+
+			# arco backward debe existir con capacidad 0
+			if not residual[to_id].has(from_id):
+				residual[to_id][from_id] = 0
+
+	var max_flow_value: int = 0
+
+	while true:
+		var parent: Dictionary = {}
+		var path_cap: int = _bfs_augmenting_path(residual, source_id, sink_id, parent)
+
+		if path_cap <= 0:
+			break  # ya no hay más caminos aumentantes
+
+		# 🟢 Reconstruimos el camino s → … → t para imprimirlo
+		var path: Array[int] = []
+		var v: int = sink_id
+
+		while v != source_id and parent.has(v):
+			path.insert(0, v)
+			v = int(parent[v])
+
+		path.insert(0, source_id)
+
+		print("[MaxFlow] Camino aumentante encontrado: ", path, " | capacidad: ", path_cap)
+
+		# Aumentamos el flujo total
+		max_flow_value += path_cap
+
+		# Actualizamos la red residual a lo largo de ese camino
+		v = sink_id
+		while v != source_id:
+			var u: int = int(parent[v])
+
+			residual[u][v] = int(residual[u][v]) - path_cap
+			residual[v][u] = int(residual[v][u]) + path_cap
+
+			v = u
+
+	print("[MaxFlow] Flujo máximo total: ", max_flow_value)
+	return max_flow_value
+
+
+# BFS en la red residual, devuelve la capacidad del camino (enteros)
+func _bfs_augmenting_path(residual: Dictionary, source_id: int, sink_id: int, parent: Dictionary) -> int:
+	var visited: Dictionary = {}
+	var queue: Array[int] = []
+	
+	queue.append(source_id)
+	visited[source_id] = true
+	parent[source_id] = -1
+	
+	while not queue.is_empty():
+		var u: int = queue.pop_front()
+		
+		for v in residual[u].keys():
+			var cap: int = int(residual[u][v])
+			if cap > 0 and not visited.has(v):
+				visited[v] = true
+				parent[v] = u
+				queue.append(v)
+				
+				if v == sink_id:
+					# Reconstruimos la capacidad mínima del camino
+					var path_cap: int = 0
+					var cur: int = sink_id
+					var first: bool = true
+					
+					while cur != source_id:
+						var prev: int = int(parent[cur])
+						var edge_cap: int = int(residual[prev][cur])
+						
+						if first:
+							path_cap = edge_cap
+							first = false
+						elif edge_cap < path_cap:
+							path_cap = edge_cap
+						
+						cur = prev
+					
+					return path_cap
+	
+	# No se alcanzó el sumidero
+	return 0
+
+## Deja solo las aristas listadas en mst_edges y borra el resto.
+## mst_edges: Array de pares [u, v] que pertenecen al árbol mínimo.
+func keep_only_edges(mst_edges: Array) -> void:
+	# 1. Construimos un set rápido de aristas permitidas
+	var allowed := {}  # { from_id: { to_id: true } }
+
+	for pair in mst_edges:
+		if pair.size() < 2:
+			continue
+		var u: int = pair[0]
+		var v: int = pair[1]
+
+		if not allowed.has(u):
+			allowed[u] = {}
+		allowed[u][v] = true
+
+		# Si el grafo no es dirigido, consideramos la arista en ambos sentidos
+		if not is_directed:
+			if not allowed.has(v):
+				allowed[v] = {}
+			allowed[v][u] = true
+
+	# 2. Recorremos todas las aristas actuales y borramos las que NO estén en allowed
+	var to_remove: Array[Array] = []  # pares [from_id, to_id] a eliminar
+
+	for from_id in edges.keys():
+		for to_id in edges[from_id].keys():
+			var keep: bool = false
+			if allowed.has(from_id) and allowed[from_id].has(to_id):
+				keep = true
+			if not keep:
+				to_remove.append([from_id, to_id])
+
+	# 3. Eliminamos usando remove_edge para mantener coherencia en neighbors, etc.
+	for pair in to_remove:
+		var u: int = pair[0]
+		var v: int = pair[1]
+		remove_edge(u, v)

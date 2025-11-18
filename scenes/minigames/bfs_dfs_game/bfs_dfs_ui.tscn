@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://rms505vei5uf"]
+[gd_scene load_steps=3 format=3 uid="uid://rms505vei5uf"]
 
 [ext_resource type="Script" uid="uid://sj7f6j405va4" path="res://scripts/minigames/bfs_dfs_game/bfs_dfs_ui.gd" id="1_xkbsh"]
+[ext_resource type="PackedScene" uid="uid://isyjey0olw6i" path="res://scenes/grafo/grafoVista.tscn" id="2_erx3k"]
 
 [node name="BfsDfsUi" type="Control"]
 layout_mode = 3
@@ -48,5 +49,7 @@ offset_left = 696.0
 offset_top = 543.0
 offset_right = 1154.0
 offset_bottom = 653.0
+
+[node name="GrafoVista" parent="." instance=ExtResource("2_erx3k")]
 
 [connection signal="pressed" from="CheckButton" to="." method="_on_neutralize_button_pressed"]

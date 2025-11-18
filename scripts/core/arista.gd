@@ -11,6 +11,7 @@ var from_id: int
 var to_id: int
 var weight: int = 1
 var capacity: int = 0
+var flow: int = 0
 
 var style_state: int = StyleState.NORMAL
 
@@ -19,3 +20,7 @@ func _init(p_from_id: int, p_to_id: int, p_weight: float = 1.0, p_capacity: floa
 	self.to_id = p_to_id
 	self.weight = p_weight
 	self.capacity = p_capacity
+	self.flow = 0
+
+func reset_flow() -> void:
+	self.flow = 0
