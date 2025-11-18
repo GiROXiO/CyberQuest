@@ -1,0 +1,20 @@
+[background arg="res://Dialogic/Images/Images/fondo.png" fade="0.0"]
+join prota_nuevo (sorprendido) left
+join jefe_nuevo (feliz) right
+prota_nuevo: ¿LO HICE?
+prota_nuevo (logro): ¡POR FIN!
+prota_nuevo: LO LOGRE
+jefe_nuevo: Estoy orgulloso de ti Daniel
+jefe_nuevo: Sabia que eras el indicado para derrotar a Nemesis
+jefe_nuevo: Literalmente acabas de salvar al mundo
+prota_nuevo: Entonces supongo que este es el fin
+prota_nuevo: ¿Le veo mañana?
+jefe_nuevo (normal): Emm
+jefe_nuevo: ¿Si?
+prota_nuevo (risa): Muy bien jefe
+prota_nuevo: Nos vemooooooooooooooooooooooos
+leave prota_nuevo [animation="Bounce Out" length="0.3"]
+update jefe_nuevo center [animation="Tada" length="0.3"]
+jefe_nuevo: Literalmente acaba de salvar al mundo y lo primero que piensa es irse a su casa
+jefe_nuevo (feliz): Jaja
+[signal arg="exit"]

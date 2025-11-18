@@ -1,0 +1,13 @@
+[background arg="res://Dialogic/Images/Images/fondo.png" fade="0.0"]
+join prota_nuevo (sorprendido) left
+join jefe_nuevo (determinado) right
+prota_nuevo: ¿QUE?
+prota_nuevo: SE SUPONE QUE YA SE ELIMINO
+prota_nuevo: ¿QUE FUE LO QUE PASO?
+jefe_nuevo: NEMESIS corrompio los registros del sistema central
+jefe_nuevo: Daniel
+jefe_nuevo: Tendras que aplicar todo lo que haz hecho hasta ahora
+jefe_nuevo: Y arreglar esto de una vez por todas
+prota_nuevo (pensando): Va a ser dificil
+prota_nuevo (normal): Pero me encargare
+[signal arg="exit"]

@@ -1,0 +1,24 @@
+[background arg="res://Dialogic/Images/Images/fondo.png" fade="0.0"]
+join prota_nuevo (normal) left
+join jefe_nuevo (normal) right
+prota_nuevo: Listo, el nodo infectado se ha ido
+prota_nuevo (asco): Pero, la red esta como que destruida
+jefe_nuevo: Después del ataque, varias conexiones fueron destruidas...
+jefe_nuevo: Habria que reconstruir la red
+jefe_nuevo (determinado): Podriamos utilizar Prim para construir un árbol de expansión mínima
+jefe_nuevo: Empieza desde un nodo cualquiera y va añadiendo siempre la arista más barata que conecte el árbol ya formado con un nodo aún no incluido, hasta abarcar todo el grafo.
+prota_nuevo (normal): Si
+prota_nuevo: Oooo
+prota_nuevo: Podriamos usar Kruskal
+prota_nuevo: También construye un árbol de expansión mínima, pero lo hace ordenando todas las aristas del grafo de menor a mayor peso y añadiéndolas una por una, siempre que no formen un ciclo
+jefe_nuevo (normal): Pues Daniel, eso queda bajo tu elección
+jefe_nuevo: ¿Que eliges?
+- Vamos por Prim
+	prota_nuevo (risa): Vamos por Prim
+	set {PRIM_KRUSKAL} = true
+- Mejor con Kruskal
+	prota_nuevo (risa): Mejor con Kruskal
+	set {PRIM_KRUSKAL} = false
+jefe_nuevo: Me parece perfecto
+jefe_nuevo: Adelante Daniel
+[signal arg="exit"]

@@ -1,0 +1,14 @@
+[background arg="res://Dialogic/Images/Images/fondo.png" fade="0.0"]
+join prota_nuevo (logro) left
+join jefe_nuevo (normal) right
+prota_nuevo: ¡Encontramos el origen del ataque!
+prota_nuevo (pensando): Pero, ¿ahora que?
+jefe_nuevo: Ahora nos tocara trazar la ruta más segura para aislarlo sin dañar los sistemas intermedios
+prota_nuevo (normal): Podriamos utilizar el algoritmo de Dijkstra
+jefe_nuevo: ¿Cual es ese?
+prota_nuevo: Funciona eligiendo siempre el nodo no visitado con la distancia más pequeña, actualizando las distancias de sus vecinos y repitiendo hasta procesar todos los nodos, garantizando la ruta más eficiente.
+jefe_nuevo: Me parece...
+update prota_nuevo (risa)
+jefe_nuevo: correcto
+jefe_nuevo (determinado): Bueno Daniel, adelante
+[signal arg="exit"]

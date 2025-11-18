@@ -22,8 +22,8 @@
 "image": "\"res://Dialogic/Characters/Current Art/Jefe/jefe_determinado.png\""
 },
 "mirror": false,
-"offset": Vector2(15, 0),
-"scale": 1,
+"offset": Vector2(95, 65),
+"scale": 1.1,
 "scene": ""
 },
 "feliz": {
@@ -31,8 +31,8 @@
 "image": "\"res://Dialogic/Characters/Current Art/Jefe/jefe_feliz.png\""
 },
 "mirror": false,
-"offset": Vector2(15, 0),
-"scale": 1,
+"offset": Vector2(95, 65),
+"scale": 1.1,
 "scene": ""
 },
 "normal": {
@@ -40,8 +40,8 @@
 "image": "\"res://Dialogic/Characters/Current Art/Jefe/jefe_normal.png\""
 },
 "mirror": false,
-"offset": Vector2(15, 0),
-"scale": 1,
+"offset": Vector2(95, 65),
+"scale": 1.1,
 "scene": ""
 }
 },

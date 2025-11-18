@@ -47,24 +47,54 @@ malo (normal): En fin, a lo que iba
 leave prota
 update malo center
 malo: Actualmente, tienes dos opciones
-malo: Come la caribañola roja  y verás la verdad. Saldrás de la simulación, y juntos empezaremos la lucha contra el virus.
+malo (caribañolas): Come la caribañola roja y verás la verdad. Saldrás de la simulación, y juntos empezaremos la lucha contra el virus.
 malo: O come la caribañola azul y pues...
 malo: no haces nada
 malo: Y pues... seria el fin de todo
 malo: ¿Que eliges?
 - Escojo la caribañola roja
-	malo (feliz): Sabia que nos ayudarias
-	malo: La humanidad confia en ti Daniel
-	malo: Ahora por favor, come la caribañola roja
-	malo: Y exterminemos ese virus
 - Escojo la caribañola azul
 	malo (normal): ...
 	malo: ¿Que?
-	malo (pensando): ...
-	malo (pensando): Nos equivocamos contigo
-	malo: Adios Daniel
-	leave malo
-	prota: ...
-	prota: Me dio miedo
-	prota: Cuando exterminen al virus, volveran por mi
-	prota: Pero, ¿y si no lo exterminan?
+	prota: MENTIRA ESCOJO LA ROJA
+	malo (normal): ...
+	malo (normal): Graciosito
+	malo (normal): Igual
+malo (feliz): Sabia que nos ayudarias
+malo: La humanidad confia en ti Daniel
+malo: Ahora por favor, come la caribañola roja
+malo: Y exterminemos ese virus
+leave malo
+[background arg="res://Dialogic/Images/Old images/oscuro.PNG" fade="0.6"]
+prota_nuevo: Umm, que no se pierda la costumbre del sueño
+prota_nuevo: Aunque esta vez es distinto
+prota_nuevo: Quiero despertar....
+jefe_nuevo: Solo abre los ojos Daniel
+prota_nuevo: ¿?
+[background arg="res://Dialogic/Images/Images/fondo.png" fade="0.0"]
+join prota_nuevo center
+prota_nuevo (sorprendido): ¡Anda!
+prota_nuevo: ¿¿¿Que es esto???
+prota_nuevo (normal): Me veo bien supongo
+jefe_nuevo: Bienvenido de vuelta Daniel
+update prota_nuevo (risa) left
+join jefe_nuevo right
+prota_nuevo: Jefeeeeeeeeeeee
+prota_nuevo: Crei que en la realidad no se pareceria a Gandalf
+jefe_nuevo: Rápido, NEMESIS se esta apoderando de la red, te tengo que explicar todo rápidamente para que empieces a trabajar de una vez por todas
+prota_nuevo (pensando): Claro, ¿que hago?
+jefe_nuevo (determinado): Hay que ir paso por paso
+jefe_nuevo (normal): Primero hay que encontrar el origen del ataque
+jefe_nuevo (normal): Para ello hay que utilizar algoritmo BFS o DFS
+prota_nuevo: Ok
+prota_nuevo (apenado): Me perdi
+prota_nuevo: ¿Que es eso?
+jefe_nuevo: Son algoritmos de búsqueda en grafos
+jefe_nuevo: BFS recorre los nodos por niveles, explorando primero todos los vecinos de un nodo antes de pasar al siguiente nivel, usando una cola
+jefe_nuevo: En cambio, DFS explora lo más profundo posible en cada rama antes de retroceder, usando una pila
+prota_nuevo: Verdad, ya me acorde
+prota_nuevo (risa): Que pena
+jefe_nuevo: Bueno Daniel
+jefe_nuevo (feliz): La elección esta en tus manos
+jefe_nuevo (determinado): Encuentra el origen del ataque
+[signal arg="exit"]

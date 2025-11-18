@@ -17,6 +17,15 @@
 &"nicknames": [""],
 &"offset": Vector2(0, 0),
 &"portraits": {
+"caribañolas": {
+"export_overrides": {
+"image": "\"res://Dialogic/Characters/Old Art/malo/Portraits/malo_caribañolas.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 15),
+"scale": 1,
+"scene": ""
+},
 "feliz": {
 "export_overrides": {
 "image": "\"res://Dialogic/Characters/Old Art/malo/Portraits/malo_feliz.png\""

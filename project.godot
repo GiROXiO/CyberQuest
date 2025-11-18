@@ -23,14 +23,19 @@ Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 
 directories/dch_directory={
 "PC": "res://Dialogic/Characters/Old Art/Images/PC.dch",
-"jefe_nuevo": "res://Dialogic/Characters/Current Art/Prota/jefe_nuevo.dch",
+"jefe_nuevo": "res://Dialogic/Characters/Current Art/Jefe/jefe_nuevo.dch",
 "malo": "res://Dialogic/Characters/Old Art/malo/malo.dch",
 "prota": "res://Dialogic/Characters/Old Art/Prota/prota.dch",
 "prota_nuevo": "res://Dialogic/Characters/Current Art/Prota/prota_nuevo.dch"
 }
 directories/dtl_directory={
 "1 Beginning": "res://Dialogic/Timelines/1 Beginning.dtl",
-"2 Awakening": "res://Dialogic/Characters/Old Art/malo/Portraits/2 Awakening.dtl"
+"2 Awakening": "res://Dialogic/Timelines/2 Awakening.dtl",
+"3 dijkstra": "res://Dialogic/Timelines/3 dijkstra.dtl",
+"4 prim_kruskal": "res://Dialogic/Timelines/4 prim_kruskal.dtl",
+"5 ford-fulkerson ": "res://Dialogic/Timelines/5 ford-fulkerson .dtl",
+"6 final mission": "res://Dialogic/Timelines/6 final mission.dtl",
+"7 ending": "res://Dialogic/Timelines/7 ending.dtl"
 }
 layout/style_directory={
 "": "res://Dialogic/Styles/style.tres",
@@ -71,6 +76,10 @@ audio/channel_defaults={
 "loop": true,
 "volume": 0.0
 }
+}
+variables={
+"BFS_DFS": false,
+"PRIM_KRUSKAL": false
 }
 
 [editor_plugins]
