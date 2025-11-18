@@ -43,8 +43,10 @@ func _ready() -> void:
 		self.grafo_vista.graph_vertex_clicked.connect(self.shortest_path_ui.on_vertex_clicked_from_graph)
 	
 	print("GameManager listo. Grafo generado con ", num_vertices, " vértices.")
+	mostrarCinematica("res://Dialogic/Timelines/1 Beginning.dtl")
 	emit_signal("mode_changed", current_mode)
-
+	
+	
 func _on_bfs_dfs_completed(success: bool) -> void:
 	print("[GameManager] Señal bfs_dfs_completed recibida. Éxito:", success)
 	
@@ -64,7 +66,9 @@ func _on_bfs_dfs_completed(success: bool) -> void:
 		self.shortest_path_ui.start_minigame()
 	
 	print("[GameManager] Cambio de modo: ahora CAMINOS_MINIMOS.")
+	mostrarCinematica("res://Dialogic/Timelines/3 dijkstra.dtl")
 	emit_signal("mode_changed", current_mode)
+	
 
 func _on_shortest_path_completed(success: bool) -> void:
 	if not success:
@@ -85,5 +89,57 @@ func _on_shortest_path_completed(success: bool) -> void:
 	
 	if self.kruskal_prim_ui:
 		self.kruskal_prim_ui.visible = true
-	
+	mostrarCinematica("res://Dialogic/Timelines/4 prim_kruskal.dtl")
 	emit_signal("mode_changed", current_mode)
+
+
+func _on_prim_kruskal_completed(success : bool) -> void:
+	if not success:
+		return
+	
+	print("[GameManager] Minijuego de arbol de expansión minima completado con éxito.")
+	
+	# Reseteamos la vista
+	if self.grafo_vista != null:
+		self.grafo_vista.reset_view_state()
+	
+	#Cambiamos al siguiente nivel
+	self.current_mode = GrafoVista.MinigameMode.FLUJO_MAXIMO
+	self.grafo_vista.set_minigame_mode(self.current_mode, self.bfs_dfs_completed)
+	
+	if self.kruskal_prim_ui:
+		self.kruskal_prim_ui.visible = false
+	
+	mostrarCinematica("res://Dialogic/Timelines/5 ford-fulkerson .dtl")
+	emit_signal("mode_changed", current_mode)
+	
+
+
+
+
+func mostrarCinematica(rutaCin: String):
+	if not ResourceLoader.exists(rutaCin):
+		push_warning("No existe la cinematica")
+		return
+		
+	var dialogic = Dialogic.start(rutaCin)
+	add_child(dialogic)
+	
+	
+	if not Dialogic.signal_event.is_connected(_on_dialogic_signal):
+		Dialogic.signal_event.connect(_on_dialogic_signal)
+
+func _on_dialogic_signal(señal: String):
+	print("Hola")
+	if señal == "exit":
+		print("Hola otra vez")
+		print("Señal exit recibida desde Dialogic, cerrando cinematica...")
+		
+		await get_tree().create_timer(0.5).timeout
+		
+		for child in get_children():
+			if child is Dialogic:
+				child.queue_free()
+		
+		if Engine.has_singleton("Dialogic"):
+			Dialogic.reset()
