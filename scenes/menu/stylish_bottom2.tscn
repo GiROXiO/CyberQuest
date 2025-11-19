@@ -1,0 +1,122 @@
+[gd_scene load_steps=15 format=3 uid="uid://bredf0g1mvcw2"]
+
+[ext_resource type="FontFile" uid="uid://4jhqniyuw3by" path="res://art/font/Persona5MenuFontPrototype-Regular.ttf" id="1_avgx6"]
+[ext_resource type="Script" uid="uid://b6oqw7bd6loch" path="res://scripts/menu/stylish_bottom/stylish_bottom.gd" id="2_0vogb"]
+[ext_resource type="Script" uid="uid://bmkseomjmnmqx" path="res://scripts/menu/stylish_bottom/winggle_rectangle.gd" id="3_v6e63"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6lrap"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k5ccr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xt3ny"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jbppr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0w0h8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_syttj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3j5jn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_16tla"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jwhnd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a5exs"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jbppr"]
+
+[node name="StylishBottom" type="Button"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -78.0
+offset_top = -8.0
+offset_right = 77.0
+offset_bottom = 53.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("1_avgx6")
+theme_override_font_sizes/font_size = 55
+theme_override_styles/normal = SubResource("StyleBoxEmpty_6lrap")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_k5ccr")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_xt3ny")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_jbppr")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_0w0h8")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_syttj")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_3j5jn")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_16tla")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_jwhnd")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_a5exs")
+text = "Inicio"
+script = ExtResource("2_0vogb")
+
+[node name="Select" type="Control" parent="."]
+visible = false
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GrayRentangle" type="Polygon2D" parent="Select"]
+process_priority = 1
+position = Vector2(-8, 16)
+rotation = -0.05654192
+polygon = PackedVector2Array(-118, -83, 154.13062, -59.885498, 137.77954, 34.341064, -128.94449, 4.2198486)
+script = ExtResource("3_v6e63")
+intensity = 5.0
+
+[node name="BlackRectangle" type="Polygon2D" parent="Select"]
+process_priority = 1
+material = SubResource("CanvasItemMaterial_jbppr")
+position = Vector2(6.5, -13.499989)
+rotation = 0.13585714
+scale = Vector2(1.1581633, 1.1037104)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-107.43637, -12.238403, 94.95404, -34.52571, 111.1557, 22.098938, -90.96768, 54.348724)
+script = ExtResource("3_v6e63")
+intensity = 5.0
+
+[node name="Unselect" type="Control" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 11.0
+offset_top = 5.0
+offset_right = 11.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0344905
+
+[node name="GrayRentangle" type="Polygon2D" parent="Unselect"]
+process_priority = 1
+position = Vector2(-28.94794, 16.508064)
+rotation = -0.104508705
+polygon = PackedVector2Array(-118, -83, 95.44739, -60.94641, 160.30524, -55.921967, 150.80615, 36.64029, -116, -3)
+script = ExtResource("3_v6e63")
+
+[node name="BlackRectangle" type="Polygon2D" parent="Unselect"]
+process_priority = 1
+material = SubResource("CanvasItemMaterial_jbppr")
+position = Vector2(-11.131728, -18.126904)
+rotation = 0.17563066
+scale = Vector2(1.1581633, 1.1037104)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-111.67883, -6.5052185, 101.59363, -43.11676, 97.187256, 26.423721, -94.36575, 52.61618)
+script = ExtResource("3_v6e63")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
