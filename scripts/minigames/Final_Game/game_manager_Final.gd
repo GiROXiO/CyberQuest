@@ -15,46 +15,65 @@ signal mode_changed(new_mode)
 @onready var max_flow_ui: MaxFlowUi = $MinigamesUI/MaxFlowUi
 
 func _ready() -> void:
-	self.grafo = Grafo.new()
-	self.grafo.generate_random(self.num_vertices)
-	
-	self.grafo_vista.set_graph(grafo)
-	
-	if self.bfs_dfs_ui:
-		self.bfs_dfs_ui.set_graph(grafo)
-		self.bfs_dfs_ui.set_graph_view(self.grafo_vista)
-	
-	if self.shortest_path_ui:
-		self.shortest_path_ui.set_graph(self.grafo)
-		self.shortest_path_ui.set_graph_view(self.grafo_vista)
-		self.grafo_vista.graph_vertex_clicked.connect(self.shortest_path_ui.on_vertex_clicked_from_graph)
-		self.shortest_path_ui.minigame_completed.connect(self._on_shortest_path_completed)
-	
-	self.grafo_vista.set_minigame_mode(self.current_mode, self.bfs_dfs_completed)
-	
-	if self.bfs_dfs_ui:
-		self.bfs_dfs_ui.visible = true
-		self.bfs_dfs_ui.bfs_dfs_completed.connect(self._on_bfs_dfs_completed)
-	
-	if self.shortest_path_ui:
-		self.shortest_path_ui.visible = false
-	
-	if self.grafo_vista and self.shortest_path_ui:
-		self.grafo_vista.graph_vertex_clicked.connect(self.shortest_path_ui.on_vertex_clicked_from_graph)
-	
-	if self.kruskal_prim_ui:
-		self.kruskal_prim_ui.minigame_completed.connect(self._on_prim_kruskal_completed)
-	
-	if self.max_flow_ui:
-		self.max_flow_ui.set_graph(self.grafo)
-		self.max_flow_ui.set_graph_view(self.grafo_vista)
-		self.max_flow_ui.visible = false
-	
-	print("GameManager listo. Grafo generado con ", num_vertices, " vértices.")
-	mostrarCinematica("res://Dialogic/Timelines/1 Beginning.dtl")
+	if bfs_dfs_ui:
+		bfs_dfs_ui.visible = false
+	if shortest_path_ui:
+		shortest_path_ui.visible = false
+	if kruskal_prim_ui:
+		kruskal_prim_ui.visible = false
+	if max_flow_ui:
+		max_flow_ui.visible = false
+
+func start_final_game() -> void:
+	# Nuevo grafo para el juego final
+	grafo = Grafo.new()
+	grafo.generate_random(num_vertices)
+
+	if grafo_vista:
+		grafo_vista.set_graph(grafo)
+
+	# --- BFS/DFS ---
+	if bfs_dfs_ui:
+		bfs_dfs_ui.set_graph(grafo)
+		bfs_dfs_ui.set_graph_view(grafo_vista)
+		bfs_dfs_ui.visible = true
+		if not bfs_dfs_ui.bfs_dfs_completed.is_connected(_on_bfs_dfs_completed):
+			bfs_dfs_ui.bfs_dfs_completed.connect(_on_bfs_dfs_completed)
+
+	# --- Caminos mínimos ---
+	if shortest_path_ui:
+		shortest_path_ui.set_graph(grafo)
+		shortest_path_ui.set_graph_view(grafo_vista)
+		shortest_path_ui.visible = false
+		if not grafo_vista.graph_vertex_clicked.is_connected(shortest_path_ui.on_vertex_clicked_from_graph):
+			grafo_vista.graph_vertex_clicked.connect(shortest_path_ui.on_vertex_clicked_from_graph)
+		if not shortest_path_ui.minigame_completed.is_connected(_on_shortest_path_completed):
+			shortest_path_ui.minigame_completed.connect(_on_shortest_path_completed)
+
+	# --- Arbol expansión mínima ---
+	if kruskal_prim_ui:
+		kruskal_prim_ui.visible = false
+		if not kruskal_prim_ui.minigame_completed.is_connected(_on_prim_kruskal_completed):
+			kruskal_prim_ui.minigame_completed.connect(_on_prim_kruskal_completed)
+
+	# --- Flujo máximo ---
+	if max_flow_ui:
+		max_flow_ui.set_graph(grafo)
+		max_flow_ui.set_graph_view(grafo_vista)
+		max_flow_ui.visible = false
+		if not max_flow_ui.minigame_completed.is_connected(_on_max_flow_completed):
+			max_flow_ui.minigame_completed.connect(_on_max_flow_completed)
+
+	current_mode = GrafoVista.MinigameMode.BFS_DFS
+	bfs_dfs_completed = false
+
+	if grafo_vista:
+		grafo_vista.set_minigame_mode(current_mode, bfs_dfs_completed)
+		grafo_vista.reset_view_state()
+
+	print("[GameManager2] Juego final iniciado con ", num_vertices, " vértices.")
 	emit_signal("mode_changed", current_mode)
-	
-	
+
 func _on_bfs_dfs_completed(success: bool) -> void:
 	print("[GameManager] Señal bfs_dfs_completed recibida. Éxito:", success)
 	

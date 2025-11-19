@@ -14,6 +14,7 @@ signal mode_changed(new_mode)
 @onready var shortest_path_ui: CaminoMinimoUi = $MinigamesUI/ShortestPathUi
 @onready var kruskal_prim_ui: PrimKruskalUi = $MinigamesUI/PrimKruskalUi
 @onready var max_flow_ui: MaxFlowUi = $MinigamesUI/MaxFlowUi
+@onready var final_game_ui: GameManager2 = $MinigamesUI/FinalGameUI
 
 func _ready() -> void:
 	self.grafo = Grafo.new()
@@ -50,6 +51,9 @@ func _ready() -> void:
 		self.max_flow_ui.set_graph(self.grafo)
 		self.max_flow_ui.set_graph_view(self.grafo_vista)
 		self.max_flow_ui.visible = false
+	
+	if self.final_game_ui:
+		self.final_game_ui.visible = false
 	
 	print("GameManager listo. Grafo generado con ", num_vertices, " vértices.")
 	mostrarCinematica("res://Dialogic/Timelines/1 Beginning.dtl")
@@ -164,6 +168,21 @@ func _on_max_flow_completed(success: bool) -> void:
 	if grafo_vista:
 		grafo_vista.reset_view_state()
 
+	# --- Apagar UIs de la campaña ---
+	if bfs_dfs_ui:
+		bfs_dfs_ui.visible = false
+	if shortest_path_ui:
+		shortest_path_ui.visible = false
+	if kruskal_prim_ui:
+		kruskal_prim_ui.visible = false
+	if max_flow_ui:
+		max_flow_ui.visible = false
+
+	if self.final_game_ui:
+		self.final_game_ui.visible = true
+
+	if self.final_game_ui:
+		final_game_ui.start_final_game() 
 
 func mostrarCinematica(rutaCin: String):
 	if not ResourceLoader.exists(rutaCin):

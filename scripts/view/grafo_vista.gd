@@ -11,7 +11,8 @@ enum MinigameMode {
 	BFS_DFS,
 	CAMINOS_MINIMOS,
 	ARBOL_EXPANSION_MINIMA,
-	FLUJO_MAXIMO
+	FLUJO_MAXIMO,
+	JUEGO_FINAL
 }
 
 var grafo: Grafo

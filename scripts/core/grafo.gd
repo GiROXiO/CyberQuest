@@ -564,7 +564,6 @@ func dijkstra(source_id: int, target_id: int) -> Array[int]:
 		if u == target_id:
 			break
 		
-		# Relajar vecinos
 		var neighbors: Array = get_neighbors_ids(u)
 		for v in neighbors:
 			if not unvisited.has(v):
@@ -876,7 +875,7 @@ func max_flow(source_id: int, sink_id: int) -> int:
 		if path_cap <= 0:
 			break  # ya no hay más caminos aumentantes
 
-		# 🟢 Reconstruimos el camino s → … → t para imprimirlo
+		# Reconstruimos el camino s → … → t para imprimirlo
 		var path: Array[int] = []
 		var v: int = sink_id
 

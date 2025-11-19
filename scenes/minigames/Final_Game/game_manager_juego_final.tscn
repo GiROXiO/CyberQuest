@@ -7,7 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://dovrf3rhbp2hj" path="res://scenes/minigames/prim_kruskal_game/prim_kruskal_ui.tscn" id="5_5l10x"]
 [ext_resource type="PackedScene" uid="uid://d1331ox5t2h4e" path="res://scenes/minigames/max_flow_game/max_flow_ui.tscn" id="6_kqax5"]
 
-[node name="GameManagerJuegoFinal" type="Node2D"]
+[node name="GameManagerJuegoFinal" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_ax4ty")
 
 [node name="GrafoVista" parent="." instance=ExtResource("2_5684s")]
