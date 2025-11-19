@@ -174,11 +174,21 @@ func _on_check_button_pressed() -> void:
 func _on_vertex_clicked(node_id: int, is_selected: bool) -> void:
 	if not is_playing:
 		return
+		
 	if not is_selected:
+		if not self.player_path.has(node_id):
+			return
+		
+		self.player_path.erase(node_id)
+		
+		self._rebuild_edges_from_player_path()
+		self._update_path_view()
 		return
-	if node_id in player_path:
+	
+	#  Seleccion
+	if node_id in self.player_path:
 		return
-
+	
 	player_path.append(node_id)
 
 	var v: Vertice = grafo.get_vertex(node_id)
@@ -233,6 +243,16 @@ func _on_vertex_clicked(node_id: int, is_selected: bool) -> void:
 
 	_update_path_view()
 
+func _rebuild_edges_from_player_path():
+	self.player_edges.clear()
+	if self.grafo == null:
+		return
+	if self.correct_path.is_empty():
+		return
+	
+	for node_id in self.player_path:
+		self._add_edge_for_node(node_id)
+
 func _add_edge_for_node(node_id: int) -> void:
 	if self.player_path.size() <= 1:
 		return
@@ -241,35 +261,31 @@ func _add_edge_for_node(node_id: int) -> void:
 	if self.correct_path.is_empty():
 		return
 	
-	var idx_in_correct := self.correct_path.find(node_id)
-	if idx_in_correct <= 0:
+	if node_id == self.correct_path[0]:
 		return
 	
-	var parent_id := -1
+	if not self.search_parents.has(node_id):
+		return
 	
-	for j in range(idx_in_correct - 1, -1, -1):
-		var candidate: int = self.correct_path[j]
-		
-		# Debe haber sido seleccionado antes por el jugador
-		if not player_path.has(candidate):
-			continue
-
-		# Debe existir arista entre candidate y node_id
-		if grafo.has_edge(candidate, node_id) or grafo.has_edge(node_id, candidate):
-			parent_id = candidate
-			break
-	
+	var parent_id: int = self.search_parents[node_id]
 	if parent_id == -1:
-		# No se encontro un padre valido
+		return
+	
+	if not self.player_path.has(parent_id):
+		return
+	
+	# Debe existir arista entre parent_id y node_id
+	if not (self.grafo.has_edge(parent_id, node_id) or self.grafo.has_edge(node_id, parent_id)):
 		return
 	
 	var edge: Array = [parent_id, node_id]
 	
-	# Evitar duplicados
-	for e in player_edges:
+	# Evitamos duplicados
+	for e in self.player_edges:
 		if e.size() == 2 and e[0] == edge[0] and e[1] == edge[1]:
 			return
-	player_edges.append(edge)
+	
+	self.player_edges.append(edge)
 
 func _update_path_view() -> void:
 	if self.grafo_vista == null:
@@ -305,23 +321,27 @@ func _build_parent_map_bfs(start_id) -> void:
 				queue.append(neighbor)
 
 func _build_parent_map_dfs(start_id) -> void:
-	var visited: Dictionary = {}
-	var stack: Array[int] = []
+	self.search_parents.clear()
 	
-	stack.append(start_id)
-	self.search_parents[start_id] = -1
+	if self.grafo == null:
+		return
+	if self.correct_path.is_empty():
+		return
 	
-	while not stack.is_empty():
-		var current: int = stack.pop_back()
-		if visited.has(current):
-			continue
-		visited[current] = true
+	var root_id: int = self.correct_path[0]
+	self.search_parents[root_id] = -1
+	
+	for i in range(1, self.correct_path.size()):
+		var node_id: int = self.correct_path[i]
+		var parent_id: int = -1
 		
-		for neighbor in self.grafo.get_neighbors_ids(current):
-			if not visited.has(neighbor) and not self.search_parents.has(neighbor):
-				self.search_parents[neighbor] = current
-				stack.append(neighbor)
-	
+		for j in range(i - 1, -1, -1):
+			var candidate: int = self.correct_path[j]
+			if self.grafo.has_edge(candidate, node_id) or grafo.has_edge(node_id, candidate):
+				parent_id = candidate
+				break
+		
+		self.search_parents[node_id] = parent_id
 
 func _fail_sequence() -> void:
 	is_playing = false

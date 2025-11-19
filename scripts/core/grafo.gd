@@ -950,38 +950,70 @@ func _bfs_augmenting_path(residual: Dictionary, source_id: int, sink_id: int, pa
 ## Deja solo las aristas listadas en mst_edges y borra el resto.
 ## mst_edges: Array de pares [u, v] que pertenecen al árbol mínimo.
 func keep_only_edges(mst_edges: Array) -> void:
-	# 1. Construimos un set rápido de aristas permitidas
-	var allowed := {}  # { from_id: { to_id: true } }
-
+	var allowed: Dictionary = {}
+	
 	for pair in mst_edges:
 		if pair.size() < 2:
 			continue
 		var u: int = pair[0]
 		var v: int = pair[1]
-
+		
 		if not allowed.has(u):
 			allowed[u] = {}
 		allowed[u][v] = true
-
-		# Si el grafo no es dirigido, consideramos la arista en ambos sentidos
-		if not is_directed:
+	
+		if not self.is_directed:
 			if not allowed.has(v):
 				allowed[v] = {}
 			allowed[v][u] = true
-
-	# 2. Recorremos todas las aristas actuales y borramos las que NO estén en allowed
-	var to_remove: Array[Array] = []  # pares [from_id, to_id] a eliminar
-
-	for from_id in edges.keys():
-		for to_id in edges[from_id].keys():
-			var keep: bool = false
-			if allowed.has(from_id) and allowed[from_id].has(to_id):
-				keep = true
+	
+	var to_remove_edges: Array[Array] = []
+	
+	for from_id in self.edges.keys():
+		for to_id in self.edges[from_id].keys():
+			var keep: bool = allowed.has(from_id) and allowed[from_id].has(to_id)
 			if not keep:
-				to_remove.append([from_id, to_id])
+				to_remove_edges.append([from_id, to_id])
+	
+	for pair in to_remove_edges:
+		self.remove_edge(pair[0], pair[1])
+	
+	self._remove_isolated_vertices()
 
-	# 3. Eliminamos usando remove_edge para mantener coherencia en neighbors, etc.
-	for pair in to_remove:
-		var u: int = pair[0]
-		var v: int = pair[1]
-		remove_edge(u, v)
+func _remove_isolated_vertices() -> void:
+	var to_remove_vertices: Array[int] = []
+	
+	var source_id: int = -1
+	var sink_id: int = -1
+	
+	if has_method("get_control_id"):
+		source_id = self.get_control_id()
+	if has_method("get_client_id"):
+		sink_id = self.get_client_id()
+	
+	for vid in self.vertices.keys():
+		if vid == source_id or vid == sink_id:
+			continue
+
+		var has_edge: bool = false
+
+		# Aristas salientes
+		if self.edges.has(vid) and not self.edges[vid].is_empty():
+			has_edge = true
+
+		# Aristas entrantes
+		if not has_edge:
+			for from_id in self.edges.keys():
+				if from_id == vid:
+					continue
+				if self.edges[from_id].has(vid):
+					has_edge = true
+					break
+
+		# Si no tiene ninguna arista, lo marcamos para eliminar
+		if not has_edge:
+			to_remove_vertices.append(vid)
+
+	# Borramos los vértices aislados
+	for vid in to_remove_vertices:
+		self.remove_vertex(vid)

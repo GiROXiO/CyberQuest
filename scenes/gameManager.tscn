@@ -28,3 +28,4 @@ offset_right = -1.0
 mouse_filter = 2
 
 [node name="MaxFlowUi" parent="MinigamesUI" instance=ExtResource("6_wilw6")]
+visible = false
