@@ -165,7 +165,8 @@ func _on_add_flow_pressed() -> void:
 	# Reset para que el jugador arme otro camino
 	current_path.clear()
 	if grafo_vista:
-		grafo_vista.reset_view_state()
+		self.grafo_vista.reset_view_state()
+		self.grafo_vista.refresh_from_graph()
 		# Re-marcamos fuente y sumidero para no perder referencia
 		grafo_vista.highlight_vertex(source_id, Color(0.2, 0.9, 0.4))
 		grafo_vista.highlight_vertex(sink_id, Color(0.9, 0.4, 0.2))

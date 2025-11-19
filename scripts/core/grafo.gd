@@ -859,14 +859,19 @@ func keep_only_edges(mst_edges: Array) -> void:
 		var u: int = pair[0]
 		var v: int = pair[1]
 		
-		if not allowed.has(u):
-			allowed[u] = {}
-		allowed[u][v] = true
-	
-		if not self.is_directed:
+		# Arista u → v
+		if self.has_edge(u, v):
+			if not allowed.has(u):
+				allowed[u] = {}
+			allowed[u][v] = true
+			continue
+
+		# Arista v → u (existe invertida)
+		if self.has_edge(v, u):
 			if not allowed.has(v):
 				allowed[v] = {}
 			allowed[v][u] = true
+			continue
 	
 	var to_remove_edges: Array[Array] = []
 	
