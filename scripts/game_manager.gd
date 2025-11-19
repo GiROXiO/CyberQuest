@@ -54,6 +54,7 @@ func _ready() -> void:
 	
 	if self.final_game_ui:
 		self.final_game_ui.visible = false
+		self.final_game_ui.minigame_completed.connect(self._on_final_game_completed)
 	
 	print("GameManager listo. Grafo generado con ", num_vertices, " vértices.")
 	mostrarCinematica("res://Dialogic/Timelines/1 Beginning.dtl")
@@ -190,9 +191,13 @@ func _on_max_flow_completed(success: bool) -> void:
 		print("[GameManager] Lanzando juego final...")
 		self.final_game_ui.visible = true
 		final_game_ui.start_final_game() 
-		
-		
-		
+
+func _on_final_game_completed(success: bool):
+	if not success:
+		return
+	
+	print("[GameManager] Minijuego final completado con éxito.")
+	mostrarCinematica("res://Dialogic/Timelines/7 ending.dtl")
 
 func mostrarCinematica(rutaCin: String):
 	if not ResourceLoader.exists(rutaCin):

@@ -58,8 +58,6 @@ func setup(p_vertex: Vertice, p_position: Vector2) -> void:
 	
 	if self.info_card != null:
 		self.info_card.visible = false
-	
-	print("VerticeVista creado para id=", vertex.id, " rol=", vertex.role)
 	queue_redraw()
 
 func _ready() -> void:

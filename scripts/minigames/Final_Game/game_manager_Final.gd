@@ -1,6 +1,8 @@
 extends Node
 class_name GameManager2
 
+signal minigame_completed(success: bool)
+
 @export var num_vertices: int = 10
 
 var grafo2: Grafo
@@ -175,6 +177,8 @@ func _on_max_flow_completed(success: bool) -> void:
 	
 	if grafo_vista2:
 		grafo_vista2.reset_view_state()
+	
+	emit_signal("minigame_completed", true)
 
 func _on_dialogic_signal(señal: String):
 	print("Hola")

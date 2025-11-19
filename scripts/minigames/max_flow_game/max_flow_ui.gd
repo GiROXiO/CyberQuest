@@ -64,6 +64,8 @@ func start_minigame() -> void:
 		push_warning("[MaxFlowUi] No se pudo determinar fuente o sumidero.")
 		return
 	
+	self._reconectar_grafo()
+	
 	# Calculamos el flujo máximo correcto UNA sola vez
 	optimal_max_flow = grafo.max_flow(source_id, sink_id)
 	print("[MaxFlowUi] Flujo máximo correcto=", optimal_max_flow)
@@ -77,6 +79,8 @@ func start_minigame() -> void:
 	if grafo_vista:
 		if grafo_vista.has_method("reset_view_state"):
 			grafo_vista.reset_view_state()
+		if grafo_vista.has_method("refresh_from_graph"):
+			grafo_vista.refresh_from_graph()
 		if grafo_vista.has_method("clear_all_edge_flows"):
 			grafo_vista.clear_all_edge_flows()
 		# Ayuda visual mínima: resaltar fuente y sumidero
@@ -226,7 +230,7 @@ func _compute_path_bottleneck(path: Array[int]) -> int:
 	return bottleneck
 
 
-# Actualiza los diccionarios de flujo usado y opcionalmente la vista
+# UTILS
 func _apply_flow_to_path(path: Array[int], amount: int) -> void:
 	for i in range(path.size() - 1):
 		var u: int = path[i]
@@ -240,3 +244,54 @@ func _apply_flow_to_path(path: Array[int], amount: int) -> void:
 		# Si quieres reflejar el flujo en la vista, aquí sería el lugar:
 		if grafo_vista and grafo_vista.has_method("set_edge_flow"):
 			grafo_vista.set_edge_flow(u, v, used_from_u[v])
+
+func _reconectar_grafo() -> void:
+	if self.grafo == null:
+		return
+	
+	var source := self.source_id
+	var sink := self.sink_id
+	
+	var main_path: Array[int] = self.grafo.dijkstra(source, sink)
+	
+	if main_path.is_empty():
+		self.grafo.add_edge(source, sink, 1, randi_range(12, 22))
+		main_path = [source, sink]
+	
+	# HALLAMOS VERTICES QUE NO ESTAN EN EL CAMINO PRINCIPAL
+	var all_ids: Array[int] = self.grafo.get_vertices_ids()
+	var off_path_nodes: Array[int] = []
+	for id in all_ids:
+		if not main_path.has(id) and id != source and id != sink:
+			off_path_nodes.append(id)
+	
+	# RECONECTAMOS CON RUTAS SIMPLES CON UN VERTICE INTERMEDIO
+	if off_path_nodes.is_empty():
+		if main_path.size() >= 3:
+			var mid := main_path[int(main_path.size() / 2)]
+			if not self.grafo.has_edge(source, mid):
+				self.grafo.add_edge(source, mid, 1, randi_range(10, 20))
+			if not self.grafo.has_edge(mid, sink):
+				self.grafo.add_edge(mid, sink, 1, randi_range(10, 20))
+		return
+	
+	# CREAMOS RUTAS ALTERNAS CON LOS VERTICES QUE ESTAN FUERA DEL CAMINO PRINCIPAL
+	off_path_nodes.shuffle()
+	
+	var extra_node := off_path_nodes[0]
+	
+	if not self.grafo.has_edge(source, extra_node):
+		grafo.add_edge(source, extra_node, 1, randi_range(10, 20))
+	
+	if not self.grafo.has_edge(extra_node, sink):
+		grafo.add_edge(extra_node, sink, 1, randi_range(10, 20))
+	
+	if off_path_nodes.size() >= 2:
+		var extra2 := off_path_nodes[1]
+		
+		# Hacer un ciclo pequeño o ruta paralela
+		if not grafo.has_edge(extra_node, extra2):
+			grafo.add_edge(extra_node, extra2, 1, randi_range(10, 20))
+		
+		if not grafo.has_edge(extra2, sink):
+			grafo.add_edge(extra2, sink, 1, randi_range(10, 20))
