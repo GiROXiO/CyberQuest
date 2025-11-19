@@ -1,6 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://tnx1c4bedsm5"]
+[gd_scene load_steps=15 format=3 uid="uid://tnx1c4bedsm5"]
 
 [ext_resource type="Script" uid="uid://bgm0vb4ju5m5e" path="res://scripts/minigames/shortest_path_game/shortest_path_ui.gd" id="1_1jqex"]
+[ext_resource type="FontFile" uid="uid://4jhqniyuw3by" path="res://art/font/Persona5MenuFontPrototype-Regular.ttf" id="2_qs1fk"]
+[ext_resource type="Script" uid="uid://bmkseomjmnmqx" path="res://scripts/menu/stylish_bottom/winggle_rectangle.gd" id="3_t3bpm"]
+[ext_resource type="PackedScene" uid="uid://d1qxogf7shuom" path="res://scenes/menu/stylish_bottom.tscn" id="4_y3o5q"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2g5uj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3uuij"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2pvji"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5p1yk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f17rm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1bsc2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wdm2v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_te430"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lagel"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t0byv"]
 
 [node name="ShortestPathUi" type="Control"]
 layout_mode = 3
@@ -15,25 +38,36 @@ script = ExtResource("1_1jqex")
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 59.0
+offset_left = 1.0
+offset_top = 19.0
+offset_right = 1.0
+offset_bottom = 78.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_qs1fk")
 theme_override_font_sizes/font_size = 34
 text = "Caminos Minimos con Dijkstra"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CheckButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -138.0
-offset_top = -57.0
-offset_right = 115.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="GrayRentangle" type="Polygon2D" parent="Label"]
+process_priority = 1
+show_behind_parent = true
+position = Vector2(482.44507, 105.65581)
+rotation = 0.039406504
+scale = Vector2(3.8862045, 0.933728)
+polygon = PackedVector2Array(-122, -62, 84.44739, -75.94641, 171.30524, -64.92197, 147.80615, 18.64029, -116, -3)
+script = ExtResource("3_t3bpm")
+
+[node name="BlackRectangle" type="Polygon2D" parent="Label"]
+process_priority = 1
+show_behind_parent = true
+material = SubResource("CanvasItemMaterial_2g5uj")
+position = Vector2(588.4451, 39.6558)
+rotation = 0.010976026
+scale = Vector2(5.3444943, 1.1198336)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-108.67883, -33.50522, 101.59363, -43.11676, 89.187256, 44.42372, -94.36575, 52.61618)
+script = ExtResource("3_t3bpm")
 
 [node name="InfoLabel" type="Label" parent="."]
 layout_mode = 1
@@ -41,12 +75,28 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -109.0
-offset_bottom = -56.0
+offset_left = -1.0
+offset_top = -170.0
+offset_right = -1.0
+offset_bottom = -117.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 25
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="CheckButton" to="." method="_on_check_button_pressed"]
+[node name="CheckButton" parent="." instance=ExtResource("4_y3o5q")]
+layout_mode = 1
+offset_left = -93.0
+offset_top = 238.0
+offset_right = 62.0
+offset_bottom = 299.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_3uuij")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_2pvji")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_5p1yk")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_f17rm")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_1bsc2")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_wdm2v")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_te430")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_lagel")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_t0byv")

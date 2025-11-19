@@ -11,6 +11,7 @@ func _physics_process(delta: float) -> void:
 		entrarCreditos = false
 		
 func _on_stylish_bottom_pressed() -> void:
+	MusicPlayer.play_music("res://musica/boton2.mp3")
 	$AnimationPlayer.play("SalirCreditos")
 	await ($AnimationPlayer.animation_finished)
 	$".".visible = false

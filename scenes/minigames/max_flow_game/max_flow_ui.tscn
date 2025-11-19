@@ -1,6 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://d1331ox5t2h4e"]
+[gd_scene load_steps=15 format=3 uid="uid://d1331ox5t2h4e"]
 
 [ext_resource type="Script" uid="uid://dkvdobp6vvo17" path="res://scripts/minigames/max_flow_game/max_flow_ui.gd" id="1_50704"]
+[ext_resource type="FontFile" uid="uid://4jhqniyuw3by" path="res://art/font/Persona5MenuFontPrototype-Regular.ttf" id="2_rdplj"]
+[ext_resource type="Script" uid="uid://bmkseomjmnmqx" path="res://scripts/menu/stylish_bottom/winggle_rectangle.gd" id="3_17aql"]
+[ext_resource type="PackedScene" uid="uid://d1qxogf7shuom" path="res://scenes/menu/stylish_bottom.tscn" id="4_wfany"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_fhxsa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_47f8e"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7caby"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aji4y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a2oxk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_015jb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_egy03"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_um346"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_82uny"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xu5ny"]
 
 [node name="MaxFlowUi" type="Control"]
 layout_mode = 3
@@ -16,12 +39,36 @@ script = ExtResource("1_50704")
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 59.0
+offset_left = 2.0
+offset_top = 15.0
+offset_right = 2.0
+offset_bottom = 74.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_rdplj")
 theme_override_font_sizes/font_size = 34
-text = "Caminos Minimos con Dijkstra"
+text = "Flujo Maximo con Ford Fulkerson"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="GrayRentangle" type="Polygon2D" parent="TitleLabel"]
+process_priority = 1
+show_behind_parent = true
+position = Vector2(481.44507, 106.65581)
+rotation = 0.039406504
+scale = Vector2(3.8862045, 0.933728)
+polygon = PackedVector2Array(-122, -62, 84.44739, -75.94641, 171.30524, -64.92197, 147.80615, 18.64029, -116, -3)
+script = ExtResource("3_17aql")
+
+[node name="BlackRectangle" type="Polygon2D" parent="TitleLabel"]
+process_priority = 1
+show_behind_parent = true
+material = SubResource("CanvasItemMaterial_fhxsa")
+position = Vector2(587.4451, 40.6558)
+rotation = 0.010976026
+scale = Vector2(5.3444943, 1.1198336)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-108.67883, -33.50522, 101.59363, -43.11676, 89.187256, 44.42372, -94.36575, 52.61618)
+script = ExtResource("3_17aql")
 
 [node name="MessageLabel" type="Label" parent="."]
 layout_mode = 1
@@ -29,8 +76,8 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -109.0
-offset_bottom = -56.0
+offset_top = -172.0
+offset_bottom = -119.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 25
@@ -43,17 +90,39 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -53.0
+offset_left = -1.0
+offset_top = -87.0
+offset_right = -1.0
+offset_bottom = -31.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_constants/separation = 100
 alignment = 1
 
-[node name="AddFlowButton" type="Button" parent="Buttons"]
-custom_minimum_size = Vector2(140, 24)
+[node name="AddFlowButton" parent="Buttons" instance=ExtResource("4_wfany")]
 layout_mode = 2
-text = "Añadir Flujo"
+theme_override_styles/normal = SubResource("StyleBoxEmpty_47f8e")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_7caby")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_aji4y")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_a2oxk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_015jb")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_egy03")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_um346")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_82uny")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_xu5ny")
+text = "Agregar
+"
 
-[node name="VerifyButton" type="Button" parent="Buttons"]
-custom_minimum_size = Vector2(124, 24)
+[node name="VerifyButton" parent="Buttons" instance=ExtResource("4_wfany")]
 layout_mode = 2
-text = "Verificar Flujo Máximo"
+theme_override_styles/normal = SubResource("StyleBoxEmpty_47f8e")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_7caby")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_aji4y")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_a2oxk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_015jb")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_egy03")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_um346")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_82uny")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_xu5ny")
+text = "Verificar
+"

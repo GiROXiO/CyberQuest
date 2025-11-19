@@ -89,9 +89,9 @@ var PISTAS: Dictionary = {
 }
 
 func _ready() -> void:
-	mode_selector.add_item("BFS (Anchura)")
-	mode_selector.add_item("DFS (Profundidad)")
-	check_button.text = "Iniciar búsqueda"
+	mode_selector.add_item("BFS")
+	mode_selector.add_item("DFS")
+	check_button.text = "Iniciar"
 	check_button.pressed.connect(_on_check_button_pressed)
 	info_label.text = "Selecciona un modo y rastrea la infección."
 	message_label.text = ""
@@ -107,6 +107,7 @@ func set_graph_view(p_view: GrafoVista) -> void:
 		push_warning("[BfsDfsUi] grafo_vista no asignado en set_graph_view.")
 
 func _on_check_button_pressed() -> void:
+	MusicPlayer.play_music("res://musica/boton2.mp3")
 	if grafo == null:
 		info_label.text = "No hay grafo cargado."
 		return
@@ -201,26 +202,15 @@ func _on_vertex_clicked(node_id: int, is_selected: bool) -> void:
 	var infected_id: int = grafo.get_infected_id()
 	if infected_id == -1:
 		message_label.text += "\nNo hay nodo infectado definido."
-		print("[DEBUG] No hay nodo infectado definido")
 		return
 	
 	var infected_vertex: Vertice = grafo.get_vertex(infected_id)
 	
 	if v.is_key_vertex:
-		print("[DEBUG] Es key vertex, buscando pista...")
 		if PISTAS.has(infected_vertex.role):
-			print("[DEBUG] PISTAS tiene el rol infectado")
 			if PISTAS[infected_vertex.role].has(v.role):
-				print("[DEBUG] Existe pista para este nodo")
 				var pista_real = PISTAS[infected_vertex.role][v.role]
 				message_label.text += "\nPista: %s" % pista_real
-				print("[DEBUG] Pista mostrada:", pista_real)
-			else:
-				print("[DEBUG] No existe pista para role:", v.role)
-		else:
-			print("[DEBUG] PISTAS no tiene el rol infectado:", infected_vertex.role)
-	else:
-		print("[DEBUG] No es key vertex")
 
 	var idx := player_path.size() - 1
 	if correct_path.is_empty():
@@ -344,6 +334,7 @@ func _build_parent_map_dfs(start_id) -> void:
 		self.search_parents[node_id] = parent_id
 
 func _fail_sequence() -> void:
+	MusicPlayer.play_music("res://musica/error.mp3")
 	is_playing = false
 	info_label.text = "Secuencia incorrecta. Intenta nuevamente."
 	message_label.text += "\nLa ruta no corresponde."
@@ -403,12 +394,10 @@ func _role_to_string(role: int) -> String:
 
 func marcar_vertices_con_pista() -> void:
 	if grafo == null:
-		print("[DEBUG] grafo es null")
 		return
 
 	var infected_id: int = grafo.get_infected_id()
 	if infected_id == -1:
-		print("[DEBUG] No hay nodo infectado")
 		return
 
 	var infected_vertex: Vertice = grafo.get_vertex(infected_id)
@@ -421,13 +410,10 @@ func marcar_vertices_con_pista() -> void:
 		v.hint = ""
 
 	if not PISTAS.has(infected_role):
-		print("[DEBUG] No hay pistas para el rol: ", infected_role)
 		return
 
 	var pistas_rol = PISTAS[infected_role]
-	print("[DEBUG] Pistas disponibles para rol ", infected_role, ": ", pistas_rol.keys())
 
-	var pistas_asignadas = 0
 	for id in grafo.vertices.keys():
 		if id == infected_id:
 			continue
@@ -437,17 +423,8 @@ func marcar_vertices_con_pista() -> void:
 		if pistas_rol.has(v.role): 
 			v.is_key_vertex = true
 			v.hint = "Hay pista"
-			pistas_asignadas += 1
-			print("[DEBUG] Pista asignada al nodo ID: ", id, " Role: ", v.role)
-	
-	print("[DEBUG] Total pistas asignadas: ", pistas_asignadas)
 	
 	if grafo_vista:
-		var vertices_actualizados = 0
 		for child in grafo_vista.get_children():
 			if child is VerticeVista:
 				child.refresh_hint()
-				vertices_actualizados += 1
-		print("[DEBUG] Vertices visuales actualizados: ", vertices_actualizados)
-	else:
-		print("[DEBUG] grafo_vista es null")

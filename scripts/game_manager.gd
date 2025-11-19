@@ -57,6 +57,7 @@ func _ready() -> void:
 	
 	print("GameManager listo. Grafo generado con ", num_vertices, " vértices.")
 	mostrarCinematica("res://Dialogic/Timelines/1 Beginning.dtl")
+	MusicPlayer.play_music("res://musica/dialogo1.mp3")
 	emit_signal("mode_changed", current_mode)
 	
 func _physics_process(delta: float) -> void:

@@ -20,7 +20,7 @@ func _ready() -> void:
 		self.title_label.text = "Caminos Minimos con Dijkstra"
 	
 	if self.check_button:
-		self.check_button.text = "Verificar Camino"
+		self.check_button.text = "Verificar"
 		self.check_button.pressed.connect(self._on_check_button_pressed)
 	
 	self._clear_message()

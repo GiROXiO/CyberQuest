@@ -1,7 +1,30 @@
-[gd_scene load_steps=3 format=3 uid="uid://rms505vei5uf"]
+[gd_scene load_steps=16 format=3 uid="uid://rms505vei5uf"]
 
 [ext_resource type="Script" uid="uid://sj7f6j405va4" path="res://scripts/minigames/bfs_dfs_game/bfs_dfs_ui.gd" id="1_xkbsh"]
+[ext_resource type="FontFile" uid="uid://4jhqniyuw3by" path="res://art/font/Persona5MenuFontPrototype-Regular.ttf" id="2_2upfq"]
 [ext_resource type="PackedScene" uid="uid://isyjey0olw6i" path="res://scenes/grafo/grafoVista.tscn" id="2_erx3k"]
+[ext_resource type="Script" uid="uid://bmkseomjmnmqx" path="res://scripts/menu/stylish_bottom/winggle_rectangle.gd" id="3_1tmv7"]
+[ext_resource type="PackedScene" uid="uid://d1qxogf7shuom" path="res://scenes/menu/stylish_bottom.tscn" id="3_gw75y"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_acfbk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ag1nf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2upfq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1tmv7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_acfbk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l3dks"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q3grr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jc20y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4umr8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cff2v"]
 
 [node name="BfsDfsUi" type="Control"]
 layout_mode = 3
@@ -12,29 +35,40 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xkbsh")
 
-[node name="CheckButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -138.0
-offset_top = -57.0
-offset_right = 115.0
-grow_horizontal = 2
-grow_vertical = 0
-
 [node name="InfoLabel" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 57.0
+offset_left = 17.0
+offset_top = 38.0
+offset_right = 17.0
+offset_bottom = 95.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_2upfq")
 theme_override_font_sizes/font_size = 34
 text = "Halla el Vertice Infectado con BFS y DFS"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="GrayRentangle" type="Polygon2D" parent="InfoLabel"]
+process_priority = 1
+show_behind_parent = true
+position = Vector2(467.00003, 75)
+rotation = 0.039406504
+scale = Vector2(3.8862045, 0.933728)
+polygon = PackedVector2Array(-122, -62, 84.44739, -75.94641, 171.30524, -64.92197, 147.80615, 18.64029, -116, -3)
+script = ExtResource("3_1tmv7")
+
+[node name="BlackRectangle" type="Polygon2D" parent="InfoLabel"]
+process_priority = 1
+show_behind_parent = true
+material = SubResource("CanvasItemMaterial_acfbk")
+position = Vector2(573.00006, 17)
+rotation = 0.010976026
+scale = Vector2(5.3444943, 1.1198336)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-108.67883, -33.50522, 101.59363, -43.11676, 89.187256, 44.42372, -94.36575, 52.61618)
+script = ExtResource("3_1tmv7")
 
 [node name="ModeSelector" type="OptionButton" parent="."]
 layout_mode = 0
@@ -42,14 +76,31 @@ offset_left = 2.0
 offset_top = 539.0
 offset_right = 192.0
 offset_bottom = 642.0
+theme_override_fonts/font = ExtResource("2_2upfq")
+theme_override_font_sizes/font_size = 50
+alignment = 1
 
 [node name="MessageLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
-offset_left = 696.0
-offset_top = 543.0
-offset_right = 1154.0
-offset_bottom = 653.0
+offset_left = 716.0
+offset_top = 356.0
+offset_right = 1142.0
+offset_bottom = 642.0
 
 [node name="GrafoVista" parent="." instance=ExtResource("2_erx3k")]
 
-[connection signal="pressed" from="CheckButton" to="." method="_on_neutralize_button_pressed"]
+[node name="CheckButton" parent="." instance=ExtResource("3_gw75y")]
+layout_mode = 1
+offset_left = -93.0
+offset_top = 238.0
+offset_right = 62.0
+offset_bottom = 299.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ag1nf")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_2upfq")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1tmv7")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_acfbk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_l3dks")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_q3grr")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_jc20y")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_4umr8")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_cff2v")
