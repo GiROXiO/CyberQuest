@@ -29,3 +29,25 @@ mouse_filter = 2
 
 [node name="MaxFlowUi" parent="MinigamesUI" instance=ExtResource("6_wilw6")]
 visible = false
+<<<<<<< HEAD
+=======
+
+[node name="FinalGameUI" type="CanvasLayer" parent="MinigamesUI"]
+visible = false
+
+[node name="BfsDfsUi" parent="MinigamesUI/FinalGameUI" instance=ExtResource("3_bbeu6")]
+mouse_filter = 2
+
+[node name="ShortestPathUi" parent="MinigamesUI/FinalGameUI" instance=ExtResource("4_7baw1")]
+visible = false
+mouse_filter = 2
+
+[node name="PrimKruskalUi" parent="MinigamesUI/FinalGameUI" instance=ExtResource("5_7baw1")]
+visible = false
+offset_left = -1.0
+offset_right = -1.0
+mouse_filter = 2
+
+[node name="MaxFlowUi" parent="MinigamesUI/FinalGameUI" instance=ExtResource("6_wilw6")]
+visible = false
+>>>>>>> 0a5818403b7b88c15e3d37e3a9ecf88308e20b60
