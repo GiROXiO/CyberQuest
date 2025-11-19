@@ -14,7 +14,7 @@ signal mode_changed(new_mode)
 @onready var shortest_path_ui: CaminoMinimoUi = $MinigamesUI/ShortestPathUi
 @onready var kruskal_prim_ui: PrimKruskalUi = $MinigamesUI/PrimKruskalUi
 @onready var max_flow_ui: MaxFlowUi = $MinigamesUI/MaxFlowUi
-@onready var final_game_ui: GameManager2 = $MinigamesUI/FinalGameUI
+@onready var final_game_ui: GameManager2 = $MinigamesUI/GameManagerJuegoFinal
 
 func _ready() -> void:
 	self.grafo = Grafo.new()
@@ -165,23 +165,23 @@ func _on_max_flow_completed(success: bool) -> void:
 	
 	print("[GameManager] Minijuego de flujo máximo completado con éxito.")
 	
-	if grafo_vista:
-		grafo_vista.reset_view_state()
+	if self.grafo_vista:
+		self.grafo_vista.reset_view_state()
+		self.grafo_vista.visible = false
 
 	# --- Apagar UIs de la campaña ---
-	if bfs_dfs_ui:
-		bfs_dfs_ui.visible = false
-	if shortest_path_ui:
-		shortest_path_ui.visible = false
-	if kruskal_prim_ui:
-		kruskal_prim_ui.visible = false
-	if max_flow_ui:
-		max_flow_ui.visible = false
+	if self.bfs_dfs_ui:
+		self.bfs_dfs_ui.visible = false
+	if self.shortest_path_ui:
+		self.shortest_path_ui.visible = false
+	if self.kruskal_prim_ui:
+		self.kruskal_prim_ui.visible = false
+	if self.max_flow_ui:
+		self.max_flow_ui.visible = false
 
 	if self.final_game_ui:
+		print("[GameManager] Lanzando juego final...")
 		self.final_game_ui.visible = true
-
-	if self.final_game_ui:
 		final_game_ui.start_final_game() 
 
 func mostrarCinematica(rutaCin: String):

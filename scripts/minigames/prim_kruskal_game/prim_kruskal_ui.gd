@@ -26,8 +26,11 @@ func _ready():
 			var vertice = grafo.vertices[id]
 			print("id:", id)
 	
-	
+func set_graph(p_grafo: Grafo) -> void:
+	grafo = p_grafo
 
+func set_graph_view(p_view: GrafoVista) -> void:
+	grafo_vista = p_view
 
 func comparar_arrays(aristas_resultado: Array, aristas_usuario: Array) -> bool:
 	if aristas_resultado.size() != aristas_usuario.size():
