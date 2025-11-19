@@ -1,6 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://dovrf3rhbp2hj"]
+[gd_scene load_steps=15 format=3 uid="uid://dovrf3rhbp2hj"]
 
 [ext_resource type="Script" uid="uid://vdxo8e47ccde" path="res://scripts/minigames/prim_kruskal_game/prim_kruskal_ui.gd" id="1_clx6k"]
+[ext_resource type="FontFile" uid="uid://4jhqniyuw3by" path="res://art/font/Persona5MenuFontPrototype-Regular.ttf" id="2_4e1n1"]
+[ext_resource type="Script" uid="uid://bmkseomjmnmqx" path="res://scripts/menu/stylish_bottom/winggle_rectangle.gd" id="3_iorte"]
+[ext_resource type="PackedScene" uid="uid://d1qxogf7shuom" path="res://scenes/menu/stylish_bottom.tscn" id="4_phyxp"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_usvov"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xo22b"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fcxpq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3vdra"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dy1bu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dj2ii"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bnke8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ypmf7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d7kvo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7hibv"]
 
 [node name="PrimKruskal" type="Control"]
 layout_mode = 3
@@ -15,64 +38,93 @@ script = ExtResource("1_clx6k")
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 59.0
+offset_left = 2.0
+offset_top = 14.0
+offset_right = 2.0
+offset_bottom = 111.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_4e1n1")
 theme_override_font_sizes/font_size = 34
-text = "Arbol de expansión mínima
-con Prim o Kruskal"
+text = "Arbol de expansión mínima con Prim o Kruskal"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="GrayRentangle" type="Polygon2D" parent="Label"]
+process_priority = 1
+show_behind_parent = true
+position = Vector2(481.44507, 106.65581)
+rotation = 0.039406504
+scale = Vector2(3.8862045, 0.933728)
+polygon = PackedVector2Array(-122, -62, 84.44739, -75.94641, 171.30524, -64.92197, 147.80615, 18.64029, -116, -3)
+script = ExtResource("3_iorte")
+
+[node name="BlackRectangle" type="Polygon2D" parent="Label"]
+process_priority = 1
+show_behind_parent = true
+material = SubResource("CanvasItemMaterial_usvov")
+position = Vector2(587.4451, 40.6558)
+rotation = 0.010976026
+scale = Vector2(5.3444943, 1.1198336)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-108.67883, -33.50522, 101.59363, -43.11676, 89.187256, 44.42372, -94.36575, 52.61618)
+script = ExtResource("3_iorte")
 
 [node name="infoLabel" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 128.0
-offset_top = 497.0
-offset_right = -94.0
-offset_bottom = 531.0
+offset_left = 121.0
+offset_top = 477.0
+offset_right = -101.0
+offset_bottom = 511.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="verify" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 38.0
-offset_top = -58.0
-offset_right = 291.0
-offset_bottom = -1.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "Verificar"
-
-[node name="show_path" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -278.0
-offset_top = -57.0
-offset_right = -25.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "Mostrar arbol"
-
 [node name="LineEdit" type="LineEdit" parent="."]
 layout_mode = 0
 offset_left = 62.0
-offset_top = 545.0
+offset_top = 520.0
 offset_right = 1127.0
-offset_bottom = 576.0
+offset_bottom = 551.0
 placeholder_text = "Escriba las aristas (Ej: 1-2, 1-3, etc)"
 
-[connection signal="pressed" from="verify" to="." method="_on_verify_pressed"]
-[connection signal="pressed" from="show_path" to="." method="_on_show_path_pressed"]
+[node name="show_path" parent="." instance=ExtResource("4_phyxp")]
+layout_mode = 1
+offset_left = -215.00003
+offset_top = 258.0
+offset_right = -60.0
+offset_bottom = 319.0
+scale = Vector2(0.75383633, 0.8)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xo22b")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_fcxpq")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3vdra")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_dy1bu")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_dj2ii")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_bnke8")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ypmf7")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_d7kvo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7hibv")
+text = "Mostrar
+"
+
+[node name="verify" parent="." instance=ExtResource("4_phyxp")]
+layout_mode = 1
+offset_left = 106.0
+offset_top = 260.0
+offset_right = 261.0
+offset_bottom = 321.0
+scale = Vector2(0.75383633, 0.8)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xo22b")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_fcxpq")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3vdra")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_dy1bu")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_dj2ii")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_bnke8")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ypmf7")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_d7kvo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7hibv")
+text = "Verificar"
+
 [connection signal="text_changed" from="LineEdit" to="." method="_on_line_edit_text_changed"]

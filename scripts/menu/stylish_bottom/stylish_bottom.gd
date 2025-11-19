@@ -23,6 +23,7 @@ extends Button
 func _on_mouse_entered() -> void:
 	$Unselect.visible = false
 	$Select.visible = true
+	MusicPlayer.play_music("res://musica/boton.mp3")
 
 
 func _on_mouse_exited() -> void:

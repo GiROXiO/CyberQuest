@@ -99,9 +99,12 @@ func _build_initial_layout() -> void:
 		return
 	
 	var viewport_size: Vector2 = get_viewport_rect().size
-	var padding: float = 80.0
-	
-	var usable_size := viewport_size - Vector2(padding * 2.0, padding * 2.0)
+	var scale := 0.6  # 70% de la pantalla, ajústalo a tu gusto (0.5, 0.6, etc)
+
+	var graph_size := viewport_size * scale
+	var graph_top_left := (viewport_size - graph_size) * 0.5  # centrar
+
+	var usable_size := graph_size
 	
 	var cols: int = ceili(sqrt(n))
 	var rows: int = ceili(float(n) / float(cols))
@@ -119,8 +122,8 @@ func _build_initial_layout() -> void:
 		var col: int = i % cols
 		
 		var cell_origin := Vector2(
-			padding + cell_w * col,
-			padding + cell_h * row
+			graph_top_left.x + cell_w * col,
+			graph_top_left.y + cell_h * row
 		)
 		
 		var local_margin := 0.2
@@ -189,6 +192,7 @@ func _rebuild_from_layout() -> void:
 
 #Utils
 func _on_vertex_clicked(vertex_id: int) -> void:
+	
 	if grafo == null:
 		return
 	if not grafo.has_vertex(vertex_id):
@@ -203,6 +207,11 @@ func _on_vertex_clicked(vertex_id: int) -> void:
 		self.selected_vertices.append(vertex_id)
 		is_selected_now = true
 	
+<<<<<<< HEAD
+=======
+	print("Seleccionados ahora: ", self.selected_vertices)
+	MusicPlayer.play_music("res://musica/vertice.mp3")
+>>>>>>> e1fc96a402756bc2fb27651b45320aca9bce94aa
 	self.graph_vertex_clicked.emit(vertex_id, is_selected_now)
 
 func highlight_infected_red() -> void:
