@@ -207,11 +207,7 @@ func _on_vertex_clicked(vertex_id: int) -> void:
 		self.selected_vertices.append(vertex_id)
 		is_selected_now = true
 	
-<<<<<<< HEAD
-=======
-	print("Seleccionados ahora: ", self.selected_vertices)
 	MusicPlayer.play_music("res://musica/vertice.mp3")
->>>>>>> e1fc96a402756bc2fb27651b45320aca9bce94aa
 	self.graph_vertex_clicked.emit(vertex_id, is_selected_now)
 
 func highlight_infected_red() -> void:

@@ -11,6 +11,7 @@
 
 [node name="GameManager" type="Node2D"]
 script = ExtResource("1_bb4tu")
+num_vertices = null
 
 [node name="GrafoVista" parent="." instance=ExtResource("2_x7fn8")]
 

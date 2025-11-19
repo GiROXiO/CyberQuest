@@ -108,6 +108,15 @@ theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_d7kvo")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_7hibv")
 text = "Mostrar
 "
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xo22b")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_fcxpq")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3vdra")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_dy1bu")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_dj2ii")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_bnke8")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ypmf7")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_d7kvo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7hibv")
 
 [node name="verify" parent="." instance=ExtResource("4_phyxp")]
 layout_mode = 1
@@ -126,5 +135,16 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_ypmf7")
 theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_d7kvo")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_7hibv")
 text = "Verificar"
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xo22b")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_fcxpq")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3vdra")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_dy1bu")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_dj2ii")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_bnke8")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ypmf7")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_d7kvo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7hibv")
 
 [connection signal="text_changed" from="LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="pressed" from="show_path" to="." method="_on_show_path_pressed"]
+[connection signal="pressed" from="verify" to="." method="_on_verify_pressed"]
