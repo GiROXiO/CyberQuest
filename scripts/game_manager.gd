@@ -164,6 +164,8 @@ func _on_max_flow_completed(success: bool) -> void:
 		return
 	
 	print("[GameManager] Minijuego de flujo máximo completado con éxito.")
+	mostrarCinematica("res://Dialogic/Timelines/6 final mission.dtl")
+	
 	
 	if grafo_vista:
 		grafo_vista.reset_view_state()
@@ -183,6 +185,9 @@ func _on_max_flow_completed(success: bool) -> void:
 
 	if self.final_game_ui:
 		final_game_ui.start_final_game() 
+		
+		
+		
 
 func mostrarCinematica(rutaCin: String):
 	if not ResourceLoader.exists(rutaCin):

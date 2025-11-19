@@ -78,8 +78,7 @@ audio/channel_defaults={
 }
 }
 variables={
-"BFS_DFS": false,
-"PRIM_KRUSKAL": false
+"PRIM_KRUSKAL": true
 }
 
 [editor_plugins]

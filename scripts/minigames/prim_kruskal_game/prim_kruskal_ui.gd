@@ -96,15 +96,21 @@ func _on_verify_pressed() -> void:
 	for x in result:
 		highlighted_edges.append( [ int(x[0]), int(x[1]) ] )
 	
-
-	var idStart = highlighted_edges[0][0]
-	var result_prim = grafo.kruskal()
-	
-	if comparar_arrays(result_prim, highlighted_edges):
-		print("Listo")
-		self.minigame_completed.emit(true)
+	if Dialogic.VAR.PRIM_KRUSKAL:
+		var result_prim = grafo.prim(0)
+		
+		if comparar_arrays(result_prim, highlighted_edges):
+			self.minigame_completed.emit(true)
+		else:
+			print(result_prim)
+		
 	else:
-		print(result_prim)
+		var result_kruskal = grafo.kruskal()
+		
+		if comparar_arrays(result_kruskal, highlighted_edges):
+			self.minigame_completed.emit(true)
+		else:
+			print(result_kruskal)
 
 func _on_line_edit_text_changed(new_text: String) -> void:
 	self.aristas_texto = quitar_espacios_str(new_text)
