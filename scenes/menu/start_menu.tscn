@@ -1,0 +1,391 @@
+[gd_scene load_steps=22 format=3 uid="uid://b5wam7o74lfv0"]
+
+[ext_resource type="PackedScene" uid="uid://d1qxogf7shuom" path="res://scenes/menu/stylish_bottom.tscn" id="1_idqd0"]
+[ext_resource type="Script" uid="uid://co6h3v8ydehig" path="res://scripts/menu/start_menu.gd" id="1_j28ev"]
+[ext_resource type="Script" uid="uid://bmkseomjmnmqx" path="res://scripts/menu/stylish_bottom/winggle_rectangle.gd" id="2_r03tk"]
+[ext_resource type="Texture2D" uid="uid://dawx5po8myc7e" path="res://art/menu/startmenu-artguru.png" id="3_s7g7q"]
+[ext_resource type="PackedScene" uid="uid://8gk107054pdm" path="res://scenes/menu/creditos.tscn" id="4_r03tk"]
+[ext_resource type="PackedScene" uid="uid://c4xbhssk1r1rx" path="res://scenes/menu/pause_menu.tscn" id="5_hqr2w"]
+[ext_resource type="FontFile" uid="uid://4jhqniyuw3by" path="res://art/font/Persona5MenuFontPrototype-Regular.ttf" id="5_ougr1"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_j28ev"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_idqd0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r0pvr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j28ev"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r03tk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ougr1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hqr2w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s7g7q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4ygri"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k7216"]
+
+[sub_resource type="Animation" id="Animation_k7216"]
+resource_name = "EntrarStart"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel/Cortina:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel/Cortina:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 659)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MenuContainer:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.43333334, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-326, 232), Vector2(-326, 232), Vector2(90, 232), Vector2(79, 232)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Imagen:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.46666667, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1558, 364.00003), Vector2(1558, 364.00003), Vector2(870, 364), Vector2(890, 364)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Titulo:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.43333334, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1173, 14), Vector2(1173, 14), Vector2(470, 14), Vector2(484, 14)]
+}
+
+[sub_resource type="Animation" id="Animation_4ygri"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel/Cortina:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.017732391, 0.017732391, 0.01773239, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MenuContainer:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(79, 232)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel/Cortina:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -653)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Imagen:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(890.0001, 364)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Titulo:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(483, 14)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Panel/Cortina:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_s7g7q"]
+resource_name = "SalirStart"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel/Cortina:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.017732391, 0.017732391, 0.01773239, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MenuContainer:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(79, 232), Vector2(108, 232), Vector2(-326, 232)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel/Cortina:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.33333334, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 655), Vector2(0, 653), Vector2(0, 655), Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Imagen:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(890.0001, 364), Vector2(838.0001, 364), Vector2(1558, 364.00003)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Titulo:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(483, 14), Vector2(440, 14), Vector2(1173, 14)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Panel/Cortina:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4ygri"]
+_data = {
+&"EntrarStart": SubResource("Animation_k7216"),
+&"RESET": SubResource("Animation_4ygri"),
+&"SalirStart": SubResource("Animation_s7g7q")
+}
+
+[node name="StartMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_j28ev")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Fondo" type="ColorRect" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="GrayRentangle" type="Polygon2D" parent="Panel"]
+process_priority = 1
+position = Vector2(-121.00001, 16)
+rotation = -0.05654192
+color = Color(0.39215687, 0.39215687, 0.39215687, 1)
+polygon = PackedVector2Array(-160.2153, -36.111763, 385.11923, -97.39186, 811.8902, 715.02405, -100.63031, 698.4294)
+script = ExtResource("2_r03tk")
+intensity = 15.0
+
+[node name="WhiteRectangle" type="Polygon2D" parent="Panel"]
+process_priority = 1
+material = SubResource("CanvasItemMaterial_j28ev")
+position = Vector2(-131.99998, 4.999997)
+rotation = 1.1784174
+scale = Vector2(1.1581633, 1.1037104)
+polygon = PackedVector2Array(24.580418, -326.2465, 823.70746, -449.8874, 579.60034, 263.8516, -57.502148, 111.71671)
+script = ExtResource("2_r03tk")
+intensity = 15.0
+
+[node name="Cortina" type="ColorRect" parent="Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -653.0
+offset_bottom = -653.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.017732391, 0.017732391, 0.01773239, 1)
+
+[node name="Imagen" type="Sprite2D" parent="."]
+position = Vector2(890.0001, 364)
+rotation = 0.13638252
+scale = Vector2(1.474, 1.1)
+texture = ExtResource("3_s7g7q")
+
+[node name="MenuContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 79.0
+offset_top = -92.0
+offset_right = 366.0
+offset_bottom = 327.0
+grow_vertical = 2
+theme_override_constants/separation = 65
+
+[node name="Inicio" parent="MenuContainer" instance=ExtResource("1_idqd0")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_idqd0")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_r0pvr")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_j28ev")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_r03tk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_ougr1")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_hqr2w")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_s7g7q")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_4ygri")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_k7216")
+
+[node name="creditos" parent="MenuContainer" instance=ExtResource("1_idqd0")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_idqd0")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_r0pvr")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_j28ev")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_r03tk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_ougr1")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_hqr2w")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_s7g7q")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_4ygri")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_k7216")
+text = "Creditos"
+
+[node name="salir" parent="MenuContainer" instance=ExtResource("1_idqd0")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_idqd0")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_r0pvr")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_j28ev")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_r03tk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_ougr1")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_hqr2w")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_s7g7q")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_4ygri")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_k7216")
+text = "Salir"
+
+[node name="Creditos" parent="." instance=ExtResource("4_r03tk")]
+visible = false
+
+[node name="pause_menu" parent="." instance=ExtResource("5_hqr2w")]
+visible = false
+
+[node name="Titulo" type="Label" parent="."]
+layout_mode = 0
+offset_left = 483.0
+offset_top = 14.0
+offset_right = 1185.9946
+offset_bottom = 279.0
+theme_override_fonts/font = ExtResource("5_ougr1")
+theme_override_font_sizes/font_size = 130
+text = "Cyber 
+Quest"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_4ygri")
+}
+
+[connection signal="pressed" from="MenuContainer/Inicio" to="." method="_on_inicio_pressed"]
+[connection signal="pressed" from="MenuContainer/creditos" to="." method="_on_creditos_pressed"]
+[connection signal="pressed" from="MenuContainer/salir" to="." method="_on_salir_pressed"]

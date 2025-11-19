@@ -1,0 +1,247 @@
+[gd_scene load_steps=18 format=3 uid="uid://c4xbhssk1r1rx"]
+
+[ext_resource type="Script" uid="uid://bmkseomjmnmqx" path="res://scripts/menu/stylish_bottom/winggle_rectangle.gd" id="1_n54lc"]
+[ext_resource type="Script" uid="uid://ctvyibypxala5" path="res://scripts/menu/pause_menu.gd" id="1_xtxec"]
+[ext_resource type="PackedScene" uid="uid://d1qxogf7shuom" path="res://scenes/menu/stylish_bottom.tscn" id="2_ux7g8"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ux7g8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xtxec"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_msl3b"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2yk66"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mb26x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5nn8h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xkyws"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rdkub"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eb3yi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a7btn"]
+
+[sub_resource type="Animation" id="Animation_2yk66"]
+resource_name = "EntrarPausa"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:anchor_right")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-550, 0), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel/VBoxContainer:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(83, 95), Vector2(106, 95), Vector2(52, 95)]
+}
+
+[sub_resource type="Animation" id="Animation_msl3b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel/VBoxContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(52, 95)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:anchors_preset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [15]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel:anchor_right")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Panel:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xtxec"]
+resource_name = "SalirPausa"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel/VBoxContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(52, 95), Vector2(83, 95)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:anchors_preset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [15, 9]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel:anchor_right")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Panel:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(-550, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_msl3b"]
+_data = {
+&"EntrarPausa": SubResource("Animation_2yk66"),
+&"RESET": SubResource("Animation_msl3b"),
+&"SalirPausa": SubResource("Animation_xtxec")
+}
+
+[node name="pause_menu" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_xtxec")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GrayRentangle" type="Polygon2D" parent="Panel"]
+process_priority = 1
+position = Vector2(-57, 16)
+rotation = -0.05654192
+color = Color(0.39215687, 0.39215687, 0.39215687, 1)
+polygon = PackedVector2Array(9.588356, -45.530907, 565.90546, -0.01969719, 237.94089, 662.50525, -36.261684, 676.0311)
+script = ExtResource("1_n54lc")
+intensity = 2.0
+
+[node name="WhiteRectangle" type="Polygon2D" parent="Panel"]
+process_priority = 1
+material = SubResource("CanvasItemMaterial_ux7g8")
+position = Vector2(-47, 4.9999986)
+rotation = 1.1784174
+scale = Vector2(1.1581633, 1.1037104)
+polygon = PackedVector2Array(155.20778, -438.5665, 600.54456, 24.476158, 537.23364, 220.54956, -15.845924, -16.686731)
+script = ExtResource("1_n54lc")
+intensity = 2.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 95.0
+offset_right = 293.0
+offset_bottom = 267.0
+theme_override_constants/separation = 60
+
+[node name="Reanudar" parent="Panel/VBoxContainer" instance=ExtResource("2_ux7g8")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xtxec")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_msl3b")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_2yk66")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_mb26x")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_5nn8h")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_xkyws")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_rdkub")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_eb3yi")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_a7btn")
+text = "Reanudar"
+
+[node name="Salir" parent="Panel/VBoxContainer" instance=ExtResource("2_ux7g8")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xtxec")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_msl3b")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_2yk66")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_mb26x")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_5nn8h")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_xkyws")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_rdkub")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_eb3yi")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_a7btn")
+text = "Salir"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_msl3b")
+}
+
+[connection signal="pressed" from="Panel/VBoxContainer/Reanudar" to="." method="_on_reanudar_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Salir" to="." method="_on_salir_pressed"]

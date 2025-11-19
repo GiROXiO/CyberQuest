@@ -59,7 +59,12 @@ func _ready() -> void:
 	mostrarCinematica("res://Dialogic/Timelines/1 Beginning.dtl")
 	emit_signal("mode_changed", current_mode)
 	
-	
+func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("Pausa"):
+		if $pause_menu.visible == false:
+			$pause_menu.entrarPausa = true
+			$pause_menu.visible = true
+			
 func _on_bfs_dfs_completed(success: bool) -> void:
 	print("[GameManager] Señal bfs_dfs_completed recibida. Éxito:", success)
 	
@@ -164,6 +169,8 @@ func _on_max_flow_completed(success: bool) -> void:
 		return
 	
 	print("[GameManager] Minijuego de flujo máximo completado con éxito.")
+	mostrarCinematica("res://Dialogic/Timelines/6 final mission.dtl")
+	
 	
 	if self.grafo_vista:
 		self.grafo_vista.reset_view_state()
@@ -183,6 +190,9 @@ func _on_max_flow_completed(success: bool) -> void:
 		print("[GameManager] Lanzando juego final...")
 		self.final_game_ui.visible = true
 		final_game_ui.start_final_game() 
+		
+		
+		
 
 func mostrarCinematica(rutaCin: String):
 	if not ResourceLoader.exists(rutaCin):
