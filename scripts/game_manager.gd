@@ -59,7 +59,12 @@ func _ready() -> void:
 	mostrarCinematica("res://Dialogic/Timelines/1 Beginning.dtl")
 	emit_signal("mode_changed", current_mode)
 	
-	
+func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("Pausa"):
+		if $pause_menu.visible == false:
+			$pause_menu.entrarPausa = true
+			$pause_menu.visible = true
+			
 func _on_bfs_dfs_completed(success: bool) -> void:
 	print("[GameManager] Señal bfs_dfs_completed recibida. Éxito:", success)
 	
