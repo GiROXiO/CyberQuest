@@ -138,6 +138,7 @@ func _on_prim_kruskal_completed(success : bool) -> void:
 	
 	if self.grafo and mst_edges.size() > 0:
 		self.grafo.keep_only_edges(mst_edges)
+		self.grafo.is_directed = true
 	
 	if self.grafo_vista:
 		if self.grafo_vista.has_method("refresh_from_graph"):

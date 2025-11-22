@@ -149,7 +149,7 @@ func _on_add_flow_pressed() -> void:
 		return
 	
 	# Calculamos la capacidad residual mínima del camino (bottleneck)
-	var bottleneck: int = _compute_path_bottleneck(current_path)
+	var bottleneck: int =self._compute_path_bottleneck(current_path)
 	
 	if bottleneck <= 0:
 		_set_message("Este camino ya está totalmente saturado. No aporta más flujo.")
@@ -166,7 +166,6 @@ func _on_add_flow_pressed() -> void:
 	current_path.clear()
 	if grafo_vista:
 		self.grafo_vista.reset_view_state()
-		self.grafo_vista.refresh_from_graph()
 		# Re-marcamos fuente y sumidero para no perder referencia
 		grafo_vista.highlight_vertex(source_id, Color(0.2, 0.9, 0.4))
 		grafo_vista.highlight_vertex(sink_id, Color(0.9, 0.4, 0.2))
@@ -279,20 +278,9 @@ func _reconectar_grafo() -> void:
 	# CREAMOS RUTAS ALTERNAS CON LOS VERTICES QUE ESTAN FUERA DEL CAMINO PRINCIPAL
 	off_path_nodes.shuffle()
 	
-	var extra_node := off_path_nodes[0]
-	
-	if not self.grafo.has_edge(source, extra_node):
-		grafo.add_edge(source, extra_node, 1, randi_range(10, 20))
-	
-	if not self.grafo.has_edge(extra_node, sink):
-		grafo.add_edge(extra_node, sink, 1, randi_range(10, 20))
-	
-	if off_path_nodes.size() >= 2:
-		var extra2 := off_path_nodes[1]
+	for node in off_path_nodes:
+		if not self.grafo.has_edge(source, node):
+			self.grafo.add_edge(source, node, 1, randi_range(10, 20))
 		
-		# Hacer un ciclo pequeño o ruta paralela
-		if not grafo.has_edge(extra_node, extra2):
-			grafo.add_edge(extra_node, extra2, 1, randi_range(10, 20))
-		
-		if not grafo.has_edge(extra2, sink):
-			grafo.add_edge(extra2, sink, 1, randi_range(10, 20))
+		if not self.grafo.has_edge(node, sink):
+			self.grafo.add_edge(node, sink, 1, randi_range(10,20))

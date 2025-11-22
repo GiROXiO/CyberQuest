@@ -23,6 +23,7 @@ var flow_phase: float = 0.0
 
 var game_manager : Node2D;
 var current_mode: MinigameMode = MinigameMode.BFS_DFS
+var current_flow: int = 0
 
 func _ready() -> void:
 	game_manager = get_node("/root/GameManager")
@@ -50,26 +51,16 @@ func setup(p_edge: Arista, p_from_pos: Vector2, p_to_pos: Vector2) -> void:
 		self.info_label.z_index = 100
 		self.info_label.z_as_relative = false
 	
+	self._update_info_label()
+	
 	queue_redraw()
 
 func set_minigame_mode(mode: int) -> void:
 	if not self.info_label or self.edge == null:
 		return
-	
-	match mode:
-		self.MinigameMode.BFS_DFS:
-			self.info_label.visible = false
-		
-		self.MinigameMode.CAMINOS_MINIMOS, self.MinigameMode.ARBOL_EXPANSION_MINIMA:
-			self.info_label.visible = true
-			self.info_label.text = "w=%d" % self.edge.weight
-		
-		self.MinigameMode.FLUJO_MAXIMO:
-			self.info_label.visible = true
-			self.info_label.text = "c=%d" % edge.capacity
-		
-		_:
-			self.info_label.visible = false
+	self.current_mode = mode
+	self._update_info_label()
+	queue_redraw()
 
 func set_info_visible(visible: bool) -> void:
 	if self.info_label:
@@ -137,3 +128,24 @@ func _draw() -> void:
 				var pb := start + n * b
 				draw_line(pa, pb, Color(0.4, 0.95, 1.0), LINE_WIDTH + 1.0, true)
 			t += seg_len + gap_len
+
+func _update_info_label() -> void:
+	if self.info_label == null or self.edge == null:
+		return
+	
+	match self.current_mode:
+		MinigameMode.BFS_DFS:
+			self.info_label.visible = false
+		
+		MinigameMode.CAMINOS_MINIMOS, MinigameMode.ARBOL_EXPANSION_MINIMA:
+			self.info_label.visible = true
+			self.info_label.text = "w=%d" % int(self.edge.weight)
+		
+		MinigameMode.FLUJO_MAXIMO:
+			self.info_label.visible = true
+			self.info_label.text = "%d / %d" % [int(self.current_flow), int(self.edge.capacity)]
+
+func set_flow(flow: int) -> void:
+	self.current_flow = flow
+	self._update_info_label()
+	queue_redraw()

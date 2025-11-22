@@ -270,6 +270,16 @@ func set_edge_active(from_id: int, to_id: int, active: bool) -> void:
 			if self.active_edges[from_id].is_empty():
 				self.active_edges.erase(from_id)
 
+func set_edge_flow(from_id: int, to_id: int, flow: int) -> void:
+	if not self.edge_nodes.has(from_id):
+		return
+	if not self.edge_nodes[from_id].has(to_id):
+		return
+	
+	var enode: AristaVista = self.edge_nodes[from_id][to_id]
+	if enode:
+		enode.set_flow(flow)
+
 func set_path_edges(path: Array[int]) -> void:
 	self.clear_active_edges()
 	self.clear_all_edge_flows()
