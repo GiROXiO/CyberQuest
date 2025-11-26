@@ -89,7 +89,7 @@ func _on_bfs_dfs_completed(success: bool) -> void:
 	self.grafo_vista.highlight_infected_red()
 	
 	print("[GameManager] Cambio de modo: ahora CAMINOS_MINIMOS.")
-	mostrarCinematica("res://Dialogic/Timelines/3 dijkstra.dtl")
+	mostrarCinematica("res://Dialogic/Timelines/2 Awakening.dtl")
 	emit_signal("mode_changed", current_mode)
 	
 

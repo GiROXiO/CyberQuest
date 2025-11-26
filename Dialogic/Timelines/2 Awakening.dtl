@@ -1,41 +1,60 @@
+[background arg="res://Dialogic/Nemesis/nemesis_enojado.png" fade="0.0"]
+Nemesis: 4H
+Nemesis: ¿T3 4sust3?
+[background arg="res://Dialogic/Nemesis/nemesis_feliz.png" fade="0.0"]
+Nemesis: N0 s4b3s cu4nt0 m3 4l3gr4
+Nemesis: P0r c13rt0
+[background arg="res://Dialogic/Nemesis/nemesis_aburrido.png" fade="0.0"]
+Nemesis: Todo este tiempo pude escribirte sin reemplazar las vocales con números, solo lo hacia para molestarte
+[background arg="res://Dialogic/Nemesis/nemesis_feliz.png" fade="0.0"]
+Nemesis: En fin, por encontrarte encontraste donde me encuentro
+Nemesis: Felicidades
+Nemesis: Aún asi, no te tengo fé reparando la red, considerando que ni pudiste quedarte despierto en el trabajo
+[background arg="res://Dialogic/Nemesis/nemesis_pensando.png" fade="0.0"]
+Nemesis: Supongo que nos veremos en el mundo real
+[background arg="res://Dialogic/Nemesis/nemesis_feliz.png" fade="0.0"]
+Nemesis: Chaito
+[background arg="res://Dialogic/Images/Old images/Office.jpg" fade="0.0"]
+join prota (Sorprendido) left
+join malo (pensando) right
+prota: ...
+prota (Triste): Ok, me dio miedo
+malo (normal): No hay tiempo para el miedo
+malo: Nemesis sigue suelto
+prota (Enojado): Todo bien entonces
+prota: Ahora bien
+prota (Triste): ¿Como salimos de la simulación con Nemesis controlando la red?
+malo (pensando): Simple
+update malo (caribañolas)
+prota (Normal): ...
+prota (Desagrado): ¿Con caribañolas?
+jefe_nuevo: La roja es para salir de la simulación, la azul es para quedarte
+jefe_nuevo: Elige
+- Ehh, la roja por supuesto
+	prota (Normal): Ehh, la roja por supuesto
+- Elijo la azul
+	prota: Elijo la az...
+	update prota (Sorprendido)
+malo: La roja sera
+malo: Cometela rápido
+leave prota [animation="Bounce Out" length="0.1"]
+leave malo [animation="Bounce Out" length="0.1"]
 [background arg="res://Dialogic/Images/Old images/oscuro.PNG" fade="0.0"]
-prota_nuevo: Umm, que no se pierda la costumbre del sueño
-prota_nuevo: Aunque esta vez es distinto
-prota_nuevo: Quiero despertar....
+prota_nuevo: Quiero despertar...
 jefe_nuevo: Solo abre los ojos Daniel
-prota_nuevo: ¿?
 [background arg="res://Dialogic/Images/Images/fondo.png" fade="0.0"]
-join prota_nuevo center
-prota_nuevo (sorprendido): ¡Anda!
-prota_nuevo: ¿¿¿Que es esto???
-prota_nuevo (normal): Me veo bien supongo
-jefe_nuevo: Bienvenido de vuelta Daniel
+join prota_nuevo (sorprendido) center
+prota_nuevo: ANDA
+prota_nuevo: YA ESTAMOS
+jefe_nuevo: Ahora podremos estar cara a cara con Nemesis
+prota_nuevo (normal): Si
 update prota_nuevo (risa) left
 join jefe_nuevo right
-prota_nuevo: Jefeeeeeeeeeeee
-prota_nuevo: Crei que en la realidad no se pareceria a Gandalf
-jefe_nuevo: Rápido, NEMESIS se esta apoderando de la red, te tengo que explicar todo rápidamente para que empieces a trabajar de una vez por todas
-prota_nuevo (pensando): Claro, ¿que hago?
-jefe_nuevo (determinado): Hay que ir paso por paso
-jefe_nuevo (normal): Primero hay que encontrar el origen del ataque
-jefe_nuevo (normal): Para ello hay que utilizar algoritmo BFS o DFS
-prota_nuevo: Ok
-prota_nuevo (apenado): Me perdi
-prota_nuevo: ¿Que es eso?
-jefe_nuevo: Son algoritmos de búsqueda en grafos
-jefe_nuevo: BFS recorre los nodos por niveles, explorando primero todos los vecinos de un nodo antes de pasar al siguiente nivel, usando una cola
-jefe_nuevo: En cambio, DFS explora lo más profundo posible en cada rama antes de retroceder, usando una pila
-prota_nuevo: Verdad, ya me acorde
-prota_nuevo (risa): Que pena
-jefe_nuevo: Bueno Daniel
-jefe_nuevo (determinado): ¿Cual escogeras?
-- Escogere BFS
-	prota_nuevo (risa): Escogere BFS
-	set {BFS_DFS} = true
-- Escogere DFS
-	prota_nuevo (risa): Escogere DFS
-	set {BFS_DFS} = false
-jefe_nuevo (feliz): Buena elección
-jefe_nuevo: Bien Daniel
-jefe_nuevo (determinado): Encuentra el origen del ataque
+prota_nuevo: HOLA JEFE
+jefe_nuevo (determinado): Ahora hay que encontrar si o si el cámino mínimo para llegar hasta él
+jefe_nuevo: No podemos permitirnos perder ni un segundo en su busqueda
+prota_nuevo (normal): Como diga jefe
+prota_nuevo: Usare Dijkstra y ya
+prota_nuevo: Funciona eligiendo siempre el nodo no visitado con la distancia acumulada más pequeña, actualizando los costos de sus vecinos y repitiendo hasta cubrir todo
+jefe_nuevo (normal): Daniel tú solo haz lo tuyo, no me tienes porque explicar
 [signal arg="exit"]

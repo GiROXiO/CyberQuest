@@ -1,100 +1,61 @@
 [background arg="res://Dialogic/Images/Old images/oscuro.PNG" fade="0.0"]
-prota: Otro día más estando placidamente dormido en el traba...
-malo: DANIEL
+Dormir es posiblemente la unica razón por la que acepte nacer
+"Daniel"
+Siento que alguien dice mi nombre...
+"DANIEL"
+Ok, ahora siento que alguien grita mi nombre
 [background arg="res://Dialogic/Images/Old images/Office.jpg" fade="0.0"]
-join prota (Sorprendido) left [animation="Bounce In" length="0.3"]
-join malo (pensando) right [animation="Bounce In" length="0.3"]
-prota: JEFE ESTOY TOTALMENTE DESPIERTO
-prota (Triste): que pena, era una bromita nada más
-malo: Daniel, eso no importa ya
-update prota (Satisfecho)
-malo: Anteriormente demostraste ser muy habil con la ciberseguridad
-malo (feliz): Fuiste el más habil de todos los candidatos
-prota: Claro que si
-prota (Pensando): ...
-prota: ¿Como que candidatos?
-prota: Si yo ya trabajaba en esta empresa hace tiempo
-malo (normal): Veras Daniel
-malo: Todo este tiempo, estuviste en una prueba
-prota: ¿Una
-prota (Desagrado): prueba?
-malo (pensando): Asi es, actualmente tú...
-update prota (Sorprendido)
-malo: Estas dentro de una simulación
-malo: Todo lo que estas viviendo no es real, fue una prueba realizada para algunos candidatos de los cuales tú fuiste el único que resulto exitoso
-prota: Pero
-prota: Ven acá
-prota: ¿Prueba de que exactamente?
-prota: ¿Y por que no me acuerdo de nada?
-update prota (Sorprendido)
-malo: Todo este tiempo estuviste en una prueba con el proposito de ver si estabas capacitado para exterminar al mayor virus informático creado en la historia de la humanidad
-malo: Su nombre es
-malo: NEMESIS
-prota: Hasta el nombre esta en mayusculas
-prota: Parece serio
-malo: NEMESIS esta vulnerando la red global
-malo: Es un virus el cual adquirio cierto grado de conciencia, cuyo único proposito es la destrucción de la humanidad
-malo: Por eso es que fuiste puesto a prueba, para ver si eras capaz de acabar con este virus
-malo: Y creemos que tienes las capacidades para ello
-prota: Pero
-prota: ¿Por que no recuerdo nada de la prueba ni de la realidad?
-malo: Ah
-update prota (Ups)
-malo: Porque te quedaste dormido mientras te transportabamos a la simulación y sufriste amnesia
-update prota (Desagrado)
-malo (pensando): De verdad Daniel, que te mire un médico, que te duermas tanto no es normal
-malo (normal): En fin, a lo que iba
-leave prota
-update malo center
-malo: Actualmente, tienes dos opciones
-malo (caribañolas): Come la caribañola roja y verás la verdad. Saldrás de la simulación, y juntos empezaremos la lucha contra el virus.
-malo: O come la caribañola azul y pues...
-malo: no haces nada
-malo: Y pues... seria el fin de todo
-malo: ¿Que eliges?
-- Escojo la caribañola roja
-- Escojo la caribañola azul
-	malo (normal): ...
-	malo: ¿Que?
-	prota: MENTIRA ESCOJO LA ROJA
-	malo (normal): ...
-	malo (normal): Graciosito
-	malo (normal): Igual
-malo (feliz): Sabia que nos ayudarias
-malo: La humanidad confia en ti Daniel
-malo: Ahora por favor, come la caribañola roja
-malo: Y exterminemos ese virus
-leave malo
-[background arg="res://Dialogic/Images/Old images/oscuro.PNG" fade="0.6"]
-prota_nuevo: Umm, que no se pierda la costumbre del sueño
-prota_nuevo: Aunque esta vez es distinto
-prota_nuevo: Quiero despertar....
-jefe_nuevo: Solo abre los ojos Daniel
-prota_nuevo: ¿?
-[background arg="res://Dialogic/Images/Images/fondo.png" fade="0.0"]
-join prota_nuevo center
-prota_nuevo (sorprendido): ¡Anda!
-prota_nuevo: ¿¿¿Que es esto???
-prota_nuevo (normal): Me veo bien supongo
-jefe_nuevo: Bienvenido de vuelta Daniel
-update prota_nuevo (risa) left
-join jefe_nuevo right
-prota_nuevo: Jefeeeeeeeeeeee
-prota_nuevo: Crei que en la realidad no se pareceria a Gandalf
-jefe_nuevo: Rápido, NEMESIS se esta apoderando de la red, te tengo que explicar todo rápidamente para que empieces a trabajar de una vez por todas
-prota_nuevo (pensando): Claro, ¿que hago?
-jefe_nuevo (determinado): Hay que ir paso por paso
-jefe_nuevo (normal): Primero hay que encontrar el origen del ataque
-jefe_nuevo (normal): Para ello hay que utilizar algoritmo BFS o DFS
-prota_nuevo: Ok
-prota_nuevo (apenado): Me perdi
-prota_nuevo: ¿Que es eso?
-jefe_nuevo: Son algoritmos de búsqueda en grafos
-jefe_nuevo: BFS recorre los nodos por niveles, explorando primero todos los vecinos de un nodo antes de pasar al siguiente nivel, usando una cola
-jefe_nuevo: En cambio, DFS explora lo más profundo posible en cada rama antes de retroceder, usando una pila
-prota_nuevo: Verdad, ya me acorde
-prota_nuevo (risa): Que pena
-jefe_nuevo: Bueno Daniel
-jefe_nuevo (feliz): La elección esta en tus manos
-jefe_nuevo (determinado): Encuentra el origen del ataque
+join prota (Sorprendido) center
+prota: ME QUEDE DORMIDO
+update prota left
+join malo right
+malo: ¿Crees que no me di cuenta?
+prota: LO SIENTO JEFE
+malo: Irresponsable
+prota (Desagrado): Bueno ya
+malo: ¿Bueno ya?
+malo: Daniel
+malo: ¿Podrias decirme donde estas y a que te dedicas en esta compañia?
+- Estoy dentro de una simulación y soy analista de ciberseguridad
+	prota (Triste): Analista de ciberseguridad jefe...
+	prota: Ahora mismo estamos dentro de una simulación y estos son nuestros avatares
+	prota: Y su avatar por alguna razón parece un monje del Himalaya
+	malo (pensando): Asi es Daniel
+	malo: Si te acuerdas entonces podrias decirme
+	malo (normal): ¿Por que dejaste que el mayor virus informático de la historia de la humanidad infectara la red global?
+- ¿Me creeria si le dijera que no me acuerdo?
+	prota (Ups): ¿Me creeria si le dijera que no me acuerdo?
+	malo: Pues si Daniel
+	malo: Tendria sentido que no te acordaras que estamos dentro de una simulación y que te quedaste dormido
+	malo: Porque al menos sabria el porque mi analista de ciberseguridad dejo que pasara el mayor virus informático que ha recibido la humanidad
+prota (Sorprendido): ESPERE
+prota: ¿QUE?
+malo: Y no solo eso, hasta habla
+malo: Miralo por tu cuenta
+leave prota [animation="Bounce Out" length="0.1"]
+leave malo [animation="Bounce Out" length="0.1"]
+[background arg="res://Dialogic/Nemesis/nemesis_feliz.png" fade="0.3" transition="Push Left"]
+Nemesis: H0l4 D4n1
+Nemesis: M3 LL4m0 N3M3S1S c4R1ñ0
+prota: Ah que si es cierto que puede hablar
+[background arg="res://Dialogic/Nemesis/nemesis_insultando.png" fade="0.0" transition="Swipe Left To Right"]
+Nemesis: D3stru1 l4 r3d gl0b4l D4n1
+prota: ¿QUE?
+malo: No tenemos mucho tiempo
+[background arg="res://Dialogic/Images/Old images/Office.jpg" fade="0.0"]
+join prota (Sorprendido) left
+join malo (pensando) right
+malo: Como puedes ver, estamos en grandes apuros
+malo: Si no encontramos el nodo infectado y lo erradicamos, Nemesis destruira la red del mundo
+prota: ¿Todo esto paso por quedarme dormido?
+malo: Si, Daniel
+malo: No hay tiempo de salir de la simulación
+malo: Hay que encontrar el nodo infectado, ya
+prota (Triste): Emm
+prota (Normal): No se preocupe
+prota (Satisfecho): ¡Yo me encargare!
+prota (Normal): Usare BFS empezando por un nodo de la red y visitando primero todos los vecinos cercanos, luego los que están un paso más lejos
+prota: O DFS, yendo por un camino lo más profundo posible antes de retroceder y probar otras rutas
+malo: Bueno Daniel, por eso te contrate
+malo: Empieza
 [signal arg="exit"]

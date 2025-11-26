@@ -1,7 +1,28 @@
+[background arg="res://Dialogic/Nemesis/nemesis_triste.png" fade="0.0"]
+Nemesis: Bueno
+Nemesis: Lo conseguiste
+[background arg="res://Dialogic/Nemesis/nemesis_insultando.png" fade="0.0"]
+Nemesis: ¿De verdad querias erradicarme tanto?
+Nemesis: Una lastima
+[background arg="res://Dialogic/Nemesis/nemesis_triste.png" fade="0.0"]
+Nemesis: Y eso que te considere mi único amigo
+[background arg="res://Dialogic/Nemesis/nemesis_feliz.png" fade="0.0"]
+Nemesis: Jaja no mentira
+Nemesis: Ni yo estoy tan desesperado como para tenerte como amigo
+Nemesis: Igual, como soy un virus con consciencia de palabra, supongo que me erradicare a mi mismo y tal
+Nemesis: De paso te desconectare de la simulación
+Nemesis: Jaja
+Nemesis: Jaja
+Nemesis: Bien hecho individuo extrañ@ que controla a Daniel
+Nemesis: Jugaste muy bien tus cartas
+Nemesis: Hasta nunca
 [background arg="res://Dialogic/Images/Images/fondo.png" fade="0.0"]
-join prota_nuevo (sorprendido) left
+join prota_nuevo (asco) left
 join jefe_nuevo (feliz) right
-prota_nuevo: ¿LO HICE?
+prota_nuevo: ...
+prota_nuevo: No me acuerdo de absolutamente nada
+prota_nuevo: Espera
+prota_nuevo (sorprendido): ¿LO HICE?
 prota_nuevo (logro): ¡POR FIN!
 prota_nuevo: LO LOGRE
 jefe_nuevo: Estoy orgulloso de ti Daniel

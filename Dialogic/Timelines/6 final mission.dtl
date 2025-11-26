@@ -1,13 +1,63 @@
 [background arg="res://Dialogic/Images/Images/fondo.png" fade="0.0"]
-join prota_nuevo (sorprendido) left
-join jefe_nuevo (determinado) right
-prota_nuevo: ¿QUE?
-prota_nuevo: SE SUPONE QUE YA SE ELIMINO
-prota_nuevo: ¿QUE FUE LO QUE PASO?
-jefe_nuevo: NEMESIS corrompio los registros del sistema central
+join prota_nuevo (logro) left
+join jefe_nuevo (normal) right
+prota_nuevo: YA ACABAMOSSSS
+prota_nuevo: CADA UNO PARA SU CASA
+prota_nuevo: ¿SI O QUE JEFE?
 jefe_nuevo: Daniel
-jefe_nuevo: Tendras que aplicar todo lo que haz hecho hasta ahora
-jefe_nuevo: Y arreglar esto de una vez por todas
-prota_nuevo (pensando): Va a ser dificil
-prota_nuevo (normal): Pero me encargare
+jefe_nuevo: Nemesis sigue dentro de la simulación
+prota_nuevo (sorprendido): HEY VERDAD
+prota_nuevo: HAY QUE VOLVER A ELLA RÁPIDO
+jefe_nuevo: Espera un momento, nos conectaremos a la simulación
+prota_nuevo (pensando): Por cierto, Nemesis nos puede atrapar dentro de la simulación
+prota_nuevo: ¿Verdad?
+jefe_nuevo (determinado): Es un riesgo que hay que asumir
+prota_nuevo: ...
+prota_nuevo (asco): Jefe si me ofrece otra vez las caribañolas, le juro que le escojo la azu...
+leave prota_nuevo [animation="Bounce Out" length="0.1"]
+leave jefe_nuevo [animation="Bounce Out" length="0.1"]
+[background arg="res://Dialogic/Images/Old images/oscuro.PNG" fade="0.0"]
+prota: ...
+prota: ¿Ya estamos dentro?
+[background arg="res://Dialogic/Nemesis/nemesis_feliz.png" fade="0.0"]
+Nemesis: Hola Dani mi amor
+[background arg="res://Dialogic/Nemesis/nemesis_pensando.png" fade="0.0"]
+Nemesis: ¿Haz disfrutado de la aventura hasta ahora?
+- La verdad es que si
+- No
+[background arg="res://Dialogic/Nemesis/nemesis_feliz.png" fade="0.0"]
+Nemesis: Que bien, porque tendras que repetir todo nuevamente
+Nemesis: Bienvenido a la misión final Daniel
+Nemesis: Simule una red vulnerada por mi para ver si es efectiva en el mundo real
+Nemesis: Para ello, necesito que la pruebes
+Nemesis: Con lo cual, para motivarte hagamos algo
+[background arg="res://Dialogic/Nemesis/nemesis_triste.png" fade="0.0"]
+Nemesis: Si ganas, me erradicare a mi misma y no me tendras que volver a verme nunca más
+Nemesis: Porque estare muerta
+Nemesis: Asi es, me incitarias a una cosa muy mala
+[background arg="res://Dialogic/Nemesis/nemesis_feliz.png" fade="0.0"]
+Nemesis: Pero si yo gano, quedaras atrapado acá, para siempre
+Nemesis: Y yo vulnerare tooooooooooooooooooooooooooooooooda la red global del mundo real
+Nemesis: Esfuerzate Daniel
+Nemesis: Porque cuando pierdas, te daras cuenta que ni dando tu 100% pudiste superar mi 10% de potencial
+Nemesis: Jaja
+Nemesis: Vas a perder
+[background arg="res://Dialogic/Images/Old images/Office.jpg" fade="0.0"]
+join prota (Sorprendido) left
+join malo right
+malo: ,,,
+malo (triste): Tambien me dio miedo
+prota (Desagrado): ¿Si vio?
+prota (Normal): Bueno, este es el final jefe
+prota (Normal): Usted sabe que lo quiero mucho pero
+prota (Ups): Hagase a un lado
+malo (pensando): ,,,
+malo (normal): Esta bien
+leave malo
+update prota (Normal) center
+prota: Bien
+prota: Llego el momento de acabar con esto de una vez por todas
+prota: Tengo que aplicar todo lo que he hecho hasta ahora
+prota: ...
+prota (Satisfecho): Alla voy
 [signal arg="exit"]

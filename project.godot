@@ -23,6 +23,7 @@ MusicPlayer="*res://music_player.gd"
 [dialogic]
 
 directories/dch_directory={
+"Nemesis": "res://Dialogic/Characters/Nemesis.dch",
 "PC": "res://Dialogic/Characters/Old Art/Images/PC.dch",
 "jefe_nuevo": "res://Dialogic/Characters/Current Art/Jefe/jefe_nuevo.dch",
 "malo": "res://Dialogic/Characters/Old Art/malo/malo.dch",
@@ -32,7 +33,6 @@ directories/dch_directory={
 directories/dtl_directory={
 "1 Beginning": "res://Dialogic/Timelines/1 Beginning.dtl",
 "2 Awakening": "res://Dialogic/Timelines/2 Awakening.dtl",
-"3 dijkstra": "res://Dialogic/Timelines/3 dijkstra.dtl",
 "4 prim_kruskal": "res://Dialogic/Timelines/4 prim_kruskal.dtl",
 "5 ford-fulkerson ": "res://Dialogic/Timelines/5 ford-fulkerson .dtl",
 "6 final mission": "res://Dialogic/Timelines/6 final mission.dtl",

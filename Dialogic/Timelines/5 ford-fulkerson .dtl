@@ -3,11 +3,12 @@ join prota_nuevo (sorprendido) left
 join jefe_nuevo (determinado) right
 prota_nuevo: ¡HEY!
 prota_nuevo: ¿QUE ESTA PASANDO?
-jefe_nuevo: NEMESIS esta intentando sobrecargar el sistema enviando paquetes de datos corruptos
+jefe_nuevo: Nemesis esta intentando sobrecargar el sistema enviando paquetes de datos corruptos desde la simulación
 jefe_nuevo: Daniel, hay que maximizar el flujo de datos seguros desde el Centro de Control hasta el Servidor de Respaldo, sin saturar la red
 jefe_nuevo: ¡No se como hacerlo!
-prota_nuevo (pensando): ...
-prota_nuevo (pensando): Podriamos intentar aplicar el algoritmo de Ford-Fulkerson
+prota_nuevo (normal): ...
+prota_nuevo (risa): Solo le entendi que hay que maximizar el flujo
+prota_nuevo (pensando): Con lo cual, podriamos intentar aplicar el algoritmo de Ford-Fulkerson
 prota_nuevo: Funciona buscando caminos por donde aún pueda pasar flujo, enviando la mayor cantidad posible por cada uno y actualizando las capacidades restantes, repitiendo hasta que ya no exista ningún camino disponible.
 jefe_nuevo (normal): ...
 jefe_nuevo: Daniel, queda en tus manos
