@@ -24,7 +24,7 @@ func _ready():
 		mst_edges = grafo.kruskal().duplicate()
 		for id in grafo.vertices.keys():
 			var vertice = grafo.vertices[id]
-			print("id:", id)
+			#print("id:", id)
 	
 func set_graph(p_grafo: Grafo) -> void:
 	grafo = p_grafo
@@ -105,7 +105,8 @@ func _on_verify_pressed() -> void:
 		if comparar_arrays(result_prim, highlighted_edges):
 			self.minigame_completed.emit(true)
 		else:
-			print(result_prim)
+			pass
+			#print(result_prim)
 		
 	else:
 		var result_kruskal = grafo.kruskal()
@@ -113,7 +114,8 @@ func _on_verify_pressed() -> void:
 		if comparar_arrays(result_kruskal, highlighted_edges):
 			self.minigame_completed.emit(true)
 		else:
-			print(result_kruskal)
+			pass
+			#print(result_kruskal)
 
 func _on_line_edit_text_changed(new_text: String) -> void:
 	self.aristas_texto = quitar_espacios_str(new_text)

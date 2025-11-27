@@ -33,16 +33,16 @@ func set_graph_view(p_view: GrafoVista) -> void:
 
 func start_minigame() -> void:
 	if self.grafo == null:
-		print("[ShortestPathUi] Error: No hay grafo asignado")
+		#print("[ShortestPathUi] Error: No hay grafo asignado")
 		return
 	
 	self.source_id = self.grafo.get_control_id()
 	self.target_id = self.grafo.get_infected_id()
 	
-	print("[ShortestPathUi] source_id=", source_id, " target_id=", target_id)
+	#print("[ShortestPathUi] source_id=", source_id, " target_id=", target_id)
 	
 	if self.source_id == -1 or self.target_id == -1:
-		print("[ShortestPathUi] No se pudo determinar source o target.")
+		#print("[ShortestPathUi] No se pudo determinar source o target.")
 		return
 	
 	self.shortest_path = self.grafo.dijkstra(self.source_id, self.target_id)
@@ -51,7 +51,8 @@ func start_minigame() -> void:
 	self.user_path.clear()
 	
 	if shortest_path.is_empty():
-		print("[ShortestPathUi] No hay camino desde el Centro de Control hasta el infectado.")
+		pass
+		#print("[ShortestPathUi] No hay camino desde el Centro de Control hasta el infectado.")
 	else:
 		self._set_message("!Halla el camino minimo con Dijkstra¡")
 
@@ -63,14 +64,14 @@ func on_vertex_clicked_from_graph(vertex_id: int, is_selected: bool) -> void:
 	
 	self._clear_message()
 	
-	print("[ShortestPathUi] Clic en vértice desde grafo: ", vertex_id, " is_selected=", is_selected)
+	#print("[ShortestPathUi] Clic en vértice desde grafo: ", vertex_id, " is_selected=", is_selected)
 	
 	if is_selected:
 		#Se agrega al camino
 		if self.user_path.is_empty():
 			#Solo se permite iniciar desde el centro de control
 			if vertex_id != self.source_id:
-				print("[ShortestPathUi] Debes iniciar en el Centro de Control (id: ", source_id, ").")
+				#print("[ShortestPathUi] Debes iniciar en el Centro de Control (id: ", source_id, ").")
 				self._set_message("Debes iniciar en el Centro de Control")
 				return
 			self.user_path.append(vertex_id)
@@ -81,13 +82,13 @@ func on_vertex_clicked_from_graph(vertex_id: int, is_selected: bool) -> void:
 			
 			#Solo se acepta el vertice si es vecino del ultimo vertice seleccionado
 			if not self.grafo.has_edge(last_id, vertex_id):
-				print("[ShortestPathUi] El vértice ", vertex_id, " no es vecino de ", last_id, ". Ignorando.")
+				#print("[ShortestPathUi] El vértice ", vertex_id, " no es vecino de ", last_id, ". Ignorando.")
 				self._set_message("El vertice no es vecino del ultimo elegido")
 				return
 			
 			#Se evita duplicar el ultimo vertice ingresado
 			if vertex_id == last_id:
-				print("[ShortestPathUi] El vértice ", vertex_id, " ya se selecciono .Ignorando.")
+				#print("[ShortestPathUi] El vértice ", vertex_id, " ya se selecciono .Ignorando.")
 				return
 			
 			self.user_path.append(vertex_id)
@@ -116,27 +117,27 @@ func on_vertex_clicked_from_graph(vertex_id: int, is_selected: bool) -> void:
 			
 			self.grafo_vista.set_path_edges(self.user_path)
 	
-	print("[ShortestPathUi] user_path actual: ", user_path)
+	#print("[ShortestPathUi] user_path actual: ", user_path)
 
 func _on_check_button_pressed() -> void:
 	if self.grafo == null:
 		return
 	if self.shortest_path.is_empty():
-		print("[ShortestPathUi] No hay shortest_path para comparar.")
+		#print("[ShortestPathUi] No hay shortest_path para comparar.")
 		self._set_message("No hay camino minimo para comparar")
 		return
 	if user_path.is_empty():
-		print("[ShortestPathUi] user_path está vacío.")
+		#print("[ShortestPathUi] user_path está vacío.")
 		self._set_message("Primero selecciona un camino")
 		return
 	
 	if self.user_path[0] != self.source_id:
-		print("[ShortestPathUi] El camino del usuario no inicia en el Centro de Control.")
+		#print("[ShortestPathUi] El camino del usuario no inicia en el Centro de Control.")
 		self._set_message("Tu camino no inicia en el centro de control")
 		return
 	
 	if self.user_path[self.user_path.size() - 1] != self.target_id:
-		print("[ShortestPathUi] El camino del usuario no llega al infectado.")
+		#print("[ShortestPathUi] El camino del usuario no llega al infectado.")
 		self._set_message("Tu camino no llega al nodo infectado")
 		return
 	
@@ -148,7 +149,7 @@ func _on_check_button_pressed() -> void:
 				break
 	
 	if ok:
-		print("[ShortestPathUi] ¡Camino correcto! Es el camino mínimo.")
+		#print("[ShortestPathUi] ¡Camino correcto! Es el camino mínimo.")
 		self._set_message("¡Correcto! Has encontrado el camino mínimo")
 		self.minigame_completed.emit(true)
 	else:

@@ -56,7 +56,7 @@ func _ready() -> void:
 		self.final_game_ui.visible = false
 		self.final_game_ui.minigame_completed.connect(self._on_final_game_completed)
 	
-	print("GameManager listo. Grafo generado con ", num_vertices, " vértices.")
+	#print("GameManager listo. Grafo generado con ", num_vertices, " vértices.")
 	mostrarCinematica("res://Dialogic/Timelines/1 Beginning.dtl")
 	MusicPlayer.play_music("res://musica/dialogo1.mp3")
 	emit_signal("mode_changed", current_mode)
@@ -68,10 +68,10 @@ func _physics_process(delta: float) -> void:
 			$pause_menu.visible = true
 			
 func _on_bfs_dfs_completed(success: bool) -> void:
-	print("[GameManager] Señal bfs_dfs_completed recibida. Éxito:", success)
+	#print("[GameManager] Señal bfs_dfs_completed recibida. Éxito:", success)
 	
 	if not success:
-		print("[GameManager] El minijuego BFS/DFS no se completó correctamente.")
+		#print("[GameManager] El minijuego BFS/DFS no se completó correctamente.")
 		return
 	
 	self.bfs_dfs_completed = true
@@ -88,7 +88,7 @@ func _on_bfs_dfs_completed(success: bool) -> void:
 	await get_tree().create_timer(0.6).timeout
 	self.grafo_vista.highlight_infected_red()
 	
-	print("[GameManager] Cambio de modo: ahora CAMINOS_MINIMOS.")
+	#print("[GameManager] Cambio de modo: ahora CAMINOS_MINIMOS.")
 	mostrarCinematica("res://Dialogic/Timelines/2 Awakening.dtl")
 	emit_signal("mode_changed", current_mode)
 	
@@ -97,11 +97,11 @@ func _on_shortest_path_completed(success: bool) -> void:
 	if not success:
 		return
 	
-	print("[GameManager] Minijuego de caminos mínimos completado con éxito.")
+	#print("[GameManager] Minijuego de caminos mínimos completado con éxito.")
 	
 	var infected_id: int = self.grafo.get_infected_id()
 	if infected_id != -1:
-		print("Eliminando nodo infectado del grafo: ", infected_id)
+		#print("Eliminando nodo infectado del grafo: ", infected_id)
 		self.grafo.remove_vertex(infected_id)
 		
 		self.grafo_vista.refresh_from_graph()
@@ -127,14 +127,15 @@ func _on_prim_kruskal_completed(success : bool) -> void:
 	if not success:
 		return
 	
-	print("[GameManager] Minijuego de arbol de expansión minima completado con éxito.")
+	#print("[GameManager] Minijuego de arbol de expansión minima completado con éxito.")
 	
 	var mst_edges: Array = []
 	if self.kruskal_prim_ui and self.kruskal_prim_ui.has_method("get_mst_edges"):
 		mst_edges = self.kruskal_prim_ui.get_mst_edges()
-		print("[GameManager] Aristas MST recibidas: ", mst_edges)
-	else:
-		print("[GameManager] WARNING: PrimKruskalUi no tiene get_mst_edges().")
+		#print("[GameManager] Aristas MST recibidas: ", mst_edges)
+	else: 
+		pass
+		#print("[GameManager] WARNING: PrimKruskalUi no tiene get_mst_edges().")
 	
 	if self.grafo and mst_edges.size() > 0:
 		self.grafo.keep_only_edges(mst_edges)
@@ -171,7 +172,7 @@ func _on_max_flow_completed(success: bool) -> void:
 	if not success:
 		return
 	
-	print("[GameManager] Minijuego de flujo máximo completado con éxito.")
+	#print("[GameManager] Minijuego de flujo máximo completado con éxito.")
 	mostrarCinematica("res://Dialogic/Timelines/6 final mission.dtl")
 	
 	
@@ -190,7 +191,7 @@ func _on_max_flow_completed(success: bool) -> void:
 		self.max_flow_ui.visible = false
 
 	if self.final_game_ui:
-		print("[GameManager] Lanzando juego final...")
+		#print("[GameManager] Lanzando juego final...")
 		self.final_game_ui.visible = true
 		final_game_ui.start_final_game() 
 
@@ -198,7 +199,7 @@ func _on_final_game_completed(success: bool):
 	if not success:
 		return
 	
-	print("[GameManager] Minijuego final completado con éxito.")
+	#print("[GameManager] Minijuego final completado con éxito.")
 	mostrarCinematica("res://Dialogic/Timelines/7 ending.dtl")
 
 func mostrarCinematica(rutaCin: String):
@@ -214,10 +215,10 @@ func mostrarCinematica(rutaCin: String):
 		Dialogic.signal_event.connect(_on_dialogic_signal)
 
 func _on_dialogic_signal(señal: String):
-	print("Hola")
+	#print("Hola")
 	if señal == "exit":
-		print("Hola otra vez")
-		print("Señal exit recibida desde Dialogic, cerrando cinematica...")
+		#print("Hola otra vez")
+		#print("Señal exit recibida desde Dialogic, cerrando cinematica...")
 		
 		await get_tree().create_timer(0.5).timeout
 		

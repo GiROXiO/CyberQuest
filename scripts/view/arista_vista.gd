@@ -31,7 +31,7 @@ func _ready() -> void:
 
 func _on_mode_changed(new_mode):
 	if current_mode != new_mode:
-		print("Modo actual cambiado a: ", new_mode)
+		#print("Modo actual cambiado a: ", new_mode)
 		current_mode = new_mode
 		queue_redraw()
 

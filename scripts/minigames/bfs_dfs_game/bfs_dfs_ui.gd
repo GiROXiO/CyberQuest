@@ -402,7 +402,7 @@ func marcar_vertices_con_pista() -> void:
 
 	var infected_vertex: Vertice = grafo.get_vertex(infected_id)
 	var infected_role = infected_vertex.role
-	print("[DEBUG] Nodo infectado ID: ", infected_id, " Role: ", infected_role)
+	#print("[DEBUG] Nodo infectado ID: ", infected_id, " Role: ", infected_role)
 
 	for id in grafo.vertices.keys():
 		var v: Vertice = grafo.get_vertex(id)

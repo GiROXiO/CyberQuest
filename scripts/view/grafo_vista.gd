@@ -219,7 +219,7 @@ func highlight_infected_red() -> void:
 		if v.is_infected and self.vertex_nodes.has(id):
 			var vnode: VerticeVista = self.vertex_nodes[id]
 			vnode.set_color(Color(1.0, 0.25, 0.25))
-			print("Pintando infectado: ", id)
+			#print("Pintando infectado: ", id)
 			return
 
 func force_set_vertex_selected(vertex_id: int, selected: bool) -> void:
