@@ -65,7 +65,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.43333334, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(-326, 232), Vector2(-326, 232), Vector2(90, 232), Vector2(79, 232)]
+"values": [Vector2(-326, 232), Vector2(-326, 6), Vector2(90, 232), Vector2(79, 232)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -86,10 +86,10 @@ tracks/4/path = NodePath("Titulo:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.43333334, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.2, 0.21, 0.43333334, 0.47, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(1173, 14), Vector2(1173, 14), Vector2(470, 14), Vector2(484, 14)]
+"values": [Vector2(1173, 60), Vector2(1173, 14), Vector2(1142.871, 60), Vector2(470, 14), Vector2(471.4, 60), Vector2(484, 60)]
 }
 
 [sub_resource type="Animation" id="Animation_4ygri"]
@@ -225,10 +225,10 @@ tracks/4/path = NodePath("Titulo:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.31, 0.6, 0.61),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(483, 14), Vector2(440, 14), Vector2(1173, 14)]
+"values": [Vector2(483, 60), Vector2(440, 14), Vector2(464.433, 60), Vector2(1173, 14), Vector2(1173, 60)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -322,7 +322,7 @@ anchor_bottom = 0.5
 offset_left = 79.0
 offset_top = -92.0
 offset_right = 366.0
-offset_bottom = 327.0
+offset_bottom = 326.99945
 grow_vertical = 2
 theme_override_constants/separation = 65
 
@@ -374,12 +374,11 @@ visible = false
 layout_mode = 0
 offset_left = 483.0
 offset_top = 14.0
-offset_right = 1185.9946
+offset_right = 1185.9932
 offset_bottom = 279.0
 theme_override_fonts/font = ExtResource("5_ougr1")
-theme_override_font_sizes/font_size = 130
-text = "Cyber 
-Quest"
+theme_override_font_sizes/font_size = 150
+text = "CtrlD"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
