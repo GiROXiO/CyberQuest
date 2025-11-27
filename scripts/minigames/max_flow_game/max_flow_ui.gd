@@ -278,9 +278,23 @@ func _reconectar_grafo() -> void:
 	# CREAMOS RUTAS ALTERNAS CON LOS VERTICES QUE ESTAN FUERA DEL CAMINO PRINCIPAL
 	off_path_nodes.shuffle()
 	
-	for node in off_path_nodes:
+	var off_count: int = off_path_nodes.size()
+	var max_direct_to_sink: int = off_count / 2   # aprox la mitad
+	
+	# mínimo 2 si hay suficientes nodos
+	if off_count >= 2 and max_direct_to_sink < 2:
+		max_direct_to_sink = 2
+	# nunca más que la cantidad total
+	if max_direct_to_sink > off_count:
+		max_direct_to_sink = off_count
+	
+	for i in range(off_path_nodes.size()):
+		var node: int = off_path_nodes[i]
+		
 		if not self.grafo.has_edge(source, node):
 			self.grafo.add_edge(source, node, 1, randi_range(10, 20))
 		
-		if not self.grafo.has_edge(node, sink):
-			self.grafo.add_edge(node, sink, 1, randi_range(10,20))
+		# solo los primeros max_direct_to_sink se conectan directo al cliente
+		if i < max_direct_to_sink:
+			if not self.grafo.has_edge(node, sink):
+				self.grafo.add_edge(node, sink, 1, randi_range(10, 20))

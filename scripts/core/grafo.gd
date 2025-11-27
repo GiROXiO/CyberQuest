@@ -295,9 +295,6 @@ func generate_random(num_vertices: int) -> void:
 					if v.hint == "":
 						v.hint = "Hay pista"
 					break
-		# Después de asignar pistas en Grafo.gd
-		
-			
 		
 		if n == 1:
 			var only_v: Vertice = self.vertices[0]
@@ -359,18 +356,39 @@ func generate_random(num_vertices: int) -> void:
 			var sink_id: int = role_to_id[Vertice.VertexRole.CLIENTE]
 			var can_reach_sink := self._get_can_reach_to(sink_id)
 			
+			#Contamos cuantas aristas llegan al cliente
+			var max_in_to_sink: int = 3
+			var current_in_to_sink: int = 0
+			for from_id in self.edges.keys():
+				if self.edges[from_id].has(sink_id):
+					current_in_to_sink += 1
+			
 			for id in self.vertices.keys():
 				if id == sink_id:
 					continue
 				
 				if not can_reach_sink.has(id):
-					var candidates_to: Array = []
+					var candidates_to: Array[int] = []
+					
+					# Se intenta conectar con nodos que ya puedan llegar al cliente
 					for k in can_reach_sink.keys():
-						if not self.has_edge(k, id):
+						if k == sink_id:
+							continue
+						if not self.has_edge(id, k):
 							candidates_to.append(k)
 					
+					# Se intenta conectar el vertice con el cliente siempre y cuando no se exceda el limite
 					if candidates_to.is_empty():
-						candidates_to = can_reach_sink.keys()
+						if not self.has_edge(id, sink_id) and current_in_to_sink < max_in_to_sink:
+							candidates_to.append(sink_id)
+					
+					# Si no hay candidatos
+					if candidates_to.is_empty():
+						for k in can_reach_sink.keys():
+							if not self.has_edge(id, k):
+								candidates_to.append(k)
+							if candidates_to.is_empty():
+								candidates_to = can_reach_sink.keys()
 					
 					var to_id: int = candidates_to[rng.randi_range(0, candidates_to.size()-1)]
 					
@@ -378,6 +396,9 @@ func generate_random(num_vertices: int) -> void:
 					var to_v2: Vertice = self.vertices[to_id]
 					var params2 := self._random_edge_params(from_v2.role, to_v2.role, rng)
 					self.add_edge(id, to_id, params2["weight"], params2["capacity"])
+					
+					if to_id == sink_id:
+						current_in_to_sink += 1
 					
 					can_reach_sink[id] = true
 		
