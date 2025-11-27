@@ -82,6 +82,11 @@ variables={
 "PRIM_KRUSKAL": true
 }
 
+[display]
+
+window/size/mode=3
+window/stretch/mode="canvas_items"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/dialogic/plugin.cfg")

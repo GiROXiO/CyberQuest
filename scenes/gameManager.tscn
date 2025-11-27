@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dy443u8akofwo"]
+[gd_scene load_steps=10 format=3 uid="uid://dy443u8akofwo"]
 
 [ext_resource type="Script" uid="uid://cd7bwu75ycwd5" path="res://scripts/game_manager.gd" id="1_bb4tu"]
 [ext_resource type="PackedScene" uid="uid://isyjey0olw6i" path="res://scenes/grafo/grafoVista.tscn" id="2_x7fn8"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://d1331ox5t2h4e" path="res://scenes/minigames/max_flow_game/max_flow_ui.tscn" id="6_wilw6"]
 [ext_resource type="PackedScene" uid="uid://c64p8s81gsrk4" path="res://scenes/minigames/Final_Game/game_manager_juego_final.tscn" id="7_bpiyx"]
 [ext_resource type="PackedScene" uid="uid://c4xbhssk1r1rx" path="res://scenes/menu/pause_menu.tscn" id="8_k4ay1"]
+[ext_resource type="Texture2D" uid="uid://ckjniqorgada0" path="res://art/Honeycomb-Pattern-PNG-Images.png" id="9_567jh"]
 
 [node name="GameManager" type="Node2D"]
 script = ExtResource("1_bb4tu")
@@ -37,3 +38,14 @@ visible = false
 
 [node name="pause_menu" parent="." instance=ExtResource("8_k4ay1")]
 visible = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+modulate = Color(1, 1, 1, 0.25490198)
+show_behind_parent = true
+visibility_layer = 3
+scale = Vector2(2.4252632, 1.277559)
+texture = ExtResource("9_567jh")
+centered = false

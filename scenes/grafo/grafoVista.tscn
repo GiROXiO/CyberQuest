@@ -3,13 +3,13 @@
 [ext_resource type="Script" uid="uid://djgjf7q315u0c" path="res://scripts/view/grafo_vista.gd" id="1_uwtv5"]
 [ext_resource type="PackedScene" uid="uid://pcauabvr71e" path="res://scenes/grafo/verticeVista.tscn" id="2_thyoi"]
 [ext_resource type="PackedScene" uid="uid://df26ecttt5ydf" path="res://scenes/grafo/aristaVista.tscn" id="3_uwtv5"]
-[ext_resource type="AudioStream" path="res://music/laser-gun-shot-sound-future-sci-fi-lazer-wobble-chakongaudio-174883.mp3" id="4_bc1po"]
+[ext_resource type="Script" uid="uid://v2mteh17qun4" path="res://scenes/grafo/camera_2d.gd" id="4_bc1po"]
 
 [node name="GrafoVista" type="Node2D"]
 script = ExtResource("1_uwtv5")
 vertex_scene = ExtResource("2_thyoi")
 edge_scene = ExtResource("3_uwtv5")
 
-[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_bc1po")
-volume_db = -10.0
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+script = ExtResource("4_bc1po")
